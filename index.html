@@ -1927,16 +1927,18 @@
           </div>
 
           <!-- MODAL: LIGHTBOX PHÓNG TO ẢNH / XEM VIDEO -->
-          <div id="modalMediaLightbox" class="hidden fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 backdrop-blur-md">
-            <div class="bg-slate-900 rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-hidden flex flex-col border border-slate-800 shadow-2xl animate-in zoom-in-95 duration-150">
+          <div id="modalMediaLightbox" onclick="if(event.target === this) closeMediaLightbox();" class="hidden fixed inset-0 bg-slate-950/95 z-50 flex items-center justify-center p-2 sm:p-4 backdrop-blur-md cursor-pointer">
+            <div class="relative bg-slate-900 rounded-2xl max-w-4xl w-full max-h-[94vh] overflow-hidden flex flex-col border border-slate-800 shadow-2xl animate-in zoom-in-95 duration-150 cursor-default" onclick="event.stopPropagation()">
               <!-- Top bar -->
-              <div class="p-3.5 bg-slate-950/90 text-white flex items-center justify-between border-b border-slate-800">
-                <div class="flex items-center gap-2.5 truncate">
-                  <span id="lightboxTypeBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">PACKSHOT</span>
-                  <h4 id="lightboxTitle" class="font-bold text-sm text-slate-200 truncate">Tiêu đề tư liệu</h4>
+              <div class="p-3 sm:p-4 bg-slate-950/95 text-white flex items-center justify-between gap-3 border-b border-slate-800">
+                <div class="flex items-center gap-2 min-w-0 flex-1">
+                  <span id="lightboxTypeBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">PACKSHOT</span>
+                  <h4 id="lightboxTitle" class="font-bold text-xs sm:text-sm text-slate-200 truncate">Tiêu đề tư liệu</h4>
                 </div>
-                <button type="button" onclick="closeMediaLightbox()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
-                  <i data-lucide="x" class="w-5 h-5"></i>
+                <!-- NÚT ĐÓNG NỔI BẬT Ở GÓC TRÊN BÊN PHẢI -->
+                <button type="button" onclick="closeMediaLightbox()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-md shrink-0 cursor-pointer" title="Đóng ảnh (Phím ESC hoặc click ra ngoài)">
+                  <span class="text-sm font-black leading-none">✕</span>
+                  <span>Đóng (ESC)</span>
                 </button>
               </div>
 
@@ -1947,17 +1949,21 @@
                 </div>
               </div>
 
-              <!-- Bottom Bar with Copy & Download Actions -->
-              <div class="p-3.5 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <!-- Bottom Bar with Copy & Download Actions and Close button -->
+              <div class="p-3 sm:p-3.5 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
                 <div class="text-slate-400 flex items-center gap-2">
                   <span id="lightboxProductCode" class="font-mono font-bold text-sky-400 bg-sky-950/60 px-2 py-0.5 rounded border border-sky-800">LK-2606A</span>
-                  <span id="lightboxSubtext" class="text-[11px] truncate max-w-md">Ảnh chất lượng cao</span>
+                  <span id="lightboxSubtext" class="text-[11px] truncate max-w-xs sm:max-w-md">Ảnh chất lượng cao</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <button id="btnLightboxCopyLink" onclick="copyLightboxUrl()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-bold flex items-center gap-1.5 transition">
+                  <button type="button" onclick="closeMediaLightbox()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-rose-900/80 hover:border-rose-700 text-slate-200 hover:text-white rounded-lg font-bold flex items-center gap-1.5 transition border border-slate-700 active:scale-95 cursor-pointer" title="Đóng cửa sổ xem ảnh">
+                    <span class="font-black text-rose-400">✕</span>
+                    <span>Thoát Ảnh</span>
+                  </button>
+                  <button id="btnLightboxCopyLink" type="button" onclick="copyLightboxUrl()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-bold flex items-center gap-1.5 transition active:scale-95 cursor-pointer">
                     <i data-lucide="copy" class="w-3.5 h-3.5 text-blue-400"></i> Sao Chép Link
                   </button>
-                  <button id="btnLightboxDownload" onclick="downloadLightboxMedia()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold flex items-center gap-1.5 transition shadow-sm">
+                  <button id="btnLightboxDownload" type="button" onclick="downloadLightboxMedia()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer">
                     <i data-lucide="download" class="w-3.5 h-3.5"></i> Tải Về Máy
                   </button>
                 </div>
@@ -14858,6 +14864,14 @@ ${camp.rule}
       modal.classList.remove('hidden');
       safeLucideIcons();
     }
+
+    
+    // Đóng Lightbox khi bấm phím ESC
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' || e.keyCode === 27) {
+        closeMediaLightbox();
+      }
+    });
 
     function closeMediaLightbox() {
       const modal = document.getElementById('modalMediaLightbox');
