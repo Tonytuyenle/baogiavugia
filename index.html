@@ -228,6 +228,12 @@
           <span id="badgeInventoryStock" class="text-[9px] bg-emerald-950/80 text-emerald-300 border border-emerald-700 px-1.5 py-0.5 rounded font-bold">65 SKU</span>
         </button>
 
+        <button onclick="navigateTab('campaigns')" id="nav-campaigns" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+          <i data-lucide="gift" class="w-4 h-4 text-purple-400"></i>
+          <span class="flex-1 text-left">Chương Trình Bán Hàng</span>
+          <span id="badgeActiveCampaigns" class="text-[9px] bg-purple-950/80 text-purple-300 border border-purple-700 px-1.5 py-0.5 rounded font-bold">4 Đang Chạy</span>
+        </button>
+
         <button onclick="navigateTab('products')" id="nav-products" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
           <i data-lucide="package" class="w-4 h-4 text-emerald-400"></i>
           <span class="flex-1 text-left">Bảng Giá Sản Phẩm (65 Mã)</span>
@@ -366,6 +372,9 @@
             <div class="flex items-center gap-2">
               <button onclick="navigateTab('inventory')" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
                 <i data-lucide="boxes" class="w-3.5 h-3.5"></i> Quản Lý Tồn Kho (65 Mã)
+              </button>
+              <button onclick="navigateTab('campaigns')" class="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
+                <i data-lucide="gift" class="w-3.5 h-3.5"></i> Chương Trình (KM)
               </button>
               <button onclick="openCatalogPdfModal()" class="px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
                 <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Xuất PDF Bảng Giá
@@ -1475,6 +1484,187 @@
             <!-- 5. PHÂN TRANG (PAGINATION) -->
             <div id="invPagination" class="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs flex-wrap gap-2">
               <!-- Pagination controls populated by JS -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB: QUẢN LÝ CHƯƠNG TRÌNH BÁN HÀNG & KHUYẾN MÃI ================= -->
+        <section id="tab-campaigns" class="tab-pane hidden p-4 sm:p-6 space-y-6">
+          <!-- 1. TOOLBAR & HEADER -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="p-2 bg-purple-100 text-purple-700 rounded-xl shadow-xs">
+                    <i data-lucide="gift" class="w-5 h-5"></i>
+                  </span>
+                  <div>
+                    <h2 class="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                      Quản Lý Chương Trình Bán Hàng & Khuyến Mãi
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">
+                      Lưu trữ các chương trình thúc đẩy bán hàng, thưởng tích lũy doanh số đại lý, combo khuyến mãi Lock&King & Takin. Sao chép nhanh gửi Zalo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACTION BUTTONS -->
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- NÚT THÊM CHƯƠNG TRÌNH MỚI -->
+                <button type="button" onclick="openCreateCampaignModal()" class="px-3.5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs shadow-sm hover:shadow flex items-center gap-1.5 transition active:scale-95">
+                  <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                  <span>Thêm Chương Trình Mới</span>
+                </button>
+
+                <!-- NÚT XUẤT EXCEL -->
+                <button type="button" onclick="exportCampaignsToExcel()" class="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl font-bold text-xs flex items-center gap-1.5 transition">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                  <span>Xuất Excel</span>
+                </button>
+
+                <!-- TOGGLE VIEW MODE (THẺ / BẢNG) -->
+                <div class="inline-flex bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+                  <button type="button" id="campBtnViewGrid" onclick="toggleCampaignView('grid')" class="px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-2xs transition flex items-center gap-1">
+                    <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                    <span>Dạng Thẻ</span>
+                  </button>
+                  <button type="button" id="campBtnViewTable" onclick="toggleCampaignView('table')" class="px-2.5 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
+                    <i data-lucide="table" class="w-3.5 h-3.5"></i>
+                    <span>Dạng Bảng</span>
+                  </button>
+                </div>
+
+                <!-- RESET DỮ LIỆU MẪU -->
+                <button type="button" onclick="resetCampaignsToDefault()" class="p-2 bg-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200 rounded-xl transition" title="Khôi phục các chương trình mẫu">
+                  <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. KPI CARDS (4 THẺ THỐNG KÊ) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <!-- TỔNG SỐ CHƯƠNG TRÌNH -->
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Tổng Số Chương Trình</div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="kpiCampTotal" class="text-xl font-black font-mono text-slate-900">0</span>
+                  <span class="text-[10px] text-slate-400 font-medium">chiến dịch</span>
+                </div>
+              </div>
+
+              <!-- ĐANG DIỄN RA -->
+              <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-3">
+                <div class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                  Đang Diễn Ra (Hiệu lực)
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="kpiCampActive" class="text-xl font-black font-mono text-emerald-700">0</span>
+                  <span class="text-[10px] text-emerald-600 font-medium">chương trình</span>
+                </div>
+              </div>
+
+              <!-- SẮP DIỄN RA -->
+              <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-3">
+                <div class="text-[11px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
+                  Sắp Bắt Đầu (Upcoming)
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="kpiCampUpcoming" class="text-xl font-black font-mono text-amber-700">0</span>
+                  <span class="text-[10px] text-amber-600 font-medium">kế hoạch</span>
+                </div>
+              </div>
+
+              <!-- ĐÃ KẾT THÚC -->
+              <div class="bg-slate-100 border border-slate-200 rounded-xl p-3">
+                <div class="text-[11px] font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-slate-400 inline-block"></span>
+                  Đã Kết Thúc (Lưu trữ)
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="kpiCampExpired" class="text-xl font-black font-mono text-slate-600">0</span>
+                  <span class="text-[10px] text-slate-500 font-medium">đã xong</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. BỘ LỌC & TÌM KIẾM -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center pt-1">
+              <!-- TÌM KIẾM NHANH -->
+              <div class="lg:col-span-4 relative">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input 
+                  type="text" 
+                  id="campFilterSearch" 
+                  oninput="renderCampaigns()" 
+                  placeholder="Tìm theo tên chương trình, mã, quà tặng, model áp dụng..." 
+                  class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg pl-8 pr-3 py-2 text-xs text-slate-700 focus:outline-none focus:border-purple-500 transition" 
+                />
+              </div>
+
+              <!-- LỌC TRẠNG THÁI -->
+              <div class="lg:col-span-3">
+                <select id="campFilterStatus" onchange="renderCampaigns()" class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-purple-500 transition">
+                  <option value="ALL">Tất cả trạng thái</option>
+                  <option value="ACTIVE">🟢 Đang diễn ra (Có hiệu lực)</option>
+                  <option value="UPCOMING">🟡 Sắp diễn ra</option>
+                  <option value="EXPIRED">🔴 Đã kết thúc</option>
+                  <option value="PAUSED">⚪ Tạm ngưng</option>
+                </select>
+              </div>
+
+              <!-- LỌC LOẠI CHƯƠNG TRÌNH -->
+              <div class="lg:col-span-3">
+                <select id="campFilterType" onchange="renderCampaigns()" class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-purple-500 transition">
+                  <option value="ALL">Tất cả loại chương trình</option>
+                  <option value="TRADE_PROMO">🎁 Khuyến mãi tặng hàng (Mua X tặng Y)</option>
+                  <option value="VOLUME_BONUS">🏆 Thưởng tích lũy doanh số Tháng/Quý</option>
+                  <option value="TIER_DISCOUNT">💰 Chiết khấu theo giá trị đơn</option>
+                  <option value="NEW_DEALER">🌟 Chính sách mở mới Đại lý / NPP</option>
+                  <option value="COMBO">📦 Combo kích cầu mùa vụ</option>
+                  <option value="EVENT">🎪 Sự kiện / Hội nghị / Ra mắt</option>
+                </select>
+              </div>
+
+              <!-- LỌC KÊNH ÁP DỤNG -->
+              <div class="lg:col-span-2">
+                <select id="campFilterChannel" onchange="renderCampaigns()" class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-purple-500 transition">
+                  <option value="ALL">Tất cả kênh</option>
+                  <option value="OFFLINE">Đại lý & NPP Offline</option>
+                  <option value="ONLINE">Kênh Online / Sàn TMĐT</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. KHU VỰC HIỂN THỊ CHƯƠNG TRÌNH -->
+          <!-- 4A. DẠNG THẺ (GRID CARDS) -->
+          <div id="campGridView" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- 4B. DẠNG BẢNG (TABLE VIEW) -->
+          <div id="campTableView" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 select-none">
+                    <th class="py-2.5 px-3 text-center w-12 border-r border-slate-200">STT</th>
+                    <th class="py-2.5 px-3 text-left w-32 border-r border-slate-200">Mã CT</th>
+                    <th class="py-2.5 px-3 text-left min-w-[240px] border-r border-slate-200">Tên Chương Trình</th>
+                    <th class="py-2.5 px-3 text-left w-36 border-r border-slate-200">Loại Chương Trình</th>
+                    <th class="py-2.5 px-3 text-left w-36 border-r border-slate-200">Kênh & Đối Tượng</th>
+                    <th class="py-2.5 px-3 text-center w-40 border-r border-slate-200">Thời Gian Hiệu Lực</th>
+                    <th class="py-2.5 px-3 text-center w-32 border-r border-slate-200">Trạng Thái</th>
+                    <th class="py-2.5 px-3 text-center w-36">Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="campTableTbody" class="divide-y divide-slate-200 font-medium">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
             </div>
           </div>
         </section>
@@ -7592,6 +7782,7 @@
 
       if (tabId === 'dashboard') renderDashboard();
       else if (tabId === 'inventory') renderInventoryTable();
+      else if (tabId === 'campaigns') renderCampaigns();
       else if (tabId === 'channel-quote') renderChannelQuote();
       else if (tabId === 'products') renderProductTable();
       else if (tabId === 'aliases') renderAliasTable();
@@ -11290,7 +11481,902 @@ window.addEventListener('DOMContentLoaded', () => {
       showToast('Đã xuất báo cáo tồn kho 65 mã ra file Excel thành công!');
     }
 
+
+    // ==========================================
+    // PHÂN HỆ QUẢN LÝ CHƯƠNG TRÌNH CÔNG TY (CAMPAIGNS)
+    // ==========================================
+    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v1';
+    let currentCampaignViewMode = 'grid'; // 'grid' | 'table'
+
+    // Dữ liệu mẫu 5 chương trình thực tế đặc trưng của Vũ Gia
+    const seedCampaigns = [
+      {
+        id: 'CT-2026-T9-01',
+        code: 'CT-2026-T9-01',
+        name: 'Chiến Dịch Mùa Đông Takin – Nhập 10 Đèn Sưởi Tặng 1 Ấm Siêu Tốc Lock&King',
+        type: 'TRADE_PROMO',
+        channel: 'OFFLINE',
+        target: 'Toàn bộ Đại lý & Nhà phân phối toàn quốc',
+        startDate: '2026-09-01',
+        endDate: '2026-11-30',
+        products: 'TK-1002, TK-1003, TK-468, TK-469 (Quà: LK-1068)',
+        rule: 'Đại lý nhập đơn hàng từ 10 bộ đèn sưởi hoặc máy sưởi gốm Takin bất kỳ được tặng ngay 01 Ấm siêu tốc Lock&King LK-1068 cao cấp (trị giá 360.000đ). Không giới hạn số suất quà.',
+        statusOverride: 'AUTO',
+        note: 'Đẩy mạnh hàng sưởi đầu mùa đông 2026'
+      },
+      {
+        id: 'CT-2026-Q3-THUONG',
+        code: 'CT-2026-Q3-THUONG',
+        name: 'Đua Top Doanh Số Quý 3 – Tri Ân Nhà Phân Phối Vàng',
+        type: 'VOLUME_BONUS',
+        channel: 'ALL',
+        target: 'Đại lý Cấp 1 & Nhà phân phối chính thức',
+        startDate: '2026-07-01',
+        endDate: '2026-09-30',
+        products: 'Toàn bộ 65 mã sản phẩm Lock&King & Takin',
+        rule: 'Tích lũy doanh số trong Quý 3/2026:\n- Mốc 1 (Từ 50 triệu): Thưởng chiết khấu thêm 2% tổng doanh số quý.\n- Mốc 2 (Từ 100 triệu): Thưởng 01 Chỉ Vàng 9999 PNJ hoặc quy đổi 8 triệu tiền mặt.\n- Mốc 3 (Từ 250 triệu): Thưởng Chuyến du lịch Thái Lan 5N4Đ dành cho 2 người.',
+        statusOverride: 'AUTO',
+        note: 'Xét thưởng vào ngày 05/10/2026'
+      },
+      {
+        id: 'CT-2026-NEW-DEALER',
+        code: 'CT-2026-NEW-DEALER',
+        name: 'Gói Khởi Nghiệp Cùng Vũ Gia – Hỗ Trợ Khai Trương Đại Lý Mới',
+        type: 'NEW_DEALER',
+        channel: 'OFFLINE',
+        target: 'Khách hàng ký hợp đồng mở Đại lý mới trong năm 2026',
+        startDate: '2026-01-01',
+        endDate: '2026-12-31',
+        products: 'Bộ danh mục 65 mã trưng bày',
+        rule: 'Đại lý mở mới nhập đơn đầu tiên từ 30 triệu đồng:\n1. Tặng 01 Biển hiệu bạt Hiflex / Decal nhận diện thương hiệu Lock&King & Takin.\n2. Tặng 01 Kệ trưng bày sắt sơn tĩnh điện 4 tầng chuẩn hãng.\n3. Tặng 05 Chảo cạn Titanium Lock&King 26cm (LK-2606A) làm hàng mẫu trải nghiệm.',
+        statusOverride: 'AUTO',
+        note: 'Sale liên hệ phòng Marketing làm biển hiệu'
+      },
+      {
+        id: 'CT-2026-COMBO-BEP',
+        code: 'CT-2026-COMBO-BEP',
+        name: 'Combo Bếp Sang Đón Lễ – Mua Bộ Nồi Inox 5 Đáy Tặng Chảo Titan LK-2606A',
+        type: 'COMBO',
+        channel: 'ONLINE',
+        target: 'Kênh bán lẻ Online, Livestream, Sàn TMĐT Shopee/TikTok',
+        startDate: '2026-08-15',
+        endDate: '2026-10-15',
+        products: 'LK-3386A, LK-3568A, LK-2606A',
+        rule: 'Áp dụng cho các shop bán lẻ online khi lấy theo combo:\n- Mua 01 Bộ nồi inox 5 đáy Lock&King (LK-3386A hoặc LK-3568A)\n- Tặng ngay 01 Chảo cạn Titanium Lock&King 26cm (LK-2606A)\n- Giá combo giảm thêm 10% so với giá sỉ thông thường.',
+        statusOverride: 'AUTO',
+        note: 'Ưu tiên cấp ảnh banner và video mẫu cho shop chạy quảng cáo'
+      },
+      {
+        id: 'CT-2026-T12-TET',
+        code: 'CT-2026-T12-TET',
+        name: 'Chiến Dịch Tết 2027 – Vũ Gia Trao Tết Trọn Vẹn',
+        type: 'TRADE_PROMO',
+        channel: 'ALL',
+        target: 'Toàn bộ hệ thống khách sỉ và Đại lý',
+        startDate: '2026-12-01',
+        endDate: '2027-01-25',
+        products: 'Toàn bộ 65 mã hàng Lock&King & Takin',
+        rule: 'Đại lý đặt cọc giữ hàng Tết trước ngày 30/11:\n- Tặng 01 Giỏ quà Tết cao cấp trị giá 1.500.000đ cho đơn cọc từ 50 triệu.\n- Cam kết giữ giá nhập tốt nhất không tăng giá trong dịp cận Tết.\n- Ưu tiên xe giao hàng tận nơi trước ngày 23 tháng Chạp.',
+        statusOverride: 'AUTO',
+        note: 'Kế hoạch Tết Nguyên Đán 2027'
+      }
+    ];
+
+    function getCampaignsDB() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY_CAMPAIGNS);
+        if (!stored) {
+          localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(seedCampaigns));
+          return JSON.parse(JSON.stringify(seedCampaigns));
+        }
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(seedCampaigns));
+        return JSON.parse(JSON.stringify(seedCampaigns));
+      } catch (e) {
+        console.error('Lỗi đọc chương trình từ localStorage:', e);
+        return JSON.parse(JSON.stringify(seedCampaigns));
+      }
+    }
+
+    function saveCampaignsDB(items) {
+      try {
+        localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(items));
+      } catch (e) {
+        console.error('Lỗi lưu chương trình vào localStorage:', e);
+      }
+    }
+
+    function resetCampaignsToDefault() {
+      if (confirm('Bạn có chắc chắn muốn khôi phục các chương trình mẫu ban đầu của công ty?')) {
+        localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(seedCampaigns));
+        renderCampaigns();
+        showToast('Đã khôi phục các chương trình mẫu thành công!');
+      }
+    }
+
+    // Tính trạng thái và số ngày còn lại
+    function getCampaignStatusInfo(camp) {
+      if (camp.statusOverride === 'PAUSED') {
+        return {
+          code: 'PAUSED',
+          text: 'Tạm Ngưng',
+          badgeClass: 'bg-slate-100 text-slate-700 border-slate-300',
+          dotColor: 'bg-slate-400',
+          subtext: 'Đã tạm dừng'
+        };
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const start = new Date(camp.startDate);
+      start.setHours(0, 0, 0, 0);
+
+      const end = new Date(camp.endDate);
+      end.setHours(23, 59, 59, 999);
+
+      if (today < start) {
+        const diffDays = Math.ceil((start - today) / (1000 * 60 * 60 * 24));
+        return {
+          code: 'UPCOMING',
+          text: 'Sắp Diễn Ra',
+          badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
+          dotColor: 'bg-amber-500',
+          subtext: `Bắt đầu sau ${diffDays} ngày`
+        };
+      } else if (today > end) {
+        return {
+          code: 'EXPIRED',
+          text: 'Đã Kết Thúc',
+          badgeClass: 'bg-rose-100 text-rose-800 border-rose-300',
+          dotColor: 'bg-rose-400',
+          subtext: 'Đã hết hạn'
+        };
+      } else {
+        const diffDays = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+        return {
+          code: 'ACTIVE',
+          text: 'Đang Diễn Ra',
+          badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+          dotColor: 'bg-emerald-500 animate-pulse',
+          subtext: `Còn ${diffDays} ngày`
+        };
+      }
+    }
+
+    // Tên phân loại chương trình
+    function getCampaignTypeName(type) {
+      switch (type) {
+        case 'TRADE_PROMO': return '🎁 Khuyến mãi tặng hàng';
+        case 'VOLUME_BONUS': return '🏆 Thưởng doanh số';
+        case 'TIER_DISCOUNT': return '💰 Chiết khấu giá trị';
+        case 'NEW_DEALER': return '🌟 Mở mới Đại lý';
+        case 'COMBO': return '📦 Combo kích cầu';
+        case 'EVENT': return '🎪 Sự kiện / Hội nghị';
+        default: return '🎁 Chương trình';
+      }
+    }
+
+    function getCampaignTypeBadge(type) {
+      switch (type) {
+        case 'TRADE_PROMO': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-purple-100 text-purple-800 border border-purple-200">🎁 Mua X Tặng Y</span>';
+        case 'VOLUME_BONUS': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-amber-100 text-amber-800 border border-amber-200">🏆 Thưởng Doanh Số</span>';
+        case 'TIER_DISCOUNT': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">💰 Chiết Khấu Hạn Mức</span>';
+        case 'NEW_DEALER': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-sky-100 text-sky-800 border border-sky-200">🌟 Mở Mới Đại Lý</span>';
+        case 'COMBO': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-orange-100 text-orange-800 border border-orange-200">📦 Combo Ưu Đãi</span>';
+        case 'EVENT': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">🎪 Sự Kiện Ra Mắt</span>';
+        default: return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-slate-100 text-slate-800 border border-slate-200">Chương Trình</span>';
+      }
+    }
+
+    function getCampaignChannelBadge(channel) {
+      if (channel === 'OFFLINE') {
+        return '<span class="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded border border-slate-200 font-bold">Offline (Đại lý/NPP)</span>';
+      } else if (channel === 'ONLINE') {
+        return '<span class="text-[10px] bg-sky-50 text-sky-700 px-1.5 py-0.5 rounded border border-sky-200 font-bold">Online (FB/TMĐT)</span>';
+      } else {
+        return '<span class="text-[10px] bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded border border-indigo-200 font-bold">Toàn Bộ Kênh</span>';
+      }
+    }
+
+    function toggleCampaignView(mode) {
+      currentCampaignViewMode = mode;
+      const btnGrid = document.getElementById('campBtnViewGrid');
+      const btnTable = document.getElementById('campBtnViewTable');
+      const gridContainer = document.getElementById('campGridView');
+      const tableContainer = document.getElementById('campTableView');
+
+      if (mode === 'grid') {
+        if (btnGrid) {
+          btnGrid.className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-2xs transition flex items-center gap-1';
+        }
+        if (btnTable) {
+          btnTable.className = 'px-2.5 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition flex items-center gap-1';
+        }
+        if (gridContainer) gridContainer.classList.remove('hidden');
+        if (tableContainer) tableContainer.classList.add('hidden');
+      } else {
+        if (btnGrid) {
+          btnGrid.className = 'px-2.5 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition flex items-center gap-1';
+        }
+        if (btnTable) {
+          btnTable.className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-2xs transition flex items-center gap-1';
+        }
+        if (gridContainer) gridContainer.classList.add('hidden');
+        if (tableContainer) tableContainer.classList.remove('hidden');
+      }
+      safeLucideIcons();
+    }
+
+    // Render chính phân hệ chương trình
+    function renderCampaigns() {
+      const allCamps = getCampaignsDB();
+
+      // Cập nhật thống kê KPI
+      let activeCount = 0;
+      let upcomingCount = 0;
+      let expiredCount = 0;
+
+      allCamps.forEach(c => {
+        const st = getCampaignStatusInfo(c);
+        if (st.code === 'ACTIVE') activeCount++;
+        else if (st.code === 'UPCOMING') upcomingCount++;
+        else if (st.code === 'EXPIRED') expiredCount++;
+      });
+
+      const elTotal = document.getElementById('kpiCampTotal');
+      if (elTotal) elTotal.innerText = allCamps.length;
+      const elActive = document.getElementById('kpiCampActive');
+      if (elActive) elActive.innerText = activeCount;
+      const elUpcoming = document.getElementById('kpiCampUpcoming');
+      if (elUpcoming) elUpcoming.innerText = upcomingCount;
+      const elExpired = document.getElementById('kpiCampExpired');
+      if (elExpired) elExpired.innerText = expiredCount;
+
+      const badgeNav = document.getElementById('badgeActiveCampaigns');
+      if (badgeNav) badgeNav.innerText = activeCount + ' Đang Chạy';
+
+      // Lọc dữ liệu
+      const searchEl = document.getElementById('campFilterSearch');
+      const q = (searchEl ? searchEl.value : '').trim().toUpperCase();
+
+      const statusEl = document.getElementById('campFilterStatus');
+      const statusFilter = statusEl ? statusEl.value : 'ALL';
+
+      const typeEl = document.getElementById('campFilterType');
+      const typeFilter = typeEl ? typeEl.value : 'ALL';
+
+      const channelEl = document.getElementById('campFilterChannel');
+      const channelFilter = channelEl ? channelEl.value : 'ALL';
+
+      const filtered = allCamps.filter(c => {
+        const name = (c.name || '').toUpperCase();
+        const code = (c.code || '').toUpperCase();
+        const prods = (c.products || '').toUpperCase();
+        const rule = (c.rule || '').toUpperCase();
+
+        const matchQ = !q || name.includes(q) || code.includes(q) || prods.includes(q) || rule.includes(q);
+
+        const st = getCampaignStatusInfo(c);
+        let matchStatus = true;
+        if (statusFilter !== 'ALL') {
+          matchStatus = (st.code === statusFilter);
+        }
+
+        let matchType = true;
+        if (typeFilter !== 'ALL') {
+          matchType = (c.type === typeFilter);
+        }
+
+        let matchChannel = true;
+        if (channelFilter !== 'ALL') {
+          matchChannel = (c.channel === channelFilter || c.channel === 'ALL');
+        }
+
+        return matchQ && matchStatus && matchType && matchChannel;
+      });
+
+      // 1. RENDER GRID CARDS
+      const gridContainer = document.getElementById('campGridView');
+      if (gridContainer) {
+        if (filtered.length === 0) {
+          gridContainer.innerHTML = `
+            <div class="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
+              <i data-lucide="gift" class="w-12 h-12 mx-auto mb-3 text-slate-300"></i>
+              <p class="font-bold text-sm text-slate-600">Không tìm thấy chương trình nào phù hợp</p>
+              <p class="text-xs mt-1">Hãy thử thay đổi từ khóa hoặc bộ lọc trạng thái</p>
+            </div>
+          `;
+        } else {
+          gridContainer.innerHTML = filtered.map(c => {
+            const st = getCampaignStatusInfo(c);
+            const typeBadge = getCampaignTypeBadge(c.type);
+            const channelBadge = getCampaignChannelBadge(c.channel);
+
+            return `
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-4 sm:p-5 flex flex-col justify-between space-y-3">
+                <div class="space-y-2.5">
+                  <div class="flex items-center justify-between gap-2 flex-wrap">
+                    ${typeBadge}
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border ${st.badgeClass}">
+                      <span class="w-2 h-2 rounded-full ${st.dotColor}"></span>
+                      ${st.text} (${st.subtext})
+                    </span>
+                  </div>
+
+                  <div>
+                    <span class="text-[10px] font-mono text-slate-400 font-bold tracking-wide">${escapeHtml(c.code)}</span>
+                    <h3 class="text-sm font-black text-slate-900 leading-snug hover:text-purple-700 transition cursor-pointer" onclick="viewCampaignDetail('${escapeHtml(c.id)}')">
+                      ${escapeHtml(c.name)}
+                    </h3>
+                  </div>
+
+                  <div class="flex items-center gap-2 flex-wrap text-slate-500 text-[11px]">
+                    ${channelBadge}
+                    <span class="text-slate-400">|</span>
+                    <span>${escapeHtml(c.target || 'Toàn bộ đại lý')}</span>
+                  </div>
+
+                  <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-100 text-[11px] text-slate-600 space-y-1">
+                    <div class="flex items-center gap-1.5 font-medium">
+                      <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
+                      <span>Hiệu lực: <strong class="text-slate-800">${c.startDate}</strong> ➔ <strong class="text-slate-800">${c.endDate}</strong></span>
+                    </div>
+                    ${c.products ? `
+                      <div class="flex items-start gap-1.5">
+                        <i data-lucide="package" class="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"></i>
+                        <span class="truncate">Mã áp dụng: <strong class="text-slate-800 font-mono">${escapeHtml(c.products)}</strong></span>
+                      </div>
+                    ` : ''}
+                  </div>
+
+                  <div class="text-xs text-slate-700 line-clamp-2 leading-relaxed bg-purple-50/40 p-2.5 rounded-xl border border-purple-100/80">
+                    ${escapeHtml(c.rule)}
+                  </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-1.5">
+                  <!-- NÚT SAO CHÉP GỬI ZALO -->
+                  <button type="button" onclick="copyCampaignForZalo('${escapeHtml(c.id)}')" class="flex-1 py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow-2xs flex items-center justify-center gap-1 transition active:scale-95" title="Sao chép thể lệ gửi Zalo">
+                    <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                    <span>Gửi Zalo</span>
+                  </button>
+
+                  <!-- XEM CHI TIẾT -->
+                  <button type="button" onclick="viewCampaignDetail('${escapeHtml(c.id)}')" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition" title="Xem chi tiết thể lệ">
+                    <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                  </button>
+
+                  <!-- SỬA -->
+                  <button type="button" onclick="openEditCampaignModal('${escapeHtml(c.id)}')" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition" title="Chỉnh sửa chương trình">
+                    <i data-lucide="edit" class="w-3.5 h-3.5"></i>
+                  </button>
+
+                  <!-- NHÂN BẢN -->
+                  <button type="button" onclick="duplicateCampaign('${escapeHtml(c.id)}')" class="p-1.5 bg-slate-100 hover:bg-purple-100 text-slate-700 hover:text-purple-700 rounded-lg text-xs font-bold transition" title="Nhân bản chương trình này">
+                    <i data-lucide="copy-plus" class="w-3.5 h-3.5"></i>
+                  </button>
+
+                  <!-- XÓA -->
+                  <button type="button" onclick="deleteCampaign('${escapeHtml(c.id)}')" class="p-1.5 bg-slate-100 hover:bg-rose-100 text-slate-500 hover:text-rose-700 rounded-lg text-xs font-bold transition" title="Xóa chương trình">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      // 2. RENDER TABLE VIEW
+      const tableTbody = document.getElementById('campTableTbody');
+      if (tableTbody) {
+        if (filtered.length === 0) {
+          tableTbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="py-12 text-center text-slate-400">
+                <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 text-slate-300"></i>
+                <p class="font-bold">Không tìm thấy chương trình nào phù hợp</p>
+              </td>
+            </tr>
+          `;
+        } else {
+          tableTbody.innerHTML = filtered.map((c, idx) => {
+            const st = getCampaignStatusInfo(c);
+            const typeBadge = getCampaignTypeBadge(c.type);
+
+            return `
+              <tr class="hover:bg-slate-50 transition border-b border-slate-200">
+                <td class="py-2.5 px-3 text-center text-slate-500 font-mono border-r border-slate-200">${idx + 1}</td>
+                <td class="py-2.5 px-3 font-mono font-bold text-slate-800 border-r border-slate-200 whitespace-nowrap">${escapeHtml(c.code)}</td>
+                <td class="py-2.5 px-3 font-bold text-slate-900 border-r border-slate-200">
+                  <div class="hover:text-purple-700 cursor-pointer" onclick="viewCampaignDetail('${escapeHtml(c.id)}')">${escapeHtml(c.name)}</div>
+                  <div class="text-[11px] text-slate-500 font-normal line-clamp-1 mt-0.5">${escapeHtml(c.rule)}</div>
+                </td>
+                <td class="py-2.5 px-3 border-r border-slate-200 whitespace-nowrap">${typeBadge}</td>
+                <td class="py-2.5 px-3 border-r border-slate-200 text-[11px] text-slate-600">
+                  <div class="font-bold text-slate-800">${c.channel === 'OFFLINE' ? 'Offline' : (c.channel === 'ONLINE' ? 'Online' : 'Toàn bộ')}</div>
+                  <div class="text-slate-400 truncate max-w-[120px]">${escapeHtml(c.target || '')}</div>
+                </td>
+                <td class="py-2.5 px-3 text-center border-r border-slate-200 text-[11px] font-mono whitespace-nowrap">
+                  ${c.startDate} ➔ ${c.endDate}
+                </td>
+                <td class="py-2.5 px-3 text-center border-r border-slate-200 whitespace-nowrap">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-bold border ${st.badgeClass}">
+                    <span class="w-1.5 h-1.5 rounded-full ${st.dotColor}"></span>
+                    ${st.text}
+                  </span>
+                </td>
+                <td class="py-2.5 px-3 text-center whitespace-nowrap">
+                  <div class="flex items-center justify-center gap-1">
+                    <button type="button" onclick="copyCampaignForZalo('${escapeHtml(c.id)}')" class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[11px] font-bold transition flex items-center gap-1" title="Sao chép tin nhắn Zalo">
+                      <i data-lucide="message-circle" class="w-3 h-3"></i> Zalo
+                    </button>
+                    <button type="button" onclick="viewCampaignDetail('${escapeHtml(c.id)}')" class="p-1 hover:bg-slate-100 text-slate-600 rounded transition" title="Chi tiết">
+                      <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button type="button" onclick="openEditCampaignModal('${escapeHtml(c.id)}')" class="p-1 hover:bg-slate-100 text-slate-600 rounded transition" title="Sửa">
+                      <i data-lucide="edit" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button type="button" onclick="deleteCampaign('${escapeHtml(c.id)}')" class="p-1 hover:bg-rose-50 text-rose-600 rounded transition" title="Xóa">
+                      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      safeLucideIcons();
+    }
+
+    // Modal Thêm / Sửa
+    function openCreateCampaignModal() {
+      const modal = document.getElementById('campaignModal');
+      const title = document.getElementById('campaignModalTitle');
+      const form = document.getElementById('campaignForm');
+      if (!modal || !form) return;
+
+      form.reset();
+      document.getElementById('campFormId').value = '';
+      if (title) title.innerText = 'Thêm Chương Trình Bán Hàng Mới';
+
+      // Sinh mã gợi ý
+      const now = new Date();
+      const yr = now.getFullYear();
+      const mo = String(now.getMonth() + 1).padStart(2, '0');
+      const allCamps = getCampaignsDB();
+      const nextNum = String(allCamps.length + 1).padStart(2, '0');
+      document.getElementById('campFormCode').value = `CT-${yr}-T${mo}-${nextNum}`;
+
+      // Set ngày mặc định: hôm nay đến 1 tháng sau
+      const todayStr = now.toISOString().slice(0, 10);
+      const nextMonth = new Date();
+      nextMonth.setMonth(nextMonth.getMonth() + 1);
+      const nextMonthStr = nextMonth.toISOString().slice(0, 10);
+
+      document.getElementById('campFormStartDate').value = todayStr;
+      document.getElementById('campFormEndDate').value = nextMonthStr;
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function openEditCampaignModal(id) {
+      const allCamps = getCampaignsDB();
+      const camp = allCamps.find(c => c.id === id);
+      if (!camp) return;
+
+      const modal = document.getElementById('campaignModal');
+      const title = document.getElementById('campaignModalTitle');
+      if (!modal) return;
+
+      if (title) title.innerText = 'Chỉnh Sửa Chương Trình: ' + camp.code;
+      document.getElementById('campFormId').value = camp.id;
+      document.getElementById('campFormCode').value = camp.code || '';
+      document.getElementById('campFormType').value = camp.type || 'TRADE_PROMO';
+      document.getElementById('campFormName').value = camp.name || '';
+      document.getElementById('campFormChannel').value = camp.channel || 'ALL';
+      document.getElementById('campFormTarget').value = camp.target || '';
+      document.getElementById('campFormStartDate').value = camp.startDate || '';
+      document.getElementById('campFormEndDate').value = camp.endDate || '';
+      document.getElementById('campFormProducts').value = camp.products || '';
+      document.getElementById('campFormRule').value = camp.rule || '';
+      document.getElementById('campFormStatusOverride').value = camp.statusOverride || 'AUTO';
+      document.getElementById('campFormNote').value = camp.note || '';
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closeCampaignModal() {
+      const modal = document.getElementById('campaignModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function saveCampaignForm(e) {
+      e.preventDefault();
+      const id = document.getElementById('campFormId').value.trim();
+      const code = document.getElementById('campFormCode').value.trim();
+      const type = document.getElementById('campFormType').value;
+      const name = document.getElementById('campFormName').value.trim();
+      const channel = document.getElementById('campFormChannel').value;
+      const target = document.getElementById('campFormTarget').value.trim();
+      const startDate = document.getElementById('campFormStartDate').value;
+      const endDate = document.getElementById('campFormEndDate').value;
+      const products = document.getElementById('campFormProducts').value.trim();
+      const rule = document.getElementById('campFormRule').value.trim();
+      const statusOverride = document.getElementById('campFormStatusOverride').value;
+      const note = document.getElementById('campFormNote').value.trim();
+
+      if (!code || !name || !startDate || !endDate || !rule) {
+        alert('Vui lòng điền đầy đủ các thông tin bắt buộc (*)');
+        return;
+      }
+
+      const allCamps = getCampaignsDB();
+
+      if (id) {
+        // Cập nhật
+        const idx = allCamps.findIndex(c => c.id === id);
+        if (idx !== -1) {
+          allCamps[idx] = {
+            ...allCamps[idx],
+            code, type, name, channel, target, startDate, endDate, products, rule, statusOverride, note
+          };
+          showToast('Đã cập nhật chương trình thành công!');
+        }
+      } else {
+        // Thêm mới
+        const newCamp = {
+          id: code || ('CT-' + Date.now()),
+          code, type, name, channel, target, startDate, endDate, products, rule, statusOverride, note
+        };
+        allCamps.unshift(newCamp);
+        showToast('Đã thêm chương trình mới thành công!');
+      }
+
+      saveCampaignsDB(allCamps);
+      closeCampaignModal();
+      renderCampaigns();
+    }
+
+    // Nhân bản chương trình
+    function duplicateCampaign(id) {
+      const allCamps = getCampaignsDB();
+      const camp = allCamps.find(c => c.id === id);
+      if (!camp) return;
+
+      const newCode = camp.code + '-COPY';
+      const cloned = {
+        ...camp,
+        id: 'CT-' + Date.now(),
+        code: newCode,
+        name: camp.name + ' (Bản Sao)'
+      };
+
+      allCamps.unshift(cloned);
+      saveCampaignsDB(allCamps);
+      renderCampaigns();
+      showToast('Đã nhân bản chương trình thành công!');
+    }
+
+    // Xóa chương trình
+    function deleteCampaign(id) {
+      const allCamps = getCampaignsDB();
+      const camp = allCamps.find(c => c.id === id);
+      if (!camp) return;
+
+      if (confirm('Bạn có chắc chắn muốn xóa chương trình: ' + camp.name + '?')) {
+        const next = allCamps.filter(c => c.id !== id);
+        saveCampaignsDB(next);
+        renderCampaigns();
+        showToast('Đã xóa chương trình!');
+      }
+    }
+
+    // Soạn tin nhắn Zalo chuẩn và sao chép
+    function getCampaignZaloText(camp) {
+      const typeName = getCampaignTypeName(camp.type);
+      return `🔥 ${camp.name.toUpperCase()} 🔥
+────────────────────
+📌 Mã CT: ${camp.code}
+🎯 Loại: ${typeName}
+👥 Đối tượng: ${camp.target || 'Toàn bộ quý Đại lý & NPP'}
+⏱ Hiệu lực: Từ ${camp.startDate} đến ${camp.endDate}
+${camp.products ? '📦 Sản phẩm áp dụng: ' + camp.products + '\n' : ''}
+📜 THỂ LỆ & QUÀ TẶNG:
+${camp.rule}
+────────────────────
+🏢 CÔNG TY GIA DỤNG VŨ GIA (Lock&King & Takin)
+📞 Liên hệ Sale để được hỗ trợ & lên đơn ngay!`;
+    }
+
+    function copyCampaignForZalo(id) {
+      const allCamps = getCampaignsDB();
+      const camp = allCamps.find(c => c.id === id);
+      if (!camp) return;
+
+      const text = getCampaignZaloText(camp);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Đã sao chép nội dung chương trình! Bạn có thể dán (Ctrl+V) ngay vào Zalo.');
+        }).catch(() => {
+          prompt('Hãy sao chép nội dung gửi Zalo bên dưới:', text);
+        });
+      } else {
+        prompt('Hãy sao chép nội dung gửi Zalo bên dưới:', text);
+      }
+    }
+
+    // Xem chi tiết thể lệ trong Popup
+    function viewCampaignDetail(id) {
+      const allCamps = getCampaignsDB();
+      const camp = allCamps.find(c => c.id === id);
+      if (!camp) return;
+
+      const modal = document.getElementById('campaignDetailModal');
+      const body = document.getElementById('campaignDetailBody');
+      const copyBtn = document.getElementById('btnCopyZaloModal');
+      if (!modal || !body) return;
+
+      const st = getCampaignStatusInfo(camp);
+      const zaloText = getCampaignZaloText(camp);
+
+      if (copyBtn) {
+        copyBtn.onclick = function() {
+          copyCampaignForZalo(camp.id);
+        };
+      }
+
+      body.innerHTML = `
+        <div class="bg-purple-50/60 p-3 rounded-xl border border-purple-100 space-y-1">
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <span class="font-mono font-bold text-purple-900 bg-white px-2 py-0.5 rounded border border-purple-200">${escapeHtml(camp.code)}</span>
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border ${st.badgeClass}">
+              <span class="w-2 h-2 rounded-full ${st.dotColor}"></span>
+              ${st.text} (${st.subtext})
+            </span>
+          </div>
+          <h4 class="text-sm font-black text-slate-900 mt-1">${escapeHtml(camp.name)}</h4>
+          <div class="text-[11px] text-slate-600">
+            Kênh: <strong>${camp.channel === 'OFFLINE' ? 'Đại lý / NPP Offline' : (camp.channel === 'ONLINE' ? 'Online / Sàn TMĐT' : 'Toàn bộ')}</strong> | 
+            Đối tượng: <strong>${escapeHtml(camp.target || 'Toàn bộ đại lý')}</strong>
+          </div>
+          <div class="text-[11px] text-slate-600">
+            Thời gian: <strong>${camp.startDate}</strong> đến <strong>${camp.endDate}</strong>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="font-bold text-slate-800">📜 Thể lệ & cơ cấu quà tặng:</div>
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 whitespace-pre-line leading-relaxed">
+            ${escapeHtml(camp.rule)}
+          </div>
+        </div>
+
+        ${camp.products ? `
+          <div class="space-y-1">
+            <div class="font-bold text-slate-800">📦 Model sản phẩm áp dụng:</div>
+            <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-mono text-[11px]">
+              ${escapeHtml(camp.products)}
+            </div>
+          </div>
+        ` : ''}
+
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-800">💬 Xem trước tin nhắn gửi Zalo:</span>
+            <span class="text-[10px] text-blue-600 font-semibold">Đã định dạng icon</span>
+          </div>
+          <textarea readonly class="w-full h-32 p-2.5 bg-slate-900 text-slate-200 font-mono text-[11px] rounded-xl border border-slate-800 focus:outline-none resize-none leading-relaxed select-all">${escapeHtml(zaloText)}</textarea>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closeCampaignDetailModal() {
+      const modal = document.getElementById('campaignDetailModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Xuất báo cáo danh sách chương trình ra Excel
+    function exportCampaignsToExcel() {
+      const allCamps = getCampaignsDB();
+      const exportRows = [
+        ["STT", "Mã Chương Trình", "Tên Chương Trình", "Phân Loại", "Kênh Áp Dụng", "Đối Tượng", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Trạng Thái", "Sản Phẩm Áp Dụng", "Thể Lệ & Quà Tặng"]
+      ];
+
+      allCamps.forEach((c, idx) => {
+        const st = getCampaignStatusInfo(c);
+        const typeName = getCampaignTypeName(c.type);
+        const channelName = c.channel === 'OFFLINE' ? 'Offline (Đại lý)' : (c.channel === 'ONLINE' ? 'Online (TMĐT)' : 'Toàn bộ');
+
+        exportRows.push([
+          idx + 1,
+          c.code || '',
+          c.name || '',
+          typeName,
+          channelName,
+          c.target || 'Toàn bộ đại lý',
+          c.startDate || '',
+          c.endDate || '',
+          `${st.text} (${st.subtext})`,
+          c.products || 'Tất cả',
+          c.rule || ''
+        ]);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(exportRows);
+      ws['!cols'] = [
+        { wch: 6 },
+        { wch: 18 },
+        { wch: 45 },
+        { wch: 22 },
+        { wch: 18 },
+        { wch: 26 },
+        { wch: 14 },
+        { wch: 14 },
+        { wch: 22 },
+        { wch: 30 },
+        { wch: 60 }
+      ];
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Chuong_Trinh_Vu_Gia");
+      const dateStr = new Date().toISOString().slice(0, 10);
+      XLSX.writeFile(wb, `Danh_Sach_Chuong_Trinh_Vu_Gia_${dateStr}.xlsx`);
+      showToast('Đã xuất danh sách chương trình ra file Excel thành công!');
+    }
+
     </script>
+
+    <!-- MODAL THÊM / SỬA CHƯƠNG TRÌNH CÔNG TY -->
+  <div id="campaignModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="p-2 bg-purple-100 text-purple-700 rounded-xl">
+            <i data-lucide="gift" class="w-5 h-5"></i>
+          </span>
+          <h3 id="campaignModalTitle" class="text-lg font-black text-slate-900">Thêm Chương Trình Mới</h3>
+        </div>
+        <button type="button" onclick="closeCampaignModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="campaignForm" onsubmit="saveCampaignForm(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="campFormId" value="" />
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Mã Chương Trình <span class="text-rose-500">*</span></label>
+            <input type="text" id="campFormCode" required placeholder="VD: CT-2026-T9-01" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-mono font-bold text-slate-800 focus:outline-none focus:border-purple-500" />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Phân Loại Chương Trình <span class="text-rose-500">*</span></label>
+            <select id="campFormType" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:border-purple-500">
+              <option value="TRADE_PROMO">🎁 Khuyến mãi tặng hàng (Mua X tặng Y)</option>
+              <option value="VOLUME_BONUS">🏆 Thưởng tích lũy doanh số Tháng/Quý</option>
+              <option value="TIER_DISCOUNT">💰 Chiết khấu theo giá trị đơn hàng</option>
+              <option value="NEW_DEALER">🌟 Chính sách mở mới Đại lý / NPP</option>
+              <option value="COMBO">📦 Combo kích cầu sản phẩm</option>
+              <option value="EVENT">🎪 Sự kiện / Hội nghị / Ra mắt mới</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Tên Chương Trình <span class="text-rose-500">*</span></label>
+          <input type="text" id="campFormName" required placeholder="VD: Chiến Dịch Mùa Đông Takin – Mua 10 Đèn Sưởi Tặng 1 Ấm Siêu Tốc Lock&King" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 font-bold focus:outline-none focus:border-purple-500" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Kênh Áp Dụng <span class="text-rose-500">*</span></label>
+            <select id="campFormChannel" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:border-purple-500">
+              <option value="ALL">Toàn Bộ Kênh (Online & Offline)</option>
+              <option value="OFFLINE">Kênh Offline (Đại lý, NPP, Cửa hàng)</option>
+              <option value="ONLINE">Kênh Online (Facebook, Shopee, TikTok)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Đối Tượng Hưởng Ưu Đãi</label>
+            <input type="text" id="campFormTarget" placeholder="VD: Toàn bộ Đại lý & NPP toàn quốc, Đại lý mới..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-purple-500" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Ngày Bắt Đầu <span class="text-rose-500">*</span></label>
+            <input type="date" id="campFormStartDate" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:outline-none focus:border-purple-500" />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Ngày Kết Thúc <span class="text-rose-500">*</span></label>
+            <input type="date" id="campFormEndDate" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 font-medium focus:outline-none focus:border-purple-500" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Sản Phẩm Áp Dụng (Model liên quan)</label>
+          <input type="text" id="campFormProducts" placeholder="VD: TK-1002, TK-1003, TK-468, TK-469 (Quà tặng: LK-1068)" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 font-mono focus:outline-none focus:border-purple-500" />
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Thể Lệ & Cơ Cấu Quà Tặng Chi Tiết <span class="text-rose-500">*</span></label>
+          <textarea id="campFormRule" rows="4" required placeholder="Ghi rõ điều kiện hưởng, cơ cấu quà tặng, hạn mức số lượng..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-purple-500 leading-relaxed"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Trạng Thái Thủ Công</label>
+            <select id="campFormStatusOverride" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:border-purple-500">
+              <option value="AUTO">Tự động theo ngày (Khuyên dùng)</option>
+              <option value="PAUSED">Tạm ngưng chương trình</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Ghi Chú Nội Bộ</label>
+            <input type="text" id="campFormNote" placeholder="Ghi chú kế toán / kho..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-purple-500" />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+          <button type="button" onclick="closeCampaignModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition">
+            Hủy Bỏ
+          </button>
+          <button type="submit" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold shadow transition flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Lưu Chương Trình</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL XEM CHI TIẾT & SAO CHÉP GỬI ZALO -->
+  <div id="campaignDetailModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="p-2 bg-blue-100 text-blue-700 rounded-xl">
+            <i data-lucide="message-circle" class="w-5 h-5"></i>
+          </span>
+          <div>
+            <h3 class="text-base font-black text-slate-900">Chi Tiết & Soạn Tin Zalo</h3>
+            <p class="text-[11px] text-slate-500">Mẫu tin nhắn sẵn sàng gửi khách hàng / đại lý</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeCampaignDetailModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="campaignDetailBody" class="space-y-3 text-xs">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+        <button type="button" onclick="closeCampaignDetailModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs transition">
+          Đóng
+        </button>
+        <button type="button" id="btnCopyZaloModal" onclick="" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow transition flex items-center gap-1.5">
+          <i data-lucide="copy" class="w-4 h-4"></i>
+          <span>Sao Chép Tin Nhắn Zalo</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- MOBILE BOTTOM NAVIGATION BAR -->
   <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-2xl flex items-center justify-around py-1 px-1 select-none text-[10px] font-medium text-slate-500">
