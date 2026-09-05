@@ -234,6 +234,12 @@
           <span id="badgeActiveCampaigns" class="text-[9px] bg-purple-950/80 text-purple-300 border border-purple-700 px-1.5 py-0.5 rounded font-bold">1 Đang Chạy</span>
         </button>
 
+        <button onclick="navigateTab('media-assets')" id="nav-media-assets" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+          <i data-lucide="folder-heart" class="w-4 h-4 text-emerald-400"></i>
+          <span class="flex-1 text-left">Kho Ảnh & Tư Liệu</span>
+          <span id="badgeMediaAssetsCount" class="text-[9px] bg-emerald-950/80 text-emerald-300 border border-emerald-700 px-1.5 py-0.5 rounded font-bold">65 Bộ Kit</span>
+        </button>
+
         <button onclick="navigateTab('partners-media')" id="nav-partners-media" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
           <i data-lucide="video" class="w-4 h-4 text-pink-400"></i>
           <span class="flex-1 text-left">Shop Đối Tác & Media</span>
@@ -385,6 +391,9 @@
               </button>
               <button onclick="navigateTab('partners-media')" class="px-3 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
                 <i data-lucide="video" class="w-3.5 h-3.5"></i> Video & Shop Đối Tác
+              </button>
+              <button onclick="navigateTab('media-assets')" class="px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition">
+                <i data-lucide="folder-heart" class="w-3.5 h-3.5"></i> Kho Ảnh & Tư Liệu
               </button>
               <button onclick="openCatalogPdfModal()" class="px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
                 <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Xuất PDF Bảng Giá
@@ -8323,6 +8332,7 @@
       else if (tabId === 'aliases') renderAliasTable();
       else if (tabId === 'prices') renderPriceTable();
       else if (tabId === 'customers') renderCustomerTable();
+      else if (tabId === 'media-assets') renderMediaAssetsTab();
       else if (tabId === 'new-quote') initNewQuoteTab();
       else if (tabId === 'quotations') renderQuotationList();
       else if (tabId === 'audit') renderAuditTable();
@@ -13385,6 +13395,823 @@ ${camp.rule}
     }
 
 
+    // ==========================================
+    // PHÂN HỆ KHO ẢNH & TƯ LIỆU MARKETING (DAM)
+    // ==========================================
+    const STORAGE_KEY_MEDIA_ASSETS = 'LOCK_KING_MEDIA_ASSETS_DATA_v1';
+    let currentMediaAssetViewMode = 'kits'; // 'kits' | 'gallery'
+    let currentLightboxItem = null;
+
+    // Kho tư liệu hạt giống chuẩn cho 65 mã hàng Vũ Gia
+    function getSeedMediaAssets() {
+      const db = getDB();
+      const products = db.products || [];
+      const assets = [];
+
+      // Sinh tự động tư liệu cho từng sản phẩm từ 65 mã chuẩn
+      products.forEach((p, idx) => {
+        const code = p.canonicalCode;
+        const brand = p.brand || 'Lock&King';
+        const name = p.name || code;
+        const cat = p.categoryName || 'GIA DỤNG';
+        const img = p.image || ('images/' + code + '.png');
+
+        // 1. Packshot nền trắng (luôn có từ kho ảnh 90 file)
+        assets.push({
+          id: 'ASSET-' + code + '-PACK',
+          productCode: code,
+          productName: name,
+          brand: brand,
+          category: cat,
+          type: 'PACKSHOT',
+          title: 'Ảnh Packshot Nền Trắng Shopee Chuẩn 1:1 - ' + code,
+          url: img,
+          tags: ['Shopee', 'Nền trắng', 'Packshot', cat],
+          note: 'Ảnh studio độ nét cao đạt chuẩn kích thước sàn Shopee, TikTok Shop, Lazada',
+          date: '2026-09-01'
+        });
+
+        // 2. Ảnh Lifestyle / Decor món ăn cho các sản phẩm tiêu biểu
+        if (cat.includes('CHẢO')) {
+          assets.push({
+            id: 'ASSET-' + code + '-LIFE',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'LIFESTYLE',
+            title: 'Ảnh Decor Món Ăn Bếp - Chảo Titan ' + code + ' Rán Trứng & Cá Không Dính',
+            url: img,
+            tags: ['Món ăn', 'Decor bếp', 'Chiên rán', 'Lifestyle'],
+            note: 'Ảnh decor không gian bếp thực tế để chạy quảng cáo Facebook và đăng bài Zalo',
+            date: '2026-09-02'
+          });
+          assets.push({
+            id: 'ASSET-' + code + '-VIDEO',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'VIDEO',
+            title: 'Video Demo Cào Thử Lòng Chảo Titan ' + code + ' Bằng Thìa Kim Loại',
+            url: 'https://www.tiktok.com/@giadungbepviet/video/7382910482',
+            tags: ['Video review', 'Cào thìa', 'Chống dính', 'TikTok'],
+            note: 'Video ngắn 25 giây tỷ lệ 9:16 rất thích hợp cho TikTok, Facebook Reels',
+            date: '2026-09-03'
+          });
+        } else if (cat.includes('NỒI') || cat.includes('BỘ NỒI')) {
+          assets.push({
+            id: 'ASSET-' + code + '-LIFE',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'LIFESTYLE',
+            title: 'Ảnh Decor Luộc Gà & Nấu Canh Đậm Vị Gia Đình - ' + code,
+            url: img,
+            tags: ['Gà luộc', 'Bộ nồi inox', 'Bếp từ', 'Lifestyle'],
+            note: 'Bộ ảnh mâm cơm gia đình với nồi Inox sáng bóng',
+            date: '2026-09-02'
+          });
+          assets.push({
+            id: 'ASSET-' + code + '-SHELF',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'SHELF',
+            title: 'Ảnh Trưng Bày Quầy Kệ Showroom ' + code + ' Tại NPP',
+            url: img,
+            tags: ['Quầy kệ', 'Showroom', 'NPP thực tế'],
+            note: 'Ảnh quầy kệ tại đại lý trưng bày bắt mắt, tạo uy tín với khách sỉ',
+            date: '2026-09-04'
+          });
+        } else if (cat.includes('ẤM')) {
+          assets.push({
+            id: 'ASSET-' + code + '-LIFE',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'LIFESTYLE',
+            title: 'Ảnh Pha Trà & Nấu Nước Nóng Siêu Tốc - ' + code,
+            url: img,
+            tags: ['Pha trà', 'Nước sôi', 'Văn phòng', 'Lifestyle'],
+            note: 'Ảnh ấm siêu tốc đặt tại phòng khách và bàn trà tiếp khách',
+            date: '2026-09-03'
+          });
+          assets.push({
+            id: 'ASSET-' + code + '-VIDEO',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'VIDEO',
+            title: 'Video Thử Tốc Độ Đun Sôi & Rơ-le Tự Ngắt Chuẩn An Toàn - ' + code,
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            tags: ['Video demo', 'Tự ngắt', 'An toàn', 'Review'],
+            note: 'Clip kiểm tra độ ngắt rơ-le kép bảo vệ chống cháy nổ',
+            date: '2026-09-03'
+          });
+        } else if (cat.includes('ĐÈN SƯỞI') || cat.includes('SƯỞI')) {
+          assets.push({
+            id: 'ASSET-' + code + '-LIFE',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'LIFESTYLE',
+            title: 'Ảnh Lắp Đặt Phòng Tắm & Ấm Áp Mùa Đông - ' + code,
+            url: img,
+            tags: ['Mùa đông', 'Phòng tắm', 'Takin sưởi', 'Lifestyle'],
+            note: 'Ảnh thực tế đèn sưởi bật ánh sáng vàng dịu trong phòng tắm',
+            date: '2026-09-01'
+          });
+          assets.push({
+            id: 'ASSET-' + code + '-DESIGN',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'DESIGN',
+            title: 'File Bạt Biển Hiệu Hiflex & Banner Đại Lý Mùa Đông - ' + code,
+            url: 'bang_gia_chuan_lock_and_king_takin.xlsx',
+            tags: ['Biển bạt', 'In ấn', 'Takin mùa đông', 'Design'],
+            note: 'File thiết kế kích thước 3mx1m cho NPP treo khai trương mùa lạnh',
+            date: '2026-09-01'
+          });
+        } else {
+          // Các mã khác
+          assets.push({
+            id: 'ASSET-' + code + '-SHELF',
+            productCode: code,
+            productName: name,
+            brand: brand,
+            category: cat,
+            type: 'SHELF',
+            title: 'Ảnh Thực Tế Kiện Hàng ' + code + ' Xuất Kho Vũ Gia',
+            url: img,
+            tags: ['Kho hàng', 'Xuất kho', 'Sản phẩm thật'],
+            note: 'Ảnh chụp thùng catton nguyên đai nguyên kiện tại kho trung tâm',
+            date: '2026-09-02'
+          });
+        }
+
+        // Link thư mục Google Drive gốc trọn bộ
+        assets.push({
+          id: 'ASSET-' + code + '-DRIVE',
+          productCode: code,
+          productName: name,
+          brand: brand,
+          category: cat,
+          type: 'DRIVE',
+          title: 'Thư Mục Google Drive Gốc (Ảnh RAW & Video 4K) - ' + code,
+          url: 'https://drive.google.com/drive/folders/lock-king-' + code.toLowerCase(),
+          tags: ['Drive gốc', 'Ảnh nét 4K', 'Tải trọn bộ'],
+          note: 'Thư mục đám mây lưu trữ toàn bộ ảnh gốc không nén và video quay phòng thu',
+          date: '2026-09-01'
+        });
+      });
+
+      return assets;
+    }
+
+    function getMediaAssetsDB() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY_MEDIA_ASSETS);
+        if (!stored) {
+          const init = getSeedMediaAssets();
+          localStorage.setItem(STORAGE_KEY_MEDIA_ASSETS, JSON.stringify(init));
+          return init;
+        }
+        const parsed = JSON.parse(stored);
+        if (!Array.isArray(parsed) || parsed.length === 0) {
+          const init = getSeedMediaAssets();
+          localStorage.setItem(STORAGE_KEY_MEDIA_ASSETS, JSON.stringify(init));
+          return init;
+        }
+        return parsed;
+      } catch (e) {
+        console.warn('getMediaAssetsDB error, resetting:', e);
+        const init = getSeedMediaAssets();
+        localStorage.setItem(STORAGE_KEY_MEDIA_ASSETS, JSON.stringify(init));
+        return init;
+      }
+    }
+
+    function saveMediaAssetsDB(data) {
+      try {
+        localStorage.setItem(STORAGE_KEY_MEDIA_ASSETS, JSON.stringify(data));
+      } catch(e) {
+        console.error('saveMediaAssetsDB error:', e);
+      }
+    }
+
+    function switchMediaAssetView(mode) {
+      currentMediaAssetViewMode = mode;
+      const btnKits = document.getElementById('btnMediaViewKits');
+      const btnGallery = document.getElementById('btnMediaViewGallery');
+      const cKits = document.getElementById('mediaKitsContainer');
+      const cGallery = document.getElementById('mediaGalleryContainer');
+
+      if (mode === 'kits') {
+        if (btnKits) {
+          btnKits.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm';
+        }
+        if (btnGallery) {
+          btnGallery.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        }
+        if (cKits) cKits.classList.remove('hidden');
+        if (cGallery) cGallery.classList.add('hidden');
+      } else {
+        if (btnGallery) {
+          btnGallery.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm';
+        }
+        if (btnKits) {
+          btnKits.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        }
+        if (cKits) cKits.classList.add('hidden');
+        if (cGallery) cGallery.classList.remove('hidden');
+      }
+
+      renderMediaAssetsTab();
+    }
+
+    function getAssetTypeInfo(type) {
+      switch(type) {
+        case 'PACKSHOT':
+          return { label: 'Ảnh Nền Trắng', badgeClass: 'bg-blue-100 text-blue-800 border-blue-200', icon: 'camera' };
+        case 'LIFESTYLE':
+          return { label: 'Decor Món Ăn', badgeClass: 'bg-amber-100 text-amber-800 border-amber-200', icon: 'utensils' };
+        case 'SHELF':
+          return { label: 'Quầy Kệ NPP', badgeClass: 'bg-teal-100 text-teal-800 border-teal-200', icon: 'store' };
+        case 'VIDEO':
+          return { label: 'Video Review', badgeClass: 'bg-rose-100 text-rose-800 border-rose-200', icon: 'video' };
+        case 'DESIGN':
+          return { label: 'File In Ấn / Biển', badgeClass: 'bg-purple-100 text-purple-800 border-purple-200', icon: 'printer' };
+        case 'DRIVE':
+          return { label: 'Google Drive Gốc', badgeClass: 'bg-sky-100 text-sky-800 border-sky-200', icon: 'folder-archive' };
+        default:
+          return { label: 'Tư Liệu Khác', badgeClass: 'bg-slate-100 text-slate-800 border-slate-200', icon: 'file' };
+      }
+    }
+
+    
+    function viewProductMedia(code) {
+      navigateTab('media-assets');
+      const searchEl = document.getElementById('assetFilterSearch');
+      if (searchEl) {
+        searchEl.value = code;
+        renderMediaAssetsTab();
+      }
+    }
+
+    function renderMediaAssetsTab() {
+      const db = getDB();
+      const products = db.products || [];
+      const allAssets = getMediaAssetsDB();
+
+      // Thống kê KPI
+      let cPack = 0, cLife = 0, cVid = 0, cDesign = 0;
+      allAssets.forEach(a => {
+        if (a.type === 'PACKSHOT') cPack++;
+        else if (a.type === 'LIFESTYLE') cLife++;
+        else if (a.type === 'VIDEO') cVid++;
+        else if (a.type === 'DESIGN' || a.type === 'DRIVE') cDesign++;
+      });
+
+      const elKits = document.getElementById('kpiAssetKitsTotal');
+      if (elKits) elKits.innerText = products.length;
+      const elPack = document.getElementById('kpiAssetPackshot');
+      if (elPack) elPack.innerText = cPack;
+      const elLife = document.getElementById('kpiAssetLifestyle');
+      if (elLife) elLife.innerText = cLife;
+      const elVid = document.getElementById('kpiAssetVideos');
+      if (elVid) elVid.innerText = cVid;
+      const elDes = document.getElementById('kpiAssetDesignFiles');
+      if (elDes) elDes.innerText = cDesign;
+
+      const badgeNav = document.getElementById('badgeMediaAssetsCount');
+      if (badgeNav) badgeNav.innerText = products.length + ' Bộ Kit';
+
+      // Bộ lọc
+      const searchEl = document.getElementById('assetFilterSearch');
+      const q = (searchEl ? searchEl.value : '').trim().toUpperCase();
+
+      const brandEl = document.getElementById('assetFilterBrand');
+      const brandFilter = brandEl ? brandEl.value : 'ALL';
+
+      const catEl = document.getElementById('assetFilterCategory');
+      const catFilter = catEl ? catEl.value : 'ALL';
+
+      const typeEl = document.getElementById('assetFilterType');
+      const typeFilter = typeEl ? typeEl.value : 'ALL';
+
+      if (currentMediaAssetViewMode === 'kits') {
+        renderMediaKitsView(products, allAssets, q, brandFilter, catFilter, typeFilter);
+      } else {
+        renderMediaGalleryView(allAssets, q, brandFilter, catFilter, typeFilter);
+      }
+
+      safeLucideIcons();
+    }
+
+    // Render Chế độ 1: Bộ Kit theo từng mã sản phẩm
+    function renderMediaKitsView(products, allAssets, q, brandFilter, catFilter, typeFilter) {
+      const container = document.getElementById('mediaKitsContainer');
+      if (!container) return;
+
+      const filteredProds = products.filter(p => {
+        const code = (p.canonicalCode || '').toUpperCase();
+        const name = (p.name || '').toUpperCase();
+        const brand = (p.brand || '').toUpperCase();
+        const cat = (p.categoryName || '').toUpperCase();
+
+        const matchQ = !q || code.includes(q) || name.includes(q) || brand.includes(q) || cat.includes(q);
+        const matchBrand = brandFilter === 'ALL' || brand.includes(brandFilter.toUpperCase());
+        const matchCat = catFilter === 'ALL' || cat.includes(catFilter.toUpperCase());
+
+        return matchQ && matchBrand && matchCat;
+      });
+
+      if (filteredProds.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-400">
+            <i data-lucide="folder-search" class="w-12 h-12 mx-auto text-slate-300 mb-2"></i>
+            <div class="font-bold text-slate-600">Không tìm thấy bộ kit sản phẩm nào</div>
+            <div class="text-xs mt-1">Vui lòng thử đổi từ khóa tìm kiếm hoặc chọn danh mục khác</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filteredProds.map(p => {
+        const code = p.canonicalCode;
+        const brand = p.brand || 'Lock&King';
+        const name = p.name || code;
+        const cat = p.categoryName || 'GIA DỤNG';
+        const mainImg = p.image || ('images/' + code + '.png');
+
+        // Lấy toàn bộ tư liệu gắn với mã này
+        let prodAssets = allAssets.filter(a => a.productCode === code);
+        if (typeFilter !== 'ALL') {
+          prodAssets = prodAssets.filter(a => a.type === typeFilter);
+        }
+
+        const packCount = prodAssets.filter(a => a.type === 'PACKSHOT').length;
+        const lifeCount = prodAssets.filter(a => a.type === 'LIFESTYLE').length;
+        const vidCount = prodAssets.filter(a => a.type === 'VIDEO').length;
+        const driveItem = prodAssets.find(a => a.type === 'DRIVE');
+
+        const driveUrl = driveItem ? driveItem.url : ('https://drive.google.com/drive/folders/lock-king-' + code.toLowerCase());
+
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 hover:shadow-md transition">
+            <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+              
+              <!-- INFO SẢN PHẨM -->
+              <div class="flex items-center gap-3.5 min-w-[280px]">
+                <div class="w-16 h-16 rounded-xl bg-slate-50 border border-slate-200 p-1 flex items-center justify-center shrink-0 cursor-pointer overflow-hidden group"
+                     onclick="openMediaLightbox('${mainImg}', 'PACKSHOT', '${code}', '${escapeHtml(name)}')">
+                  <img src="${mainImg}" alt="${code}" class="w-full h-full object-contain group-hover:scale-105 transition" onerror="this.src='images/LK-2606A.png'">
+                </div>
+
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-mono font-black text-xs px-2 py-0.5 rounded bg-slate-900 text-white shadow-sm">${code}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded ${brand === 'Lock&King' ? 'bg-sky-100 text-sky-800' : 'bg-orange-100 text-orange-800'}">${brand}</span>
+                    <span class="text-[10px] font-semibold text-slate-500">${cat}</span>
+                  </div>
+                  <h3 class="font-bold text-slate-900 text-xs mt-1 leading-snug">${escapeHtml(name)}</h3>
+                  
+                  <!-- Tag số lượng tư liệu -->
+                  <div class="flex items-center gap-1.5 mt-2 flex-wrap text-[10px]">
+                    <span class="px-2 py-0.5 rounded-full font-bold bg-blue-50 text-blue-700 border border-blue-200">📸 ${packCount} Nền trắng</span>
+                    <span class="px-2 py-0.5 rounded-full font-bold bg-amber-50 text-amber-700 border border-amber-200">🍳 ${lifeCount} Decor</span>
+                    <span class="px-2 py-0.5 rounded-full font-bold bg-rose-50 text-rose-700 border border-rose-200">🎬 ${vidCount} Video</span>
+                    <span class="px-2 py-0.5 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">📁 Google Drive Gốc</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- THUMBNAILS TƯ LIỆU TRONG KIT -->
+              <div class="flex-1 overflow-x-auto w-full py-1">
+                <div class="flex items-center gap-2">
+                  ${prodAssets.slice(0, 5).map(a => {
+                    const isVid = a.type === 'VIDEO';
+                    const isDrive = a.type === 'DRIVE';
+                    const typeInfo = getAssetTypeInfo(a.type);
+                    const thumbSrc = isVid ? 'images/LK-2606A.png' : (a.url.startsWith('http') ? mainImg : a.url);
+
+                    return `
+                      <div class="relative w-12 h-12 rounded-lg border border-slate-200 bg-slate-50 p-0.5 shrink-0 cursor-pointer overflow-hidden group hover:border-emerald-500 transition"
+                           onclick="openMediaLightbox('${a.url}', '${a.type}', '${code}', '${escapeHtml(a.title)}')"
+                           title="${escapeHtml(a.title)}">
+                        <img src="${thumbSrc}" class="w-full h-full object-contain" onerror="this.src='images/LK-2606A.png'">
+                        ${isVid ? '<div class="absolute inset-0 bg-slate-900/40 flex items-center justify-center"><i data-lucide="play" class="w-3.5 h-3.5 text-white"></i></div>' : ''}
+                        ${isDrive ? '<div class="absolute inset-0 bg-sky-900/60 flex items-center justify-center"><i data-lucide="folder" class="w-3.5 h-3.5 text-white"></i></div>' : ''}
+                      </div>
+                    `;
+                  }).join('')}
+
+                  ${prodAssets.length > 5 ? `
+                    <div onclick="openProductKitModal('${code}')" class="w-12 h-12 rounded-lg border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-[10px] font-bold text-slate-500 shrink-0 cursor-pointer hover:bg-slate-100 transition">
+                      +${prodAssets.length - 5}
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+
+              <!-- NÚT THAO TÁC SALE & ĐẠI LÝ -->
+              <div class="flex items-center gap-2 w-full lg:w-auto justify-end border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-100 flex-wrap">
+                <!-- NÚT COPY ZALO KIT (1-CLICK) -->
+                <button onclick="previewAndCopyZaloKit('${code}')" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+                  <i data-lucide="message-square" class="w-3.5 h-3.5 text-blue-600"></i> Gửi Kit Zalo
+                </button>
+
+                <!-- NÚT MỞ GOOGLE DRIVE HOẶC TẢI ẢNH GỐC -->
+                <a href="${escapeHtml(driveUrl)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold flex items-center gap-1.5 transition">
+                  <i data-lucide="download" class="w-3.5 h-3.5 text-slate-600"></i> Tải File Gốc
+                </a>
+
+                <!-- NÚT THÊM TƯ LIỆU VÀO MÃ NÀY -->
+                <button onclick="openMediaAssetModal('${code}')" title="Thêm ảnh/video mới cho mã ${code}" class="p-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-bold transition">
+                  <i data-lucide="plus" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Chế độ 2: Thư Viện Lưới Ảnh & Video
+    function renderMediaGalleryView(allAssets, q, brandFilter, catFilter, typeFilter) {
+      const container = document.getElementById('mediaGalleryContainer');
+      if (!container) return;
+
+      const filtered = allAssets.filter(a => {
+        const title = (a.title || '').toUpperCase();
+        const code = (a.productCode || '').toUpperCase();
+        const brand = (a.brand || '').toUpperCase();
+        const cat = (a.category || '').toUpperCase();
+        const tags = (a.tags || []).join(' ').toUpperCase();
+
+        const matchQ = !q || title.includes(q) || code.includes(q) || brand.includes(q) || cat.includes(q) || tags.includes(q);
+        const matchBrand = brandFilter === 'ALL' || brand.includes(brandFilter.toUpperCase());
+        const matchCat = catFilter === 'ALL' || cat.includes(catFilter.toUpperCase());
+        const matchType = typeFilter === 'ALL' || a.type === typeFilter;
+
+        return matchQ && matchBrand && matchCat && matchType;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full bg-white rounded-xl border border-slate-200 p-12 text-center text-slate-400">
+            <i data-lucide="image-off" class="w-12 h-12 mx-auto text-slate-300 mb-2"></i>
+            <div class="font-bold text-slate-600">Không tìm thấy tư liệu nào phù hợp</div>
+            <div class="text-xs mt-1">Thử đổi điều kiện lọc hoặc từ khóa tìm kiếm</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(a => {
+        const typeInfo = getAssetTypeInfo(a.type);
+        const isVid = a.type === 'VIDEO';
+        const isDrive = a.type === 'DRIVE';
+        const thumbSrc = isVid ? 'images/LK-2606A.png' : (a.url.startsWith('http') ? 'images/' + a.productCode + '.png' : a.url);
+
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col group">
+            <!-- Media thumbnail -->
+            <div class="relative w-full aspect-square bg-slate-50 p-2 flex items-center justify-center cursor-pointer overflow-hidden"
+                 onclick="openMediaLightbox('${a.url}', '${a.type}', '${a.productCode}', '${escapeHtml(a.title)}')">
+              <img src="${thumbSrc}" alt="${escapeHtml(a.title)}" class="w-full h-full object-contain group-hover:scale-105 transition" onerror="this.src='images/LK-2606A.png'">
+              
+              <span class="absolute top-2 left-2 text-[9px] font-extrabold px-1.5 py-0.5 rounded ${typeInfo.badgeClass}">
+                ${typeInfo.label}
+              </span>
+
+              ${isVid ? '<div class="absolute inset-0 bg-slate-950/30 flex items-center justify-center"><div class="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg"><i data-lucide="play" class="w-4 h-4 ml-0.5"></i></div></div>' : ''}
+              ${isDrive ? '<div class="absolute inset-0 bg-sky-950/30 flex items-center justify-center"><div class="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center shadow-lg"><i data-lucide="folder" class="w-4 h-4"></i></div></div>' : ''}
+            </div>
+
+            <!-- Content -->
+            <div class="p-2.5 flex-1 flex flex-col justify-between text-xs">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="font-mono font-bold text-sky-800 text-[10px] bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">${a.productCode}</span>
+                  <span class="text-[9px] text-slate-400">${a.brand || ''}</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-[11px] mt-1 line-clamp-2 leading-snug" title="${escapeHtml(a.title)}">${escapeHtml(a.title)}</h4>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex items-center justify-between gap-1 mt-2.5 pt-2 border-t border-slate-100">
+                <button onclick="copyDirectAssetUrl('${a.url}')" title="Sao chép đường dẫn" class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition">
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="openMediaLightbox('${a.url}', '${a.type}', '${a.productCode}', '${escapeHtml(a.title)}')" title="Xem phóng to" class="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded text-[10px] font-bold flex items-center gap-1 transition">
+                  <i data-lucide="eye" class="w-3 h-3"></i> Xem
+                </button>
+                <button onclick="deleteMediaAsset('${a.id}')" title="Xóa tư liệu này" class="p-1 text-rose-400 hover:text-rose-700 hover:bg-rose-50 rounded transition">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // LIGHTBOX
+    function openMediaLightbox(url, type, code, title) {
+      currentLightboxItem = { url, type, code, title };
+      const modal = document.getElementById('modalMediaLightbox');
+      const badge = document.getElementById('lightboxTypeBadge');
+      const elTitle = document.getElementById('lightboxTitle');
+      const elCode = document.getElementById('lightboxProductCode');
+      const elContent = document.getElementById('lightboxMediaContent');
+
+      if (!modal) return;
+
+      const typeInfo = getAssetTypeInfo(type);
+      badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded ' + typeInfo.badgeClass;
+      badge.innerText = typeInfo.label;
+      elTitle.innerText = title;
+      elCode.innerText = code;
+
+      if (type === 'VIDEO') {
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+          const ytId = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
+          elContent.innerHTML = `<iframe class="w-full aspect-video max-w-2xl rounded-xl shadow-lg" src="https://www.youtube.com/embed/${ytId}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        } else {
+          elContent.innerHTML = `
+            <div class="text-center text-slate-300 p-8">
+              <i data-lucide="video" class="w-16 h-16 mx-auto text-rose-500 mb-3"></i>
+              <div class="font-bold text-base text-white">${escapeHtml(title)}</div>
+              <p class="text-xs text-slate-400 mt-1 mb-4">Video được lưu trữ trên nền tảng mạng xã hội hoặc Google Drive</p>
+              <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl shadow-lg transition">
+                <i data-lucide="external-link" class="w-4 h-4"></i> Mở Xem Video Trực Tiếp
+              </a>
+            </div>
+          `;
+        }
+      } else if (type === 'DRIVE') {
+        elContent.innerHTML = `
+          <div class="text-center text-slate-300 p-8">
+            <i data-lucide="folder-archive" class="w-16 h-16 mx-auto text-sky-400 mb-3"></i>
+            <div class="font-bold text-base text-white">Thư Mục Google Drive Lưu Trữ Ảnh RAW & Video Gốc</div>
+            <p class="text-xs text-slate-400 mt-1 mb-4">Tập hợp toàn bộ file gốc độ phân giải cao phục vụ thiết kế ấn phẩm</p>
+            <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl shadow-lg transition">
+              <i data-lucide="external-link" class="w-4 h-4"></i> Mở Thư Mục Google Drive
+            </a>
+          </div>
+        `;
+      } else {
+        // IMAGE
+        elContent.innerHTML = `<img src="${url}" alt="${escapeHtml(title)}" class="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl" onerror="this.src='images/LK-2606A.png'">`;
+      }
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closeMediaLightbox() {
+      const modal = document.getElementById('modalMediaLightbox');
+      if (modal) modal.classList.add('hidden');
+      const elContent = document.getElementById('lightboxMediaContent');
+      if (elContent) elContent.innerHTML = '';
+      currentLightboxItem = null;
+    }
+
+    function copyLightboxUrl() {
+      if (!currentLightboxItem) return;
+      copyDirectAssetUrl(currentLightboxItem.url);
+    }
+
+    function downloadLightboxMedia() {
+      if (!currentLightboxItem) return;
+      const url = currentLightboxItem.url;
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (currentLightboxItem.code || 'media') + '_' + Date.now();
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('Đang tải tư liệu về máy...', true);
+    }
+
+    function copyDirectAssetUrl(url) {
+      const fullUrl = url.startsWith('http') ? url : (window.location.origin + '/' + url);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(fullUrl).then(() => {
+          showToast('Đã sao chép đường dẫn tư liệu!', true);
+        });
+      } else {
+        const input = document.createElement('input');
+        input.value = fullUrl;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        showToast('Đã sao chép đường dẫn tư liệu!', true);
+      }
+    }
+
+    // FORM ADD / EDIT MEDIA ASSET
+    function openMediaAssetModal(presetCode = null) {
+      const modal = document.getElementById('modalMediaAssetForm');
+      const form = document.getElementById('formMediaAsset');
+      const selCode = document.getElementById('assetFormProductCode');
+
+      if (!modal) return;
+      form.reset();
+
+      // Nạp 65 mã sản phẩm vào dropdown
+      const db = getDB();
+      const prods = db.products || [];
+      selCode.innerHTML = prods.map(p => `<option value="${p.canonicalCode}">${p.canonicalCode} - ${p.name}</option>`).join('');
+
+      if (presetCode) {
+        selCode.value = presetCode;
+      }
+
+      document.getElementById('assetFormId').value = '';
+      document.getElementById('modalAssetFormTitle').innerText = 'Thêm Tư Liệu Mới Vào Kho';
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closeMediaAssetModal() {
+      const modal = document.getElementById('modalMediaAssetForm');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function saveMediaAssetForm(e) {
+      if (e) e.preventDefault();
+
+      const id = document.getElementById('assetFormId').value.trim();
+      const productCode = document.getElementById('assetFormProductCode').value;
+      const type = document.getElementById('assetFormType').value;
+      const title = document.getElementById('assetFormTitle').value.trim();
+      const url = document.getElementById('assetFormUrl').value.trim();
+      const tagsStr = document.getElementById('assetFormTags').value.trim();
+      const note = document.getElementById('assetFormNote').value.trim();
+
+      if (!productCode || !title || !url) {
+        showToast('Vui lòng nhập đầy đủ mã hàng, tiêu đề và đường dẫn file!', false);
+        return;
+      }
+
+      const db = getDB();
+      const prod = (db.products || []).find(p => p.canonicalCode === productCode);
+      const brand = prod ? prod.brand : 'Lock&King';
+      const cat = prod ? prod.categoryName : 'GIA DỤNG';
+      const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()) : [brand, cat];
+
+      const allAssets = getMediaAssetsDB();
+
+      if (id) {
+        const idx = allAssets.findIndex(a => a.id === id);
+        if (idx !== -1) {
+          allAssets[idx] = {
+            ...allAssets[idx],
+            productCode,
+            type,
+            title,
+            url,
+            tags,
+            note
+          };
+          showToast('Đã cập nhật tư liệu thành công!', true);
+        }
+      } else {
+        const newAsset = {
+          id: 'ASSET-' + Date.now().toString(36).toUpperCase(),
+          productCode,
+          productName: prod ? prod.name : productCode,
+          brand,
+          category: cat,
+          type,
+          title,
+          url,
+          tags,
+          note,
+          date: new Date().toISOString().slice(0, 10)
+        };
+        allAssets.unshift(newAsset);
+        showToast('Đã thêm tư liệu mới vào kho!', true);
+      }
+
+      saveMediaAssetsDB(allAssets);
+      closeMediaAssetModal();
+      renderMediaAssetsTab();
+    }
+
+    function deleteMediaAsset(assetId) {
+      if (!confirm('Bạn có chắc chắn muốn xóa tư liệu này khỏi kho không?')) return;
+
+      let allAssets = getMediaAssetsDB();
+      allAssets = allAssets.filter(a => a.id !== assetId);
+      saveMediaAssetsDB(allAssets);
+      showToast('Đã xóa tư liệu khỏi kho!', true);
+      renderMediaAssetsTab();
+    }
+
+    // ZALO KIT PREVIEW & 1-CLICK COPY
+    function previewAndCopyZaloKit(code) {
+      const db = getDB();
+      const prod = (db.products || []).find(p => p.canonicalCode === code);
+      if (!prod) return;
+
+      const allAssets = getMediaAssetsDB();
+      const assets = allAssets.filter(a => a.productCode === code);
+
+      const packAssets = assets.filter(a => a.type === 'PACKSHOT');
+      const lifeAssets = assets.filter(a => a.type === 'LIFESTYLE');
+      const vidAssets = assets.filter(a => a.type === 'VIDEO');
+      const driveAsset = assets.find(a => a.type === 'DRIVE');
+
+      const origin = window.location.origin;
+
+      let text = `📢 BỘ KIT TƯ LIỆU BÁN HÀNG CHÍNH HÃNG VŨ GIA\n`;
+      text += `⭐ SẢN PHẨM: ${prod.name}\n`;
+      text += `🏷️ MÃ HÀNG: ${prod.canonicalCode} | HÃNG: ${prod.brand || 'Lock&King'}\n`;
+      text += `📦 QUY CÁCH: ${prod.specification || 'Thùng tiêu chuẩn'}\n`;
+      text += `------------------------------------\n`;
+      text += `📸 ẢNH PACKSHOT NỀN TRẮNG ĐĂNG SÀN TMĐT:\n`;
+      if (packAssets.length > 0) {
+        packAssets.slice(0, 2).forEach((a, i) => {
+          text += `  - Ảnh ${i + 1}: ${a.url.startsWith('http') ? a.url : (origin + '/' + a.url)}\n`;
+        });
+      } else {
+        text += `  - Ảnh: ${origin + '/' + (prod.image || 'images/' + code + '.png')}\n`;
+      }
+
+      if (lifeAssets.length > 0) {
+        text += `🍳 ẢNH DECOR MÓN ĂN & BẾP ĐĂNG BÀI FACEBOOK:\n`;
+        lifeAssets.slice(0, 2).forEach((a, i) => {
+          text += `  - Món ăn ${i + 1}: ${a.url.startsWith('http') ? a.url : (origin + '/' + a.url)}\n`;
+        });
+      }
+
+      if (vidAssets.length > 0) {
+        text += `🎬 VIDEO REVIEW GỐC (TIKTOK / REELS / SHORTS):\n`;
+        vidAssets.forEach(v => {
+          text += `  - ${v.title}: ${v.url}\n`;
+        });
+      }
+
+      text += `📁 LINK GOOGLE DRIVE TẢI TRỌN BỘ FILE GỐC SIÊU NÉT:\n`;
+      text += `👉 ${driveAsset ? driveAsset.url : 'https://drive.google.com/drive/folders/lock-king-' + code.toLowerCase()}\n`;
+      text += `------------------------------------\n`;
+      text += `💡 Đề nghị Quý Đại lý sử dụng đúng hình ảnh và thông số để bảo đảm uy tín thương hiệu.`;
+
+      const modal = document.getElementById('modalZaloKitPreview');
+      const ta = document.getElementById('zaloKitTextContent');
+      if (ta) ta.value = text;
+      if (modal) modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closeZaloKitModal() {
+      const modal = document.getElementById('modalZaloKitPreview');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function executeCopyZaloKit() {
+      const ta = document.getElementById('zaloKitTextContent');
+      if (!ta) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ta.value).then(() => {
+          showToast('Đã sao chép trọn bộ Kit Zalo thành công!', true);
+          closeZaloKitModal();
+        });
+      } else {
+        ta.select();
+        document.execCommand('copy');
+        showToast('Đã sao chép trọn bộ Kit Zalo thành công!', true);
+        closeZaloKitModal();
+      }
+    }
+
+    function downloadAllAssetsGuide() {
+      const a = document.createElement('a');
+      a.href = 'bang_gia_chuan_lock_and_king_takin.xlsx';
+      a.download = 'Catalogue_Bang_Gia_Chuan_Lock_King_Takin.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('Đang tải file Catalogue & Bảng giá chuẩn 65 mã...', true);
+    }
+
+    
     // ==========================================
     // PHÂN HỆ QUẢN LÝ KÊNH ĐỐI TÁC & THƯ VIỆN MEDIA (PARTNERS & MEDIA HUB)
     // ==========================================
