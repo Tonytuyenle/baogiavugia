@@ -333,7 +333,7 @@
         <button onclick="navigateTab('partners-media')" id="nav-partners-media" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
           <i data-lucide="video" class="w-4 h-4 text-pink-400"></i>
           <span class="flex-1 text-left">Shop Đối Tác & Media</span>
-          <span id="badgePartnersMediaCount" class="text-[9px] bg-pink-950/80 text-pink-300 border border-pink-700 px-1.5 py-0.5 rounded font-bold">10 Shop</span>
+          <span id="badgePartnersMediaCount" class="text-[9px] bg-pink-950/80 text-pink-300 border border-pink-700 px-1.5 py-0.5 rounded font-bold">4 Shop</span>
         </button>
 
         <button onclick="openCatalogPdfModal()" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-rose-300 hover:bg-rose-950/60 hover:text-white transition">
@@ -11956,6 +11956,7 @@ window.addEventListener('DOMContentLoaded', () => {
       switchRole('ADMIN');
       navigateTab('dashboard');
       setProductViewMode(currentProductViewMode);
+      if (typeof renderPartnersMedia === 'function') renderPartnersMedia(); // Sync partner media count
 
       window.addEventListener('resize', () => {
         try {
@@ -15180,104 +15181,13 @@ ${camp.rule}
     // ==========================================
     // PHÂN HỆ QUẢN LÝ KÊNH ĐỐI TÁC & THƯ VIỆN MEDIA (PARTNERS & MEDIA HUB)
     // ==========================================
-    const STORAGE_KEY_PARTNERS_MEDIA = 'LOCK_KING_PARTNERS_MEDIA_v2';
+    const STORAGE_KEY_PARTNERS_MEDIA = 'LOCK_KING_PARTNERS_MEDIA_v4';
     let currentPartnerMediaViewMode = 'grid'; // 'grid' | 'table'
 
     const seedPartnersMedia = [
       {
         id: 'PM-001',
-        shopName: 'Gia Dụng Bếp Việt Official',
-        platform: 'TIKTOK',
-        type: 'VIDEO_REVIEW',
-        title: 'Video Review Chảo cạn Titan Lock&King LK-2606A rán trứng không dính',
-        url: 'https://www.tiktok.com/@giadungbepviet/video/7382910482',
-        thumbnail: 'images/LK-2606A.png',
-        productCode: 'LK-2606A',
-        price: 385000,
-        metrics: '420K view - 15K tim - 180 đơn',
-        staff: 'Sale Online Vũ Gia',
-        status: 'ACTIVE',
-        note: 'Video viral cực tốt, chốt đơn đều hàng ngày'
-      },
-      {
-        id: 'PM-002',
-        shopName: 'Vũ Gia Kitchen Mall',
-        platform: 'SHOPEE',
-        type: 'SHOP_PROFILE',
-        title: 'Gian Hàng Shopee Mall Phân Phối Chính Hãng Bộ Nồi Inox 5 Đáy LK-3386A',
-        url: 'https://shopee.vn/product/12984920/83749281',
-        thumbnail: 'images/LK-3386A.png',
-        productCode: 'LK-3386A',
-        price: 540000,
-        metrics: 'Đã bán 1.4K bộ - Đánh giá 4.9/5',
-        staff: 'Sale Online Team 2',
-        status: 'ACTIVE',
-        note: 'Đối tác lớn top ngành hàng gia dụng Shopee'
-      },
-      {
-        id: 'PM-003',
-        shopName: 'Yêu Bếp & Nghiện Nhà',
-        platform: 'FACEBOOK',
-        type: 'VIDEO_REVIEW',
-        title: 'Video Reels Hầm Cháo Chim Câu Bằng Nồi Nấu Chậm Lock&King LK-4209',
-        url: 'https://www.facebook.com/reel/9284719284',
-        thumbnail: 'images/LK-4209.png',
-        productCode: 'LK-4209',
-        price: 450000,
-        metrics: '185K view - 3.2K like - 95 đơn',
-        staff: 'Sale Online FB',
-        status: 'ACTIVE',
-        note: 'Nội dung gia đình ấm cúng, tỷ lệ chuyển đổi cao'
-      },
-      {
-        id: 'PM-004',
-        shopName: 'Tổng Kho Sỉ Gia Dụng Miền Bắc',
-        platform: 'TIKTOK',
-        type: 'LIVESTREAM',
-        title: 'Phiên Livestream Xả Kho Đèn Sưởi Nhà Tắm Takin TK-1003 Đón Mùa Đông',
-        url: 'https://www.tiktok.com/@tongkhogiadung/live',
-        thumbnail: 'images/TK-1003.png',
-        productCode: 'TK-1003',
-        price: 280000,
-        metrics: '150 đơn/phiên - 2.8K mắt xem',
-        staff: 'Sale Offline Kênh Sỉ',
-        status: 'ACTIVE',
-        note: 'Đang đẩy mạnh bán đèn sưởi vụ đông'
-      },
-      {
-        id: 'PM-005',
-        shopName: 'Điện Máy Gia Đình Hưng Yên',
-        platform: 'SHOPEE',
-        type: 'SHOP_PROFILE',
-        title: 'Link Sản Phẩm Chảo Cạn Titan Takin TK-2201 Shop Yêu Thích',
-        url: 'https://shopee.vn/product/8291048/19284729',
-        thumbnail: 'images/TK-2201.png',
-        productCode: 'TK-2201',
-        price: 320000,
-        metrics: '850 đánh giá 5 sao - Đã bán 2.1K cái',
-        staff: 'Sale Đại Lý Hưng Yên',
-        status: 'ACTIVE',
-        note: 'Khách hàng trung thành lấy sỉ định kỳ'
-      },
-      {
-        id: 'PM-006',
-        shopName: 'Đại Lý Gia Dụng Kim Ngân (Bắc Giang)',
-        platform: 'FACEBOOK',
-        type: 'IMAGE_FEEDBACK',
-        title: 'Bộ Ảnh Khai Trương Quầy Kệ Trưng Bày Hàng Lock&King & Takin Chuẩn Hãng',
-        url: 'https://www.facebook.com/dailygiadungkimngan/posts/1029384729',
-        thumbnail: 'images/LK-3122.png',
-        productCode: 'LK-3122',
-        price: 738000,
-        metrics: '1.2K like - 80 bình luận mua hàng',
-        staff: 'Sale Offline Bắc Giang',
-        status: 'ACTIVE',
-        note: 'Đại lý mới được công ty tài trợ kệ và biển bảng'
-      }
-    ,
-      {
-        id: 'PM-007',
-        shopName: 'NPP Hồng Hà (Hà Nguyễn Shops)',
+        shopName: 'NPP Hồng Hà (Hà Nguyên Shops)',
         platform: 'FACEBOOK',
         type: 'SHOP_PROFILE',
         title: 'Trang Facebook NPP Hồng Hà - Đại Lý Phân Phối Đồ Gia Dụng',
@@ -15291,7 +15201,7 @@ ${camp.rule}
         note: 'Đối tác phân phối sỉ Lock&King, kênh Facebook & bán buôn'
       },
       {
-        id: 'PM-008',
+        id: 'PM-002',
         shopName: 'NPP Nhàn (Nhàn Béo VIP)',
         platform: 'FACEBOOK',
         type: 'SHOP_PROFILE',
@@ -15306,7 +15216,7 @@ ${camp.rule}
         note: 'Đối tác phân phối sỉ & livestream bán hàng gia dụng'
       },
       {
-        id: 'PM-009',
+        id: 'PM-003',
         shopName: 'NPP Vinko (Glasslock Mart)',
         platform: 'FACEBOOK',
         type: 'SHOP_PROFILE',
@@ -15321,7 +15231,7 @@ ${camp.rule}
         note: 'NPP chuyên đồ gia dụng nhà bếp Lock&King & Glasslock cao cấp'
       },
       {
-        id: 'PM-010',
+        id: 'PM-004',
         shopName: 'NPP Tân Elo (Yến Hàng Đức Elo Đức)',
         platform: 'FACEBOOK',
         type: 'SHOP_PROFILE',
@@ -15339,13 +15249,35 @@ ${camp.rule}
 
     function getPartnersMediaDB() {
       try {
+        const deletedShopNames = [
+          'Gia Dụng Bếp Việt Official',
+          'Vũ Gia Kitchen Mall',
+          'Yêu Bếp & Nghiện Nhà',
+          'Tổng Kho Sỉ Gia Dụng Miền Bắc',
+          'Điện Máy Gia Đình Hưng Yên',
+          'Đại Lý Gia Dụng Kim Ngân (Bắc Giang)'
+        ];
+
+        // Tự động giải phóng các phiên bản cache cũ
+        try {
+          ['LOCK_KING_PARTNERS_MEDIA', 'LOCK_KING_PARTNERS_MEDIA_v1', 'LOCK_KING_PARTNERS_MEDIA_v2', 'LOCK_KING_PARTNERS_MEDIA_v3'].forEach(k => localStorage.removeItem(k));
+        } catch (e) {}
+
         const stored = localStorage.getItem(STORAGE_KEY_PARTNERS_MEDIA);
         if (!stored) {
           localStorage.setItem(STORAGE_KEY_PARTNERS_MEDIA, JSON.stringify(seedPartnersMedia));
           return JSON.parse(JSON.stringify(seedPartnersMedia));
         }
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        let parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Luôn lọc bỏ 6 shop đã bị xóa nếu còn sót lại từ bộ nhớ trình duyệt
+          parsed = parsed.filter(item => !deletedShopNames.includes(item.shopName));
+          if (parsed.length === 0) {
+            parsed = JSON.parse(JSON.stringify(seedPartnersMedia));
+          }
+          localStorage.setItem(STORAGE_KEY_PARTNERS_MEDIA, JSON.stringify(parsed));
+          return parsed;
+        }
         localStorage.setItem(STORAGE_KEY_PARTNERS_MEDIA, JSON.stringify(seedPartnersMedia));
         return JSON.parse(JSON.stringify(seedPartnersMedia));
       } catch (e) {
@@ -16232,7 +16164,7 @@ ${item.url}
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Tên Shop / Kênh Đối Tác <span class="text-rose-500">*</span></label>
-            <input type="text" id="pmFormShopName" required placeholder="VD: Gia Dụng Bếp Việt Official" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-bold text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+            <input type="text" id="pmFormShopName" required placeholder="VD: NPP Hồng Hà (Hà Nguyên Shops)" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-bold text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
           </div>
 
           <div>
@@ -16243,7 +16175,7 @@ ${item.url}
 
         <div>
           <label class="block font-bold text-slate-700 mb-1">Tiêu Đề / Tóm Tắt Nội Dung <span class="text-rose-500">*</span></label>
-          <input type="text" id="pmFormTitle" required placeholder="VD: Video review Chảo cạn Titan LK-2606A rán trứng không dầu 400k view" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+          <input type="text" id="pmFormTitle" required placeholder="VD: Trang Facebook NPP Hồng Hà - Đại Lý Phân Phối Đồ Gia Dụng" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
