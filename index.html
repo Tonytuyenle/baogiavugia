@@ -234,35 +234,38 @@
           <span class="text-[10px] bg-amber-950/80 text-amber-300 border border-amber-800 px-1.5 py-0.5 rounded font-bold">10</span>
         </button>
 
-        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1 mt-3">Quản Trị Giá & Đối Chiếu</div>
+        <!-- ẨN PHẦN QUẢN TRỊ GIÁ & ĐỐI CHIẾU VÀ BÁO GIÁ & KHÁCH HÀNG THEO YÊU CẦU -->
+        <div class="hidden">
+          <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1 mt-3">Quản Trị Giá & Đối Chiếu</div>
 
-        <button onclick="navigateTab('prices')" id="nav-prices" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
-          <i data-lucide="tags" class="w-4 h-4 text-indigo-400"></i>
-          <span>So Sánh Tầng Giá & % LN</span>
-        </button>
+          <button onclick="navigateTab('prices')" id="nav-prices" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="tags" class="w-4 h-4 text-indigo-400"></i>
+            <span>So Sánh Tầng Giá & % LN</span>
+          </button>
 
-        <button onclick="navigateTab('import')" id="nav-import" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
-          <i data-lucide="file-spreadsheet" class="w-4 h-4 text-purple-400"></i>
-          <span class="flex-1 text-left">Nhập Giá Từ Excel</span>
-        </button>
+          <button onclick="navigateTab('import')" id="nav-import" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="file-spreadsheet" class="w-4 h-4 text-purple-400"></i>
+            <span class="flex-1 text-left">Nhập Giá Từ Excel</span>
+          </button>
 
-        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1 mt-3">Báo Giá & Khách Hàng</div>
+          <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1 mt-3">Báo Giá & Khách Hàng</div>
 
-        <button onclick="navigateTab('customers')" id="nav-customers" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
-          <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
-          <span>Đại Lý Online & Offline</span>
-        </button>
+          <button onclick="navigateTab('customers')" id="nav-customers" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
+            <span>Đại Lý Online & Offline</span>
+          </button>
 
-        <button onclick="navigateTab('new-quote')" id="nav-new-quote" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
-          <i data-lucide="file-plus-2" class="w-4 h-4 text-teal-400"></i>
-          <span>Tạo Báo Giá Mới</span>
-        </button>
+          <button onclick="navigateTab('new-quote')" id="nav-new-quote" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="file-plus-2" class="w-4 h-4 text-teal-400"></i>
+            <span>Tạo Báo Giá Mới</span>
+          </button>
 
-        <button onclick="navigateTab('quotations')" id="nav-quotations" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
-          <i data-lucide="history" class="w-4 h-4 text-pink-400"></i>
-          <span class="flex-1 text-left">Lịch Sử Báo Giá</span>
-          <span id="badgeQuoteCount" class="text-[10px] bg-slate-800 text-pink-400 px-2 py-0.5 rounded-full font-bold">1</span>
-        </button>
+          <button onclick="navigateTab('quotations')" id="nav-quotations" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+            <i data-lucide="history" class="w-4 h-4 text-pink-400"></i>
+            <span class="flex-1 text-left">Lịch Sử Báo Giá</span>
+            <span id="badgeQuoteCount" class="text-[10px] bg-slate-800 text-pink-400 px-2 py-0.5 rounded-full font-bold">1</span>
+          </button>
+        </div>
 
         <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-1 mt-3">Hệ Thống</div>
 
