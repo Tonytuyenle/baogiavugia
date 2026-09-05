@@ -11482,14 +11482,28 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // ==========================================
+        // ==========================================
     // PHÂN HỆ QUẢN LÝ CHƯƠNG TRÌNH CÔNG TY (CAMPAIGNS)
     // ==========================================
-    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v1';
+    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v2';
     let currentCampaignViewMode = 'grid'; // 'grid' | 'table'
 
-    // Dữ liệu mẫu 5 chương trình thực tế đặc trưng của Vũ Gia
+    // Dữ liệu mẫu thực tế của Vũ Gia (bao gồm Chương trình phủ điểm bán Lock&King tháng 9/2026)
     const seedCampaigns = [
+      {
+        id: 'CT-2026-T9-GT',
+        code: 'CT-2026-T9-GT',
+        name: '📢 CHƯƠNG TRÌNH PHỦ ĐIỂM BÁN KÊNH GT THÁNG 09/2026 – LOCK&KING',
+        type: 'TIER_DISCOUNT',
+        channel: 'OFFLINE',
+        target: 'NPP Bắc Giang (CK 12%), NPP Nghệ An, Ninh Bình, Cao Bằng (CK 10%)',
+        startDate: '2026-09-01',
+        endDate: '2026-09-30',
+        products: 'Danh mục Lock&King (Trừ Nồi chiên 9.2L & các mã hết hàng)',
+        rule: 'Kính gửi Phòng Kinh doanh và Quý Nhà phân phối,\nNhằm hỗ trợ phát triển và phủ mới điểm bán kênh GT, Công ty triển khai chương trình như sau:\n✅ NPP Nghệ An, Ninh Bình và Cao Bằng: Hỗ trợ chiết khấu 10% trên giá NPP hiện hành đối với hàng tồn kho thực tế.\n✅ NPP Bắc Giang: Do đã triển khai chương trình từ tháng 08/2026, Công ty tiếp tục giữ nguyên mức chiết khấu 12% trong tháng 09/2026.\n⏰ Thời gian áp dụng: Từ ngày 01/09/2026 đến hết ngày 30/09/2026.\n⚠️ Không áp dụng đối với nồi chiên không dầu dung tích 9,2 lít, các sản phẩm đang hết hàng và sản phẩm không thuộc danh mục được Công ty phê duyệt.\nĐề nghị Phòng Kinh doanh và các NPP phối hợp triển khai đúng điểm bán, tuân thủ chính sách giá và bảo đảm hiệu quả chương trình.',
+        statusOverride: 'AUTO',
+        note: 'Thông báo chính thức kênh GT tháng 09/2026'
+      },
       {
         id: 'CT-2026-T9-01',
         code: 'CT-2026-T9-01',
@@ -11569,8 +11583,15 @@ window.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(seedCampaigns));
           return JSON.parse(JSON.stringify(seedCampaigns));
         }
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        let parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Check if new GT campaign is present, if not unshift it
+          if (!parsed.some(c => c.id === 'CT-2026-T9-GT')) {
+            parsed.unshift(seedCampaigns[0]);
+            localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(parsed));
+          }
+          return parsed;
+        }
         localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(seedCampaigns));
         return JSON.parse(JSON.stringify(seedCampaigns));
       } catch (e) {
@@ -11600,7 +11621,7 @@ window.addEventListener('DOMContentLoaded', () => {
       if (camp.statusOverride === 'PAUSED') {
         return {
           code: 'PAUSED',
-          text: 'Tạm Ngưng',
+          text: 'Tạm Ngưng (Đã Tắt)',
           badgeClass: 'bg-slate-100 text-slate-700 border-slate-300',
           dotColor: 'bg-slate-400',
           subtext: 'Đã tạm dừng'
@@ -11645,12 +11666,108 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Tên phân loại chương trình
+    // BẬT / TẮT CHƯƠNG TRÌNH NHANH (TOGGLE ACTIVE / PAUSED)
+    function toggleCampaignStatus(id) {
+      const allCamps = getCampaignsDB();
+      const camp = allCamps.find(c => c.id === id);
+      if (!camp) return;
+
+      if (camp.statusOverride === 'PAUSED') {
+        camp.statusOverride = 'AUTO';
+        saveCampaignsDB(allCamps);
+        renderCampaigns();
+        showToast(`Đã kích hoạt lại chương trình: ${camp.name}!`);
+      } else {
+        camp.statusOverride = 'PAUSED';
+        saveCampaignsDB(allCamps);
+        renderCampaigns();
+        showToast(`Đã tắt/tạm ngưng chương trình: ${camp.name}!`);
+      }
+    }
+
+    // GIA HẠN CHƯƠNG TRÌNH (EXTEND DURATION)
+    function openExtendCampaignModal(id) {
+      const allCamps = getCampaignsDB();
+      const camp = allCamps.find(c => c.id === id);
+      if (!camp) return;
+
+      const modal = document.getElementById('campaignExtendModal');
+      if (!modal) return;
+
+      document.getElementById('extendCampId').value = camp.id;
+      document.getElementById('extendCampCode').innerText = camp.code;
+      document.getElementById('extendCampName').innerText = camp.name;
+      document.getElementById('extendCampCurrentEnd').innerText = camp.endDate || '';
+
+      // Gợi ý ngày kết thúc mới: +30 ngày từ ngày kết thúc hiện tại
+      let baseDate = new Date(camp.endDate);
+      if (isNaN(baseDate.getTime()) || baseDate < new Date()) {
+        baseDate = new Date();
+      }
+      baseDate.setDate(baseDate.getDate() + 30);
+      document.getElementById('extendNewEndDateInput').value = baseDate.toISOString().slice(0, 10);
+      document.getElementById('extendNoteInput').value = '';
+      document.getElementById('extendAutoResume').checked = true;
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closeCampaignExtendModal() {
+      const modal = document.getElementById('campaignExtendModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function setQuickExtendDate(days) {
+      const currentEndStr = document.getElementById('extendCampCurrentEnd').innerText.trim();
+      let baseDate = new Date(currentEndStr);
+      if (isNaN(baseDate.getTime()) || baseDate < new Date()) {
+        baseDate = new Date();
+      }
+      baseDate.setDate(baseDate.getDate() + days);
+      document.getElementById('extendNewEndDateInput').value = baseDate.toISOString().slice(0, 10);
+    }
+
+    function setMonthEndExtendDate(offsetMonths) {
+      const target = new Date();
+      target.setMonth(target.getMonth() + offsetMonths + 1, 0); // Ngày cuối cùng của tháng
+      document.getElementById('extendNewEndDateInput').value = target.toISOString().slice(0, 10);
+    }
+
+    function saveCampaignExtension() {
+      const id = document.getElementById('extendCampId').value;
+      const newEndDate = document.getElementById('extendNewEndDateInput').value;
+      const note = document.getElementById('extendNoteInput').value.trim();
+      const autoResume = document.getElementById('extendAutoResume').checked;
+
+      if (!newEndDate) {
+        alert('Vui lòng chọn ngày kết thúc mới!');
+        return;
+      }
+
+      const allCamps = getCampaignsDB();
+      const camp = allCamps.find(c => c.id === id);
+      if (!camp) return;
+
+      camp.endDate = newEndDate;
+      if (autoResume) {
+        camp.statusOverride = 'AUTO';
+      }
+      if (note) {
+        camp.note = (camp.note ? camp.note + ' | ' : '') + 'Gia hạn: ' + note;
+      }
+
+      saveCampaignsDB(allCamps);
+      closeCampaignExtendModal();
+      renderCampaigns();
+      showToast(`Đã gia hạn chương trình "${camp.code}" đến ngày ${newEndDate} thành công!`);
+    }
+
     function getCampaignTypeName(type) {
       switch (type) {
         case 'TRADE_PROMO': return '🎁 Khuyến mãi tặng hàng';
         case 'VOLUME_BONUS': return '🏆 Thưởng doanh số';
-        case 'TIER_DISCOUNT': return '💰 Chiết khấu giá trị';
+        case 'TIER_DISCOUNT': return '💰 Chiết khấu theo hạn mức / Kênh';
         case 'NEW_DEALER': return '🌟 Mở mới Đại lý';
         case 'COMBO': return '📦 Combo kích cầu';
         case 'EVENT': return '🎪 Sự kiện / Hội nghị';
@@ -11662,7 +11779,7 @@ window.addEventListener('DOMContentLoaded', () => {
       switch (type) {
         case 'TRADE_PROMO': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-purple-100 text-purple-800 border border-purple-200">🎁 Mua X Tặng Y</span>';
         case 'VOLUME_BONUS': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-amber-100 text-amber-800 border border-amber-200">🏆 Thưởng Doanh Số</span>';
-        case 'TIER_DISCOUNT': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">💰 Chiết Khấu Hạn Mức</span>';
+        case 'TIER_DISCOUNT': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">💰 Chiết Khấu Kênh</span>';
         case 'NEW_DEALER': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-sky-100 text-sky-800 border border-sky-200">🌟 Mở Mới Đại Lý</span>';
         case 'COMBO': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-orange-100 text-orange-800 border border-orange-200">📦 Combo Ưu Đãi</span>';
         case 'EVENT': return '<span class="px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">🎪 Sự Kiện Ra Mắt</span>';
@@ -11755,8 +11872,9 @@ window.addEventListener('DOMContentLoaded', () => {
         const code = (c.code || '').toUpperCase();
         const prods = (c.products || '').toUpperCase();
         const rule = (c.rule || '').toUpperCase();
+        const target = (c.target || '').toUpperCase();
 
-        const matchQ = !q || name.includes(q) || code.includes(q) || prods.includes(q) || rule.includes(q);
+        const matchQ = !q || name.includes(q) || code.includes(q) || prods.includes(q) || rule.includes(q) || target.includes(q);
 
         const st = getCampaignStatusInfo(c);
         let matchStatus = true;
@@ -11793,16 +11911,30 @@ window.addEventListener('DOMContentLoaded', () => {
             const st = getCampaignStatusInfo(c);
             const typeBadge = getCampaignTypeBadge(c.type);
             const channelBadge = getCampaignChannelBadge(c.channel);
+            const isPaused = (c.statusOverride === 'PAUSED');
+
+            // Nút Bật / Tắt trạng thái
+            const toggleBtn = isPaused 
+              ? `<button type="button" onclick="toggleCampaignStatus('${escapeHtml(c.id)}')" class="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded text-[11px] font-bold transition flex items-center gap-1" title="Kích hoạt lại chương trình">
+                   <i data-lucide="play" class="w-3 h-3 text-emerald-600"></i>
+                   <span>Bật Lại</span>
+                 </button>`
+              : `<button type="button" onclick="toggleCampaignStatus('${escapeHtml(c.id)}')" class="px-2 py-1 bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-700 border border-slate-200 rounded text-[11px] font-bold transition flex items-center gap-1" title="Tắt / Tạm ngưng chương trình">
+                   <i data-lucide="pause" class="w-3 h-3"></i>
+                   <span>Tắt CT</span>
+                 </button>`;
 
             return `
-              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-4 sm:p-5 flex flex-col justify-between space-y-3">
+              <div class="bg-white rounded-2xl border ${isPaused ? 'border-slate-300 bg-slate-50/50 opacity-90' : 'border-slate-200'} shadow-sm hover:shadow-md transition p-4 sm:p-5 flex flex-col justify-between space-y-3 relative">
                 <div class="space-y-2.5">
                   <div class="flex items-center justify-between gap-2 flex-wrap">
                     ${typeBadge}
-                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border ${st.badgeClass}">
-                      <span class="w-2 h-2 rounded-full ${st.dotColor}"></span>
-                      ${st.text} (${st.subtext})
-                    </span>
+                    <div class="flex items-center gap-1.5">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border ${st.badgeClass}">
+                        <span class="w-2 h-2 rounded-full ${st.dotColor}"></span>
+                        ${st.text} (${st.subtext})
+                      </span>
+                    </div>
                   </div>
 
                   <div>
@@ -11815,53 +11947,68 @@ window.addEventListener('DOMContentLoaded', () => {
                   <div class="flex items-center gap-2 flex-wrap text-slate-500 text-[11px]">
                     ${channelBadge}
                     <span class="text-slate-400">|</span>
-                    <span>${escapeHtml(c.target || 'Toàn bộ đại lý')}</span>
+                    <span class="font-medium text-slate-700">${escapeHtml(c.target || 'Toàn bộ đại lý')}</span>
                   </div>
 
                   <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-100 text-[11px] text-slate-600 space-y-1">
-                    <div class="flex items-center gap-1.5 font-medium">
-                      <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
-                      <span>Hiệu lực: <strong class="text-slate-800">${c.startDate}</strong> ➔ <strong class="text-slate-800">${c.endDate}</strong></span>
+                    <div class="flex items-center justify-between gap-1 font-medium">
+                      <div class="flex items-center gap-1.5">
+                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
+                        <span>Hiệu lực: <strong class="text-slate-800">${c.startDate}</strong> ➔ <strong class="text-slate-800">${c.endDate}</strong></span>
+                      </div>
+                      <button type="button" onclick="openExtendCampaignModal('${escapeHtml(c.id)}')" class="px-1.5 py-0.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded text-[10px] font-bold transition shrink-0" title="Gia hạn thêm ngày">
+                        + Gia hạn
+                      </button>
                     </div>
                     ${c.products ? `
-                      <div class="flex items-start gap-1.5">
+                      <div class="flex items-start gap-1.5 pt-0.5">
                         <i data-lucide="package" class="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"></i>
-                        <span class="truncate">Mã áp dụng: <strong class="text-slate-800 font-mono">${escapeHtml(c.products)}</strong></span>
+                        <span class="truncate">Áp dụng: <strong class="text-slate-800 font-mono">${escapeHtml(c.products)}</strong></span>
                       </div>
                     ` : ''}
                   </div>
 
-                  <div class="text-xs text-slate-700 line-clamp-2 leading-relaxed bg-purple-50/40 p-2.5 rounded-xl border border-purple-100/80">
+                  <div class="text-xs text-slate-700 line-clamp-3 leading-relaxed bg-purple-50/40 p-2.5 rounded-xl border border-purple-100/80 whitespace-pre-line">
                     ${escapeHtml(c.rule)}
                   </div>
                 </div>
 
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-1.5">
-                  <!-- NÚT SAO CHÉP GỬI ZALO -->
-                  <button type="button" onclick="copyCampaignForZalo('${escapeHtml(c.id)}')" class="flex-1 py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow-2xs flex items-center justify-center gap-1 transition active:scale-95" title="Sao chép thể lệ gửi Zalo">
-                    <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-                    <span>Gửi Zalo</span>
-                  </button>
+                <!-- DÒNG THAO TÁC -->
+                <div class="pt-2 border-t border-slate-100 space-y-2">
+                  <div class="flex items-center gap-1.5">
+                    <!-- NÚT SAO CHÉP GỬI ZALO -->
+                    <button type="button" onclick="copyCampaignForZalo('${escapeHtml(c.id)}')" class="flex-1 py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow-2xs flex items-center justify-center gap-1 transition active:scale-95" title="Sao chép thể lệ gửi Zalo">
+                      <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                      <span>Gửi Zalo</span>
+                    </button>
 
-                  <!-- XEM CHI TIẾT -->
-                  <button type="button" onclick="viewCampaignDetail('${escapeHtml(c.id)}')" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition" title="Xem chi tiết thể lệ">
-                    <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                  </button>
+                    <!-- NÚT GIA HẠN NHANH -->
+                    <button type="button" onclick="openExtendCampaignModal('${escapeHtml(c.id)}')" class="py-1.5 px-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-xs font-bold transition flex items-center gap-1" title="Gia hạn thêm ngày kết thúc">
+                      <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i>
+                      <span>Gia Hạn</span>
+                    </button>
 
-                  <!-- SỬA -->
-                  <button type="button" onclick="openEditCampaignModal('${escapeHtml(c.id)}')" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition" title="Chỉnh sửa chương trình">
-                    <i data-lucide="edit" class="w-3.5 h-3.5"></i>
-                  </button>
+                    <!-- NÚT BẬT / TẮT -->
+                    ${toggleBtn}
+                  </div>
 
-                  <!-- NHÂN BẢN -->
-                  <button type="button" onclick="duplicateCampaign('${escapeHtml(c.id)}')" class="p-1.5 bg-slate-100 hover:bg-purple-100 text-slate-700 hover:text-purple-700 rounded-lg text-xs font-bold transition" title="Nhân bản chương trình này">
-                    <i data-lucide="copy-plus" class="w-3.5 h-3.5"></i>
-                  </button>
-
-                  <!-- XÓA -->
-                  <button type="button" onclick="deleteCampaign('${escapeHtml(c.id)}')" class="p-1.5 bg-slate-100 hover:bg-rose-100 text-slate-500 hover:text-rose-700 rounded-lg text-xs font-bold transition" title="Xóa chương trình">
-                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                  </button>
+                  <div class="flex items-center justify-end gap-1 text-slate-500 pt-0.5 border-t border-slate-50">
+                    <button type="button" onclick="viewCampaignDetail('${escapeHtml(c.id)}')" class="p-1 hover:bg-slate-100 text-slate-600 rounded text-[11px] font-medium transition flex items-center gap-1" title="Xem chi tiết thể lệ">
+                      <i data-lucide="eye" class="w-3 h-3"></i> Chi tiết
+                    </button>
+                    <span class="text-slate-300">|</span>
+                    <button type="button" onclick="openEditCampaignModal('${escapeHtml(c.id)}')" class="p-1 hover:bg-slate-100 text-slate-600 rounded text-[11px] font-medium transition flex items-center gap-1" title="Chỉnh sửa">
+                      <i data-lucide="edit" class="w-3 h-3"></i> Sửa
+                    </button>
+                    <span class="text-slate-300">|</span>
+                    <button type="button" onclick="duplicateCampaign('${escapeHtml(c.id)}')" class="p-1 hover:bg-purple-50 text-purple-700 rounded text-[11px] font-medium transition flex items-center gap-1" title="Nhân bản">
+                      <i data-lucide="copy-plus" class="w-3 h-3"></i> Nhân bản
+                    </button>
+                    <span class="text-slate-300">|</span>
+                    <button type="button" onclick="deleteCampaign('${escapeHtml(c.id)}')" class="p-1 hover:bg-rose-50 text-rose-600 rounded text-[11px] font-medium transition flex items-center gap-1" title="Xóa">
+                      <i data-lucide="trash-2" class="w-3 h-3"></i> Xóa
+                    </button>
+                  </div>
                 </div>
               </div>
             `;
@@ -11885,9 +12032,14 @@ window.addEventListener('DOMContentLoaded', () => {
           tableTbody.innerHTML = filtered.map((c, idx) => {
             const st = getCampaignStatusInfo(c);
             const typeBadge = getCampaignTypeBadge(c.type);
+            const isPaused = (c.statusOverride === 'PAUSED');
+
+            const toggleBtn = isPaused
+              ? `<button type="button" onclick="toggleCampaignStatus('${escapeHtml(c.id)}')" class="px-1.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded text-[10px] font-bold transition" title="Kích hoạt lại">Bật</button>`
+              : `<button type="button" onclick="toggleCampaignStatus('${escapeHtml(c.id)}')" class="px-1.5 py-0.5 bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-700 border border-slate-200 rounded text-[10px] font-bold transition" title="Tắt / Tạm ngưng">Tắt</button>`;
 
             return `
-              <tr class="hover:bg-slate-50 transition border-b border-slate-200">
+              <tr class="hover:bg-slate-50 transition border-b border-slate-200 ${isPaused ? 'bg-slate-50/70 text-slate-400' : ''}">
                 <td class="py-2.5 px-3 text-center text-slate-500 font-mono border-r border-slate-200">${idx + 1}</td>
                 <td class="py-2.5 px-3 font-mono font-bold text-slate-800 border-r border-slate-200 whitespace-nowrap">${escapeHtml(c.code)}</td>
                 <td class="py-2.5 px-3 font-bold text-slate-900 border-r border-slate-200">
@@ -11900,13 +12052,19 @@ window.addEventListener('DOMContentLoaded', () => {
                   <div class="text-slate-400 truncate max-w-[120px]">${escapeHtml(c.target || '')}</div>
                 </td>
                 <td class="py-2.5 px-3 text-center border-r border-slate-200 text-[11px] font-mono whitespace-nowrap">
-                  ${c.startDate} ➔ ${c.endDate}
+                  <div>${c.startDate} ➔ ${c.endDate}</div>
+                  <button type="button" onclick="openExtendCampaignModal('${escapeHtml(c.id)}')" class="text-[10px] text-purple-600 hover:underline font-bold mt-0.5">
+                    + Gia hạn
+                  </button>
                 </td>
                 <td class="py-2.5 px-3 text-center border-r border-slate-200 whitespace-nowrap">
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-bold border ${st.badgeClass}">
-                    <span class="w-1.5 h-1.5 rounded-full ${st.dotColor}"></span>
-                    ${st.text}
-                  </span>
+                  <div class="flex flex-col items-center gap-1">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border ${st.badgeClass}">
+                      <span class="w-1.5 h-1.5 rounded-full ${st.dotColor}"></span>
+                      ${st.text}
+                    </span>
+                    ${toggleBtn}
+                  </div>
                 </td>
                 <td class="py-2.5 px-3 text-center whitespace-nowrap">
                   <div class="flex items-center justify-center gap-1">
@@ -11944,7 +12102,6 @@ window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('campFormId').value = '';
       if (title) title.innerText = 'Thêm Chương Trình Bán Hàng Mới';
 
-      // Sinh mã gợi ý
       const now = new Date();
       const yr = now.getFullYear();
       const mo = String(now.getMonth() + 1).padStart(2, '0');
@@ -11952,7 +12109,6 @@ window.addEventListener('DOMContentLoaded', () => {
       const nextNum = String(allCamps.length + 1).padStart(2, '0');
       document.getElementById('campFormCode').value = `CT-${yr}-T${mo}-${nextNum}`;
 
-      // Set ngày mặc định: hôm nay đến 1 tháng sau
       const todayStr = now.toISOString().slice(0, 10);
       const nextMonth = new Date();
       nextMonth.setMonth(nextMonth.getMonth() + 1);
@@ -12020,7 +12176,6 @@ window.addEventListener('DOMContentLoaded', () => {
       const allCamps = getCampaignsDB();
 
       if (id) {
-        // Cập nhật
         const idx = allCamps.findIndex(c => c.id === id);
         if (idx !== -1) {
           allCamps[idx] = {
@@ -12030,7 +12185,6 @@ window.addEventListener('DOMContentLoaded', () => {
           showToast('Đã cập nhật chương trình thành công!');
         }
       } else {
-        // Thêm mới
         const newCamp = {
           id: code || ('CT-' + Date.now()),
           code, type, name, channel, target, startDate, endDate, products, rule, statusOverride, note
@@ -12044,7 +12198,6 @@ window.addEventListener('DOMContentLoaded', () => {
       renderCampaigns();
     }
 
-    // Nhân bản chương trình
     function duplicateCampaign(id) {
       const allCamps = getCampaignsDB();
       const camp = allCamps.find(c => c.id === id);
@@ -12064,7 +12217,6 @@ window.addEventListener('DOMContentLoaded', () => {
       showToast('Đã nhân bản chương trình thành công!');
     }
 
-    // Xóa chương trình
     function deleteCampaign(id) {
       const allCamps = getCampaignsDB();
       const camp = allCamps.find(c => c.id === id);
@@ -12078,7 +12230,6 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Soạn tin nhắn Zalo chuẩn và sao chép
     function getCampaignZaloText(camp) {
       const typeName = getCampaignTypeName(camp.type);
       return `🔥 ${camp.name.toUpperCase()} 🔥
@@ -12112,7 +12263,6 @@ ${camp.rule}
       }
     }
 
-    // Xem chi tiết thể lệ trong Popup
     function viewCampaignDetail(id) {
       const allCamps = getCampaignsDB();
       const camp = allCamps.find(c => c.id === id);
@@ -12125,6 +12275,7 @@ ${camp.rule}
 
       const st = getCampaignStatusInfo(camp);
       const zaloText = getCampaignZaloText(camp);
+      const isPaused = (camp.statusOverride === 'PAUSED');
 
       if (copyBtn) {
         copyBtn.onclick = function() {
@@ -12136,18 +12287,26 @@ ${camp.rule}
         <div class="bg-purple-50/60 p-3 rounded-xl border border-purple-100 space-y-1">
           <div class="flex items-center justify-between gap-2 flex-wrap">
             <span class="font-mono font-bold text-purple-900 bg-white px-2 py-0.5 rounded border border-purple-200">${escapeHtml(camp.code)}</span>
-            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border ${st.badgeClass}">
-              <span class="w-2 h-2 rounded-full ${st.dotColor}"></span>
-              ${st.text} (${st.subtext})
-            </span>
+            <div class="flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border ${st.badgeClass}">
+                <span class="w-2 h-2 rounded-full ${st.dotColor}"></span>
+                ${st.text} (${st.subtext})
+              </span>
+              <button type="button" onclick="toggleCampaignStatus('${escapeHtml(camp.id)}'); viewCampaignDetail('${escapeHtml(camp.id)}');" class="px-2 py-0.5 rounded text-[10.5px] font-bold ${isPaused ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700'} transition">
+                ${isPaused ? 'Bật Lại' : 'Tạm Ngưng (Tắt)'}
+              </button>
+            </div>
           </div>
           <h4 class="text-sm font-black text-slate-900 mt-1">${escapeHtml(camp.name)}</h4>
           <div class="text-[11px] text-slate-600">
             Kênh: <strong>${camp.channel === 'OFFLINE' ? 'Đại lý / NPP Offline' : (camp.channel === 'ONLINE' ? 'Online / Sàn TMĐT' : 'Toàn bộ')}</strong> | 
             Đối tượng: <strong>${escapeHtml(camp.target || 'Toàn bộ đại lý')}</strong>
           </div>
-          <div class="text-[11px] text-slate-600">
-            Thời gian: <strong>${camp.startDate}</strong> đến <strong>${camp.endDate}</strong>
+          <div class="text-[11px] text-slate-600 flex items-center justify-between gap-2 pt-1 border-t border-purple-100/60">
+            <div>Thời gian: <strong>${camp.startDate}</strong> đến <strong>${camp.endDate}</strong></div>
+            <button type="button" onclick="closeCampaignDetailModal(); openExtendCampaignModal('${escapeHtml(camp.id)}');" class="px-2 py-0.5 bg-purple-600 text-white rounded text-[10.5px] font-bold shadow-xs">
+              Gia Hạn Thêm Ngày
+            </button>
           </div>
         </div>
 
@@ -12185,7 +12344,6 @@ ${camp.rule}
       if (modal) modal.classList.add('hidden');
     }
 
-    // Xuất báo cáo danh sách chương trình ra Excel
     function exportCampaignsToExcel() {
       const allCamps = getCampaignsDB();
       const exportRows = [
@@ -12341,6 +12499,85 @@ ${camp.rule}
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL GIA HẠN THỜI GIAN CHƯƠNG TRÌNH -->
+  <div id="campaignExtendModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="p-2 bg-purple-100 text-purple-700 rounded-xl">
+            <i data-lucide="calendar-plus" class="w-5 h-5"></i>
+          </span>
+          <div>
+            <h3 class="text-base font-black text-slate-900">Gia Hạn Chương Trình</h3>
+            <p class="text-[11px] text-slate-500">Kéo dài thời gian hiệu lực cho đại lý</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeCampaignExtendModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <input type="hidden" id="extendCampId" value="" />
+
+        <div class="p-3 bg-purple-50/60 border border-purple-100 rounded-xl">
+          <div class="text-[10px] font-mono text-purple-800 font-bold" id="extendCampCode">CT-CODE</div>
+          <div class="font-black text-slate-900 text-xs mt-0.5" id="extendCampName">Tên chương trình</div>
+          <div class="text-[11px] text-slate-600 mt-1 flex items-center gap-1">
+            <span>Hạn cũ hiện tại:</span>
+            <strong class="font-mono text-rose-600 font-bold" id="extendCampCurrentEnd">2026-09-30</strong>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1.5">Gia hạn nhanh:</label>
+          <div class="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
+            <button type="button" onclick="setQuickExtendDate(7)" class="py-1.5 px-2 bg-slate-100 hover:bg-purple-100 hover:text-purple-800 text-slate-700 font-bold rounded-lg transition text-[11px] border border-slate-200">
+              +7 Ngày
+            </button>
+            <button type="button" onclick="setQuickExtendDate(15)" class="py-1.5 px-2 bg-slate-100 hover:bg-purple-100 hover:text-purple-800 text-slate-700 font-bold rounded-lg transition text-[11px] border border-slate-200">
+              +15 Ngày
+            </button>
+            <button type="button" onclick="setQuickExtendDate(30)" class="py-1.5 px-2 bg-slate-100 hover:bg-purple-100 hover:text-purple-800 text-slate-700 font-bold rounded-lg transition text-[11px] border border-slate-200">
+              +30 Ngày
+            </button>
+            <button type="button" onclick="setMonthEndExtendDate(0)" class="py-1.5 px-2 bg-slate-100 hover:bg-purple-100 hover:text-purple-800 text-slate-700 font-bold rounded-lg transition text-[11px] border border-slate-200" title="Hết tháng này">
+              Hết T.Này
+            </button>
+            <button type="button" onclick="setMonthEndExtendDate(1)" class="py-1.5 px-2 bg-slate-100 hover:bg-purple-100 hover:text-purple-800 text-slate-700 font-bold rounded-lg transition text-[11px] border border-slate-200" title="Hết tháng sau">
+              Hết T.Sau
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Ngày kết thúc mới <span class="text-rose-500">*</span></label>
+          <input type="date" id="extendNewEndDateInput" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-mono font-bold text-slate-800 focus:outline-none focus:border-purple-500 text-xs" />
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Ghi chú lý do gia hạn</label>
+          <input type="text" id="extendNoteInput" placeholder="VD: Khách yêu cầu thêm thời gian gom đơn..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-purple-500 text-xs" />
+        </div>
+
+        <label class="flex items-center gap-2 pt-1 text-slate-700 cursor-pointer select-none">
+          <input type="checkbox" id="extendAutoResume" checked class="rounded text-purple-600 focus:ring-purple-500 w-4 h-4" />
+          <span class="font-medium text-[11.5px]">Tự động kích hoạt lại nếu chương trình đang bị tắt/tạm ngưng</span>
+        </label>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+        <button type="button" onclick="closeCampaignExtendModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs transition">
+          Hủy Bỏ
+        </button>
+        <button type="button" onclick="saveCampaignExtension()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs shadow transition flex items-center gap-1.5">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>Xác Nhận Gia Hạn</span>
+        </button>
+      </div>
     </div>
   </div>
 
