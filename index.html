@@ -231,7 +231,7 @@
         <button onclick="navigateTab('campaigns')" id="nav-campaigns" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
           <i data-lucide="gift" class="w-4 h-4 text-purple-400"></i>
           <span class="flex-1 text-left">Chương Trình Bán Hàng</span>
-          <span id="badgeActiveCampaigns" class="text-[9px] bg-purple-950/80 text-purple-300 border border-purple-700 px-1.5 py-0.5 rounded font-bold">4 Đang Chạy</span>
+          <span id="badgeActiveCampaigns" class="text-[9px] bg-purple-950/80 text-purple-300 border border-purple-700 px-1.5 py-0.5 rounded font-bold">1 Đang Chạy</span>
         </button>
 
         <button onclick="navigateTab('partners-media')" id="nav-partners-media" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
@@ -11677,7 +11677,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // ==========================================
     // PHÂN HỆ QUẢN LÝ CHƯƠNG TRÌNH CÔNG TY (CAMPAIGNS)
     // ==========================================
-    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v2';
+    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v3';
     let currentCampaignViewMode = 'grid'; // 'grid' | 'table'
 
     // Dữ liệu mẫu thực tế của Vũ Gia (bao gồm Chương trình phủ điểm bán Lock&King tháng 9/2026)
@@ -11694,7 +11694,7 @@ window.addEventListener('DOMContentLoaded', () => {
         products: 'Danh mục Lock&King (Trừ Nồi chiên 9.2L & các mã hết hàng)',
         rule: 'Kính gửi Phòng Kinh doanh và Quý Nhà phân phối,\nNhằm hỗ trợ phát triển và phủ mới điểm bán kênh GT, Công ty triển khai chương trình như sau:\n✅ NPP Nghệ An, Ninh Bình và Cao Bằng: Hỗ trợ chiết khấu 10% trên giá NPP hiện hành đối với hàng tồn kho thực tế.\n✅ NPP Bắc Giang: Do đã triển khai chương trình từ tháng 08/2026, Công ty tiếp tục giữ nguyên mức chiết khấu 12% trong tháng 09/2026.\n⏰ Thời gian áp dụng: Từ ngày 01/09/2026 đến hết ngày 30/09/2026.\n⚠️ Không áp dụng đối với nồi chiên không dầu dung tích 9,2 lít, các sản phẩm đang hết hàng và sản phẩm không thuộc danh mục được Công ty phê duyệt.\nĐề nghị Phòng Kinh doanh và các NPP phối hợp triển khai đúng điểm bán, tuân thủ chính sách giá và bảo đảm hiệu quả chương trình.',
         statusOverride: 'AUTO',
-        note: 'Thông báo chính thức kênh GT tháng 09/2026'
+        note: 'Chương trình duy nhất đang kích hoạt trong tháng 09/2026'
       },
       {
         id: 'CT-2026-T9-01',
@@ -11707,8 +11707,8 @@ window.addEventListener('DOMContentLoaded', () => {
         endDate: '2026-11-30',
         products: 'TK-1002, TK-1003, TK-468, TK-469 (Quà: LK-1068)',
         rule: 'Đại lý nhập đơn hàng từ 10 bộ đèn sưởi hoặc máy sưởi gốm Takin bất kỳ được tặng ngay 01 Ấm siêu tốc Lock&King LK-1068 cao cấp (trị giá 360.000đ). Không giới hạn số suất quà.',
-        statusOverride: 'AUTO',
-        note: 'Đẩy mạnh hàng sưởi đầu mùa đông 2026'
+        statusOverride: 'PAUSED',
+        note: 'Đã tạm tắt - Chờ kích hoạt'
       },
       {
         id: 'CT-2026-Q3-THUONG',
@@ -11721,8 +11721,8 @@ window.addEventListener('DOMContentLoaded', () => {
         endDate: '2026-09-30',
         products: 'Toàn bộ 65 mã sản phẩm Lock&King & Takin',
         rule: 'Tích lũy doanh số trong Quý 3/2026:\n- Mốc 1 (Từ 50 triệu): Thưởng chiết khấu thêm 2% tổng doanh số quý.\n- Mốc 2 (Từ 100 triệu): Thưởng 01 Chỉ Vàng 9999 PNJ hoặc quy đổi 8 triệu tiền mặt.\n- Mốc 3 (Từ 250 triệu): Thưởng Chuyến du lịch Thái Lan 5N4Đ dành cho 2 người.',
-        statusOverride: 'AUTO',
-        note: 'Xét thưởng vào ngày 05/10/2026'
+        statusOverride: 'PAUSED',
+        note: 'Đã tạm tắt'
       },
       {
         id: 'CT-2026-NEW-DEALER',
@@ -11735,8 +11735,8 @@ window.addEventListener('DOMContentLoaded', () => {
         endDate: '2026-12-31',
         products: 'Bộ danh mục 65 mã trưng bày',
         rule: 'Đại lý mở mới nhập đơn đầu tiên từ 30 triệu đồng:\n1. Tặng 01 Biển hiệu bạt Hiflex / Decal nhận diện thương hiệu Lock&King & Takin.\n2. Tặng 01 Kệ trưng bày sắt sơn tĩnh điện 4 tầng chuẩn hãng.\n3. Tặng 05 Chảo cạn Titanium Lock&King 26cm (LK-2606A) làm hàng mẫu trải nghiệm.',
-        statusOverride: 'AUTO',
-        note: 'Sale liên hệ phòng Marketing làm biển hiệu'
+        statusOverride: 'PAUSED',
+        note: 'Đã tạm tắt'
       },
       {
         id: 'CT-2026-COMBO-BEP',
@@ -11749,8 +11749,8 @@ window.addEventListener('DOMContentLoaded', () => {
         endDate: '2026-10-15',
         products: 'LK-3386A, LK-3568A, LK-2606A',
         rule: 'Áp dụng cho các shop bán lẻ online khi lấy theo combo:\n- Mua 01 Bộ nồi inox 5 đáy Lock&King (LK-3386A hoặc LK-3568A)\n- Tặng ngay 01 Chảo cạn Titanium Lock&King 26cm (LK-2606A)\n- Giá combo giảm thêm 10% so với giá sỉ thông thường.',
-        statusOverride: 'AUTO',
-        note: 'Ưu tiên cấp ảnh banner và video mẫu cho shop chạy quảng cáo'
+        statusOverride: 'PAUSED',
+        note: 'Đã tạm tắt'
       },
       {
         id: 'CT-2026-T12-TET',
@@ -11763,8 +11763,8 @@ window.addEventListener('DOMContentLoaded', () => {
         endDate: '2027-01-25',
         products: 'Toàn bộ 65 mã hàng Lock&King & Takin',
         rule: 'Đại lý đặt cọc giữ hàng Tết trước ngày 30/11:\n- Tặng 01 Giỏ quà Tết cao cấp trị giá 1.500.000đ cho đơn cọc từ 50 triệu.\n- Cam kết giữ giá nhập tốt nhất không tăng giá trong dịp cận Tết.\n- Ưu tiên xe giao hàng tận nơi trước ngày 23 tháng Chạp.',
-        statusOverride: 'AUTO',
-        note: 'Kế hoạch Tết Nguyên Đán 2027'
+        statusOverride: 'PAUSED',
+        note: 'Đã tạm tắt'
       }
     ];
 
