@@ -237,7 +237,7 @@
         <button onclick="navigateTab('campaigns')" id="nav-campaigns" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
           <i data-lucide="gift" class="w-4 h-4 text-purple-400"></i>
           <span class="flex-1 text-left">Chương Trình Bán Hàng</span>
-          <span id="badgeActiveCampaigns" class="text-[9px] bg-purple-950/80 text-purple-300 border border-purple-700 px-1.5 py-0.5 rounded font-bold">1 Đang Chạy</span>
+          <span id="badgeActiveCampaigns" class="text-[9px] bg-purple-950/80 text-purple-300 border border-purple-700 px-1.5 py-0.5 rounded font-bold">2 Đang Chạy</span>
         </button>
 
         <button onclick="navigateTab('media-assets')" id="nav-media-assets" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
@@ -12487,7 +12487,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // ==========================================
     // PHÂN HỆ QUẢN LÝ CHƯƠNG TRÌNH CÔNG TY (CAMPAIGNS)
     // ==========================================
-    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v3';
+    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v4';
     let currentCampaignViewMode = 'grid'; // 'grid' | 'table'
 
     // Dữ liệu mẫu thực tế của Vũ Gia (bao gồm Chương trình phủ điểm bán Lock&King tháng 9/2026)
@@ -12505,6 +12505,35 @@ window.addEventListener('DOMContentLoaded', () => {
         rule: 'Kính gửi Phòng Kinh doanh và Quý Nhà phân phối,\nNhằm hỗ trợ phát triển và phủ mới điểm bán kênh GT, Công ty triển khai chương trình như sau:\n✅ NPP Nghệ An, Ninh Bình và Cao Bằng: Hỗ trợ chiết khấu 10% trên giá NPP hiện hành đối với hàng tồn kho thực tế.\n✅ NPP Bắc Giang: Do đã triển khai chương trình từ tháng 08/2026, Công ty tiếp tục giữ nguyên mức chiết khấu 12% trong tháng 09/2026.\n⏰ Thời gian áp dụng: Từ ngày 01/09/2026 đến hết ngày 30/09/2026.\n⚠️ Không áp dụng đối với nồi chiên không dầu dung tích 9,2 lít, các sản phẩm đang hết hàng và sản phẩm không thuộc danh mục được Công ty phê duyệt.\nĐề nghị Phòng Kinh doanh và các NPP phối hợp triển khai đúng điểm bán, tuân thủ chính sách giá và bảo đảm hiệu quả chương trình.',
         statusOverride: 'AUTO',
         note: 'Chương trình duy nhất đang kích hoạt trong tháng 09/2026'
+      },
+            {
+        id: 'CT-2026-TROGIA-11MA',
+        code: 'CT-2026-TROGIA-11MA',
+        name: '📢 CHIẾN DỊCH TIẾP SỨC ĐIỂM BÁN 2026: GÓI TRỢ GIÁ 11 MÃ CHỦ LỰC – TẬN GỐC TẬN KHO',
+        type: 'TIER_DISCOUNT',
+        channel: 'OFFLINE',
+        target: 'Toàn bộ Quý Nhà Phân Phối & Đại Lý Kênh Offline Toàn Quốc',
+        startDate: '2026-09-01',
+        endDate: '2026-10-31',
+        products: '11 mã chủ lực: LK-2433, LK-2633, LK-3118, LK-3120, LK-3124, LK-3338, LK-1050, LK-1068, LK-4160, LK-4161, LK-7812',
+        rule: 'Kính gửi: Quý Nhà Phân Phối & Quý Đại Lý Kênh Offline (Kênh GT) Toàn Quốc,\n\nNhằm tiếp sức mạnh mẽ cho các điểm bán truyền thống, thúc đẩy lưu thông hàng hóa và bảo đảm tối đa biên lợi nhuận cho kênh phân phối, Công ty triển khai CHƯƠNG TRÌNH TRỢ GIÁ 11 MÃ SẢN PHẨM CHỦ LỰC theo cơ chế Mua Hàng Tặng Hàng như sau:\n\n' +
+          '1. [LK-2433] Chảo Belly Lock&King: Giá hiện hành 410.000đ ➔ MUA 25 TẶNG 1 ➔ Giá thực nhập: 394.231đ (Giảm 3.85% | Giá tham chiếu: 395.000đ)\n' +
+          '2. [LK-2633] Chảo Belly Titanium 26cm: Giá hiện hành 470.000đ ➔ MUA 20 TẶNG 1 ➔ Giá thực nhập: 447.619đ (Giảm 4.76% | Giá tham chiếu: 450.000đ)\n' +
+          '3. [LK-3118] Nồi lẻ kèm nắp 18cm: Giá hiện hành 372.000đ ➔ MUA 10 TẶNG 1 ➔ Giá thực nhập: 338.182đ (Giảm 9.09% | Giá tham chiếu: 340.000đ)\n' +
+          '4. [LK-3120] Nồi lẻ kèm nắp 20cm: Giá hiện hành 420.000đ ➔ MUA 15 TẶNG 1 ➔ Giá thực nhập: 393.750đ (Giảm 6.25% | Giá tham chiếu: 390.000đ)\n' +
+          '5. [LK-3124] Nồi lẻ kèm nắp 24cm: Giá hiện hành 500.000đ ➔ MUA 12 TẶNG 1 ➔ Giá thực nhập: 461.538đ (Giảm 7.69% | Giá tham chiếu: 460.000đ)\n' +
+          '6. [LK-3338] Bộ nồi 3 liền khối (18-20-24cm): Giá hiện hành 1.240.000đ ➔ MUA 10 TẶNG 1 ➔ Giá thực nhập: 1.127.273đ (Giảm 9.09% | Giá tham chiếu: 1.100.000đ)\n' +
+          '7. [LK-1050] Bình Thủy Điện 5L: Giá hiện hành 890.000đ ➔ MUA 10 TẶNG 1 ➔ Giá thực nhập: 809.091đ (Giảm 9.09% | Giá tham chiếu: 780.000đ)\n' +
+          '8. [LK-1068] Ấm siêu tốc 1.7L: Giá hiện hành 340.000đ ➔ MUA 10 TẶNG 1 ➔ Giá thực nhập: 309.091đ (Giảm 9.09% | Giá tham chiếu: 310.000đ)\n' +
+          '9. [LK-4160] Nồi áp suất điện 6L LK-4160: Giá hiện hành 1.080.000đ ➔ MUA 15 TẶNG 1 ➔ Giá thực nhập: 1.012.500đ (Giảm 6.25% | Giá tham chiếu: 1.000.000đ)\n' +
+          '10. [LK-4161] Nồi áp suất điện 6L LK-4161: Giá hiện hành 850.000đ ➔ MUA 15 TẶNG 1 ➔ Giá thực nhập: 796.875đ (Giảm 6.25% | Giá tham chiếu: 800.000đ)\n' +
+          '11. [LK-7812] Máy làm sữa hạt LK-7812: Giá hiện hành 710.000đ ➔ MUA 15 TẶNG 1 ➔ Giá thực nhập: 665.625đ (Giảm 6.25% | Giá tham chiếu: 660.000đ)\n\n' +
+          '📌 LƯU Ý:\n' +
+          '• Hàng tặng là sản phẩm cùng loại nguyên đai nguyên kiện.\n' +
+          '• Số lượng áp dụng theo bội số (VD: Mua 30 cái LK-4161 tặng 2 cái, mua 45 cái tặng 3 cái).\n' +
+          '• Mức chiết khấu quy đổi trực tiếp giúp giá thực nhập chia về sát mức giá tham chiếu ưu đãi nhất.',
+        statusOverride: 'AUTO',
+        note: 'Chương trình trợ giá độc quyền kênh Offline giúp cân bằng giá thực nhập'
       },
       {
         id: 'CT-2026-T9-01',
