@@ -9613,12 +9613,22 @@
         let priceSectionHtml = '';
 
         if (isSaleOnline) {
-          // Giao diện Thẻ cho Sale Online
+          // Giao diện Thẻ cho Sale Online (Đầy đủ % Lợi nhuận Online)
           priceSectionHtml = `
             <div class="bg-sky-50/70 border border-sky-100 rounded-lg p-2.5 mb-3">
               <div class="flex justify-between items-baseline mb-1.5">
                 <span class="text-[11px] font-bold text-slate-600">Giá NPP Online:</span>
                 <span class="text-base font-black text-sky-900 font-mono">${formatVND(p.nppOnlinePrice)}</span>
+              </div>
+              <!-- THANH HIỂN THỊ % LỢI NHUẬN ONLINE -->
+              <div class="py-1 px-2 mb-2 bg-amber-50 border border-amber-200 rounded flex justify-between items-center text-[10.5px]">
+                <span class="font-bold text-slate-700 flex items-center gap-1">
+                  <i data-lucide="trending-up" class="w-3.5 h-3.5 text-amber-600"></i>
+                  % Lợi Nhuận Online:
+                </span>
+                <span class="font-black text-amber-900 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded font-mono text-xs">
+                  ${p.profitPct}
+                </span>
               </div>
               <div class="grid grid-cols-2 gap-2 text-[11px] pt-1.5 border-t border-sky-100">
                 <div>
@@ -9627,7 +9637,7 @@
                 </div>
                 <div>
                   <span class="text-slate-400 block text-[9.5px]">Lợi Nhuận NPP:</span>
-                  <span class="font-bold text-emerald-700 font-mono">+${formatVND(p.profitNPP)} (${p.profitPct})</span>
+                  <span class="font-bold text-emerald-700 font-mono">+${formatVND(p.profitNPP)}</span>
                 </div>
                 <div>
                   <span class="text-slate-400 block text-[9.5px]">Giá Sàn TMĐT:</span>
@@ -9669,20 +9679,47 @@
             </div>
           `;
         } else {
-          // Giao diện Thẻ cho Admin / Kế Toán / Toàn quyền
+          // Giao diện Thẻ cho Admin / Kế Toán / Toàn quyền (Bổ sung % Lợi Nhuận Online rõ ràng)
           priceSectionHtml = `
             <div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5 mb-3">
+              <!-- CẶP Ô GIÁ ONLINE & OFFLINE -->
+              <div class="grid grid-cols-2 gap-2 text-[11px] mb-2">
+                <div class="p-2 bg-white rounded-lg border border-sky-200 shadow-xs">
+                  <div class="flex justify-between items-start">
+                    <span class="text-slate-500 block text-[10px] font-semibold">Giá NPP Online:</span>
+                    <span class="text-[9.5px] font-black text-amber-900 bg-amber-100 border border-amber-300 px-1.5 py-0.2 rounded font-mono" title="% Lợi Nhuận Online / FB">${p.profitPct}</span>
+                  </div>
+                  <span class="font-black text-sky-900 font-mono text-sm block mt-0.5">${formatVND(p.nppOnlinePrice)}</span>
+                  <div class="flex items-center justify-between text-[10px] mt-1 pt-1 border-t border-slate-100">
+                    <span class="text-slate-400">LN NPP:</span>
+                    <span class="text-emerald-700 font-bold font-mono">+${formatVND(p.profitNPP)}</span>
+                  </div>
+                </div>
+                <div class="p-2 bg-white rounded-lg border border-slate-200 shadow-xs">
+                  <div class="flex justify-between items-start">
+                    <span class="text-slate-500 block text-[10px] font-semibold">Giá NPP Offline:</span>
+                    <span class="text-[9.5px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-1.5 py-0.2 rounded font-mono" title="% Lợi Nhuận Đại Lý">${p.dealerProfitRatio || '0%'}</span>
+                  </div>
+                  <span class="font-black text-slate-800 font-mono text-sm block mt-0.5">${formatVND(p.nppOfflinePrice)}</span>
+                  <div class="flex items-center justify-between text-[10px] mt-1 pt-1 border-t border-slate-100">
+                    <span class="text-slate-400">Giá ĐL:</span>
+                    <span class="text-slate-700 font-bold font-mono">${formatVND(p.dealerOfflinePrice)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- THANH % LỢI NHUẬN ONLINE DÀNH RIÊNG -->
+              <div class="py-1 px-2 mb-2 bg-amber-50/90 border border-amber-200 rounded flex justify-between items-center text-[10.5px]">
+                <span class="font-bold text-slate-700 flex items-center gap-1">
+                  <i data-lucide="trending-up" class="w-3.5 h-3.5 text-amber-600"></i>
+                  % Lợi Nhuận Online:
+                </span>
+                <span class="font-black text-amber-900 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded font-mono text-xs">
+                  ${p.profitPct}
+                </span>
+              </div>
+
               <div class="grid grid-cols-2 gap-2 text-[11px]">
-                <div class="p-1.5 bg-white rounded border border-slate-200">
-                  <span class="text-slate-400 block text-[9.5px]">Giá NPP Online:</span>
-                  <span class="font-black text-sky-900 font-mono text-xs">${formatVND(p.nppOnlinePrice)}</span>
-                  <span class="text-[9.5px] text-emerald-600 font-bold block mt-0.5">LN: +${formatVND(p.profitNPP)} (${p.profitPct})</span>
-                </div>
-                <div class="p-1.5 bg-white rounded border border-slate-200">
-                  <span class="text-slate-400 block text-[9.5px]">Giá NPP Offline:</span>
-                  <span class="font-black text-slate-800 font-mono text-xs">${formatVND(p.nppOfflinePrice)}</span>
-                  <span class="text-[9.5px] text-emerald-700 font-bold block mt-0.5">ĐL: ${formatVND(p.dealerOfflinePrice)}</span>
-                </div>
                 <div>
                   <span class="text-slate-400 block text-[9.5px]">Giá Facebook:</span>
                   <span class="font-bold text-blue-700 font-mono">${formatVND(p.facebookPrice)}</span>
