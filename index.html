@@ -12797,11 +12797,75 @@ window.addEventListener('DOMContentLoaded', () => {
         // ==========================================
     // PHÂN HỆ QUẢN LÝ CHƯƠNG TRÌNH CÔNG TY (CAMPAIGNS)
     // ==========================================
-    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v4';
+    const STORAGE_KEY_CAMPAIGNS = 'LOCK_KING_CAMPAIGNS_DATA_v5';
     let currentCampaignViewMode = 'grid'; // 'grid' | 'table'
 
     // Dữ liệu mẫu thực tế của Vũ Gia (bao gồm Chương trình phủ điểm bán Lock&King tháng 9/2026)
     const seedCampaigns = [
+      
+      {
+        id: 'CT-2026-TB08-LOCKKING',
+        code: '08/2026/TB-VG',
+        name: '📢 CHƯƠNG TRÌNH KHUYẾN MẠI ĐẶC BIỆT LOCK&KING THÁNG 8/2026 (MUA 20 TẶNG 1 & MUA 250 TẶNG 500 USD)',
+        type: 'TRADE_PROMO',
+        channel: 'ALL',
+        target: 'Toàn bộ Quý Nhà Phân Phối Lock&King trên toàn quốc',
+        startDate: '2026-08-01',
+        endDate: '2026-09-30',
+        products: '17 mã sản phẩm: 16 mã Mua 20 tặng 1 (LK-336A, LK-1068, LK-3212, LK-4208A, LK-4209, LK-3338, LK-3118, LK-3120, LK-3124, LK-6201, LK-4160, LK-4161, LK-1050, LK-6015, LK-7812, LK-2633) & 01 mã LK-2466S (Mua 250 tặng 500 USD)',
+        rule: 'CÔNG TY TNHH HỢP TÁC VŨ GIA – THƯƠNG HIỆU LOCK&KING\n' +
+          'Số: 08/2026/TB-VG | Hà Nội, ngày 30 tháng 7 năm 2026\n' +
+          'Ký duyệt: Giám Đốc Điều Hành – LÊ QUANG TUYẾN\n\n' +
+          'THÔNG BÁO: CHƯƠNG TRÌNH KHUYẾN MẠI ĐẶC BIỆT LOCK&KING THÁNG 8/2026\n' +
+          'Kính gửi: Quý Nhà phân phối Lock&King trên toàn quốc\n\n' +
+          'Nhằm tri ân hệ thống Nhà phân phối, hỗ trợ chủ động nguồn hàng và thúc đẩy doanh số trong tháng 8/2026, Công ty TNHH Hợp tác Vũ Gia trân trọng triển khai chương trình khuyến mại đặc biệt dành cho thương hiệu Lock&King với các nội dung sau:\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+          '🎁 ƯU ĐÃI 01: CHƯƠNG TRÌNH "MUA 20 - TẶNG 01" (16 MÃ SẢN PHẨM)\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+          '• Cơ chế áp dụng: Trong một đơn hàng hợp lệ, Nhà phân phối mua đủ 20 sản phẩm cùng mã được tặng 01 sản phẩm cùng mã (nhận 21 SP).\n' +
+          '• Ưu đãi tính theo bội số tương ứng (ví dụ: mua 40 tặng 02, mua 60 tặng 03...), không cộng gộp sản lượng giữa các mã.\n' +
+          '• Hàng tặng cùng mã được xuất theo kết quả đối soát và tình trạng tồn kho thực tế.\n\n' +
+          'Danh mục 16 mã áp dụng:\n' +
+          ' 1. [LK-336A]  Bộ nồi 3 Lock&King (18cm, 20cm, 24cm) ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          ' 2. [LK-1068]  Ấm siêu tốc Lock&King LK-1068 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          ' 3. [LK-3212]  Chảo xào lớn Lock&King LK-3212 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          ' 4. [LK-4208A] Nồi nấu chậm Lock&King LK-4208A ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          ' 5. [LK-4209]  Nồi nấu chậm Lock&King LK-4209 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          ' 6. [LK-3338]  Bộ 3 nồi liền khối kèm nắp 18 cm, 20 cm, 24 cm (2,3 mm) ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          ' 7. [LK-3118]  Nồi lẻ kèm nắp 18 × 10 cm (2,3 mm) ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          ' 8. [LK-3120]  Nồi lẻ kèm nắp 20 × 12 cm (2,3 mm) ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          ' 9. [LK-3124]  Nồi lẻ kèm nắp 24 × 14 cm (2,3 mm) ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          '10. [LK-6201]  Nồi nấu lẩu kèm xửng hấp Lock&King LK-6201 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          '11. [LK-4160]  Nồi áp suất điện Lock&King LK-4160 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          '12. [LK-4161]  Nồi áp suất điện Lock&King LK-4161 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          '13. [LK-1050]  Bình thủy điện Lock&King LK-1050 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          '14. [LK-6015]  Nồi nấu đa năng Lock&King LK-6015 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          '15. [LK-7812]  Máy làm sữa hạt Lock&King LK-7812 ➔ Mua 20 SP tặng 01 SP cùng mã\n' +
+          '16. [LK-2633]  Chảo Belly Titanium Lock&King 26 cm ➔ Mua 20 SP tặng 01 SP cùng mã\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+          '💵 ƯU ĐÃI 02: ƯU ĐÃI ĐẶC BIỆT MÃ LK-2466S (MUA 250 • TẶNG 500 USD)\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+          '• Sản phẩm áp dụng: LK-2466S – Chảo Titanium ELITE Lock&King\n' +
+          '• Điều kiện áp dụng: Nhà phân phối đạt sản lượng 250 sản phẩm trong một đơn hàng hợp lệ.\n' +
+          '• Mức hỗ trợ đặc biệt: 500 USD.\n' +
+          '• LƯU Ý VỀ 500 USD: Mức hỗ trợ không tự động quy đổi sang VNĐ trong văn bản này. Phương thức và thời điểm chi trả/cấn trừ được Công ty xác nhận bằng thông báo đối soát sau khi Nhà phân phối hoàn tất nghĩa vụ thanh toán.\n\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+          '📋 NGUYÊN TẮC VÀ ĐIỀU KIỆN ÁP DỤNG\n' +
+          '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+          '1. Thời gian áp dụng: Từ ngày 01/08/2026 đến hết ngày 31/08/2026 (Duy trì hiệu lực hệ thống đến 30/09/2026).\n' +
+          '2. Đối tượng & Phạm vi: Toàn bộ Nhà phân phối Lock&King trên toàn quốc đáp ứng đầy đủ điều kiện.\n' +
+          '3. NGUYÊN TẮC KHÔNG CỘNG DỒN: Chương trình này không áp dụng đồng thời với chương trình phủ điểm bán, các chương trình chiết khấu hoặc ưu đãi khác của Công ty (nếu có).\n' +
+          '4. Sản lượng được ghi nhận căn cứ trên đơn hàng đã xuất hóa đơn, giao thành công và phát sinh trong thời gian chương trình.\n' +
+          '5. Nhà phân phối phải hoàn thành đầy đủ nghĩa vụ thanh toán, công nợ và tuân thủ các quy định về giá bán, kênh bán hàng của Công ty.\n' +
+          '6. Chương trình “Mua 20 - Tặng 01” được tính riêng theo từng mã sản phẩm và trên từng đơn hàng; không cộng gộp số lượng giữa các mã hoặc giữa nhiều đơn hàng.\n' +
+          '7. Hàng tặng không được quy đổi thành tiền mặt, chiết khấu hoặc sản phẩm khác.\n' +
+          '8. Sản lượng đã được sử dụng để hưởng quyền lợi của chương trình khác không được tiếp tục tính vào sản lượng của chương trình này.\n' +
+          '9. Đơn hàng bị hủy, trả lại, điều chỉnh giảm hoặc chưa hoàn thành nghĩa vụ thanh toán không được tính vào sản lượng hưởng ưu đãi.\n' +
+          '10. Quà tặng và mức hỗ trợ được đối soát sau khi chương trình kết thúc hoặc theo từng đợt do Công ty thông báo.\n' +
+          '11. Trong trường hợp có khác biệt về số liệu, dữ liệu do Công ty TNHH Hợp tác Vũ Gia xác nhận là căn cứ đối soát cuối cùng.',
+        statusOverride: 'AUTO',
+        note: 'Thông báo số 08/2026/TB-VG ngày 30/07/2026 ký bởi GĐĐH Lê Quang Tuyến - Áp dụng toàn quốc'
+      },
       {
         id: 'CT-2026-T9-GT',
         code: 'CT-2026-T9-GT',
@@ -12921,13 +12985,26 @@ window.addEventListener('DOMContentLoaded', () => {
       try {
         const stored = localStorage.getItem(STORAGE_KEY_CAMPAIGNS);
         if (!stored) {
+          // Check previous version v4
+          const v4 = localStorage.getItem('LOCK_KING_CAMPAIGNS_DATA_v4');
+          if (v4) {
+            try {
+              let parsedV4 = JSON.parse(v4);
+              if (Array.isArray(parsedV4)) {
+                if (!parsedV4.some(c => c.id === 'CT-2026-TB08-LOCKKING')) {
+                  parsedV4.unshift(seedCampaigns[0]);
+                }
+                localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(parsedV4));
+                return parsedV4;
+              }
+            } catch (err) {}
+          }
           localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(seedCampaigns));
           return JSON.parse(JSON.stringify(seedCampaigns));
         }
         let parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Check if new GT campaign is present, if not unshift it
-          if (!parsed.some(c => c.id === 'CT-2026-T9-GT')) {
+          if (!parsed.some(c => c.id === 'CT-2026-TB08-LOCKKING')) {
             parsed.unshift(seedCampaigns[0]);
             localStorage.setItem(STORAGE_KEY_CAMPAIGNS, JSON.stringify(parsed));
           }
@@ -12966,6 +13043,15 @@ window.addEventListener('DOMContentLoaded', () => {
           badgeClass: 'bg-slate-100 text-slate-700 border-slate-300',
           dotColor: 'bg-slate-400',
           subtext: 'Đã tạm dừng'
+        };
+      }
+      if (camp.statusOverride === 'ACTIVE') {
+        return {
+          code: 'ACTIVE',
+          text: 'Đang Diễn Ra (Hiệu Lực)',
+          badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+          dotColor: 'bg-emerald-500 animate-pulse',
+          subtext: 'Đang kích hoạt'
         };
       }
 
