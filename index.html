@@ -234,6 +234,12 @@
           <span id="badgeActiveCampaigns" class="text-[9px] bg-purple-950/80 text-purple-300 border border-purple-700 px-1.5 py-0.5 rounded font-bold">4 Đang Chạy</span>
         </button>
 
+        <button onclick="navigateTab('partners-media')" id="nav-partners-media" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+          <i data-lucide="video" class="w-4 h-4 text-pink-400"></i>
+          <span class="flex-1 text-left">Shop Đối Tác & Media</span>
+          <span id="badgePartnersMediaCount" class="text-[9px] bg-pink-950/80 text-pink-300 border border-pink-700 px-1.5 py-0.5 rounded font-bold">6 Shop</span>
+        </button>
+
         <button onclick="navigateTab('products')" id="nav-products" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
           <i data-lucide="package" class="w-4 h-4 text-emerald-400"></i>
           <span class="flex-1 text-left">Bảng Giá Sản Phẩm (65 Mã)</span>
@@ -375,6 +381,9 @@
               </button>
               <button onclick="navigateTab('campaigns')" class="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
                 <i data-lucide="gift" class="w-3.5 h-3.5"></i> Chương Trình (KM)
+              </button>
+              <button onclick="navigateTab('partners-media')" class="px-3 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
+                <i data-lucide="video" class="w-3.5 h-3.5"></i> Video & Shop Đối Tác
               </button>
               <button onclick="openCatalogPdfModal()" class="px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
                 <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Xuất PDF Bảng Giá
@@ -1662,6 +1671,188 @@
                   </tr>
                 </thead>
                 <tbody id="campTableTbody" class="divide-y divide-slate-200 font-medium">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= TAB: KÊNH ĐỐI TÁC & THƯ VIỆN MEDIA ================= -->
+        <section id="tab-partners-media" class="tab-pane hidden p-4 sm:p-6 space-y-6">
+          <!-- 1. TOOLBAR & HEADER -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-5 space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="p-2 bg-pink-100 text-pink-700 rounded-xl shadow-xs">
+                    <i data-lucide="video" class="w-5 h-5"></i>
+                  </span>
+                  <div>
+                    <h2 class="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                      Kênh Đối Tác & Thư Viện Media (TikTok, Shopee, Facebook)
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">
+                      Lưu trữ video review, livestream bán hàng, link gian hàng đối tác và hình ảnh feedback của Lock&King & Takin. Hỗ trợ Sale gửi link tư vấn và theo dõi giá bán thị trường.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ACTION BUTTONS -->
+              <div class="flex flex-wrap items-center gap-2">
+                <!-- NÚT THÊM MỚI -->
+                <button type="button" onclick="openCreatePartnerMediaModal()" class="px-3.5 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-xl font-bold text-xs shadow-sm hover:shadow flex items-center gap-1.5 transition active:scale-95">
+                  <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                  <span>Thêm Tư Liệu / Link Shop</span>
+                </button>
+
+                <!-- NÚT XUẤT EXCEL -->
+                <button type="button" onclick="exportPartnersMediaToExcel()" class="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl font-bold text-xs flex items-center gap-1.5 transition">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                  <span>Xuất Excel</span>
+                </button>
+
+                <!-- TOGGLE VIEW MODE -->
+                <div class="inline-flex bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+                  <button type="button" id="pmBtnViewGrid" onclick="togglePartnersMediaView('grid')" class="px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-2xs transition flex items-center gap-1">
+                    <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                    <span>Dạng Lưới</span>
+                  </button>
+                  <button type="button" id="pmBtnViewTable" onclick="togglePartnersMediaView('table')" class="px-2.5 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition flex items-center gap-1">
+                    <i data-lucide="table" class="w-3.5 h-3.5"></i>
+                    <span>Dạng Bảng</span>
+                  </button>
+                </div>
+
+                <!-- RESET DỮ LIỆU MẪU -->
+                <button type="button" onclick="resetPartnersMediaToDefault()" class="p-2 bg-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200 rounded-xl transition" title="Khôi phục dữ liệu đối tác mẫu">
+                  <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. KPI CARDS (4 THẺ THỐNG KÊ) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <!-- TỔNG TƯ LIỆU -->
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Tổng Số Tư Liệu / Link</div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="kpiPmTotal" class="text-xl font-black font-mono text-slate-900">0</span>
+                  <span class="text-[10px] text-slate-400 font-medium">bản ghi</span>
+                </div>
+              </div>
+
+              <!-- TIKTOK -->
+              <div class="bg-slate-900 border border-slate-800 text-white rounded-xl p-3">
+                <div class="text-[11px] font-bold text-pink-400 uppercase tracking-wider flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-pink-500 inline-block animate-pulse"></span>
+                  TikTok Shop / Video
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="kpiPmTikTok" class="text-xl font-black font-mono text-white">0</span>
+                  <span class="text-[10px] text-slate-400 font-medium">kênh & video</span>
+                </div>
+              </div>
+
+              <!-- SHOPEE -->
+              <div class="bg-orange-50/80 border border-orange-200 rounded-xl p-3">
+                <div class="text-[11px] font-bold text-orange-800 uppercase tracking-wider flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-orange-500 inline-block"></span>
+                  Gian Hàng Shopee
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="kpiPmShopee" class="text-xl font-black font-mono text-orange-700">0</span>
+                  <span class="text-[10px] text-orange-600 font-medium">shop & link</span>
+                </div>
+              </div>
+
+              <!-- FACEBOOK -->
+              <div class="bg-blue-50/80 border border-blue-200 rounded-xl p-3">
+                <div class="text-[11px] font-bold text-blue-800 uppercase tracking-wider flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
+                  Facebook / Reels
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="kpiPmFacebook" class="text-xl font-black font-mono text-blue-700">0</span>
+                  <span class="text-[10px] text-blue-600 font-medium">bài & fanpage</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. THANH BỘ LỌC & TÌM KIẾM -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center pt-1">
+              <!-- TÌM KIẾM -->
+              <div class="lg:col-span-4 relative">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input 
+                  type="text" 
+                  id="pmFilterSearch" 
+                  oninput="renderPartnersMedia()" 
+                  placeholder="Tìm theo tên shop, tiêu đề video, model, người phụ trách..." 
+                  class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg pl-8 pr-3 py-2 text-xs text-slate-700 focus:outline-none focus:border-pink-500 transition" 
+                />
+              </div>
+
+              <!-- LỌC NỀN TẢNG -->
+              <div class="lg:col-span-3">
+                <select id="pmFilterPlatform" onchange="renderPartnersMedia()" class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-pink-500 transition">
+                  <option value="ALL">Tất cả nền tảng</option>
+                  <option value="TIKTOK">🎵 TikTok (TikTok Shop, Video, Live)</option>
+                  <option value="SHOPEE">🛒 Shopee (Mall, Shop Yêu Thích)</option>
+                  <option value="FACEBOOK">📘 Facebook (Fanpage, Reels, Post)</option>
+                  <option value="OTHER">🌐 Nền tảng khác (Lazada, Web...)</option>
+                </select>
+              </div>
+
+              <!-- LỌC LOẠI NỘI DUNG -->
+              <div class="lg:col-span-3">
+                <select id="pmFilterType" onchange="renderPartnersMedia()" class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-pink-500 transition">
+                  <option value="ALL">Tất cả loại nội dung</option>
+                  <option value="VIDEO_REVIEW">🎥 Video Review / Hướng dẫn sử dụng</option>
+                  <option value="LIVESTREAM">🔴 Livestream bán hàng</option>
+                  <option value="IMAGE_FEEDBACK">📸 Hình ảnh feedback / Quầy kệ</option>
+                  <option value="SHOP_PROFILE">🏪 Link Gian Hàng / Shop Profile</option>
+                  <option value="ADS_POST">📢 Bài viết quảng cáo / Chạy Ads</option>
+                </select>
+              </div>
+
+              <!-- LỌC TRẠNG THÁI -->
+              <div class="lg:col-span-2">
+                <select id="pmFilterStatus" onchange="renderPartnersMedia()" class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-pink-500 transition">
+                  <option value="ALL">Tất cả trạng thái</option>
+                  <option value="ACTIVE">🟢 Đang hoạt động</option>
+                  <option value="CHECK_PRICE">🟡 Cần kiểm tra giá</option>
+                  <option value="ARCHIVED">⚪ Lưu trữ làm mẫu</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. KHU VỰC HIỂN THỊ -->
+          <!-- 4A. DẠNG LƯỚI THẺ MEDIA -->
+          <div id="pmGridView" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- 4B. DẠNG BẢNG KIỂM SOÁT -->
+          <div id="pmTableView" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 select-none">
+                    <th class="py-2.5 px-3 text-center w-12 border-r border-slate-200">STT</th>
+                    <th class="py-2.5 px-3 text-center w-28 border-r border-slate-200">Nền Tảng</th>
+                    <th class="py-2.5 px-3 text-left w-40 border-r border-slate-200">Tên Shop / Kênh</th>
+                    <th class="py-2.5 px-3 text-left min-w-[220px] border-r border-slate-200">Tiêu Đề / Nội Dung</th>
+                    <th class="py-2.5 px-3 text-left w-36 border-r border-slate-200">Model Áp Dụng</th>
+                    <th class="py-2.5 px-3 text-right w-28 border-r border-slate-200">Giá Shop Bán</th>
+                    <th class="py-2.5 px-3 text-center w-28 border-r border-slate-200">Tương Tác</th>
+                    <th class="py-2.5 px-3 text-center w-24 border-r border-slate-200">Link Trực Tiếp</th>
+                    <th class="py-2.5 px-3 text-center w-32">Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="pmTableTbody" class="divide-y divide-slate-200 font-medium">
                   <!-- Dynamically populated -->
                 </tbody>
               </table>
@@ -7783,6 +7974,7 @@
       if (tabId === 'dashboard') renderDashboard();
       else if (tabId === 'inventory') renderInventoryTable();
       else if (tabId === 'campaigns') renderCampaigns();
+      else if (tabId === 'partners-media') renderPartnersMedia();
       else if (tabId === 'channel-quote') renderChannelQuote();
       else if (tabId === 'products') renderProductTable();
       else if (tabId === 'aliases') renderAliasTable();
@@ -12392,6 +12584,726 @@ ${camp.rule}
       showToast('Đã xuất danh sách chương trình ra file Excel thành công!');
     }
 
+
+    // ==========================================
+    // PHÂN HỆ QUẢN LÝ KÊNH ĐỐI TÁC & THƯ VIỆN MEDIA (PARTNERS & MEDIA HUB)
+    // ==========================================
+    const STORAGE_KEY_PARTNERS_MEDIA = 'LOCK_KING_PARTNERS_MEDIA_v1';
+    let currentPartnerMediaViewMode = 'grid'; // 'grid' | 'table'
+
+    const seedPartnersMedia = [
+      {
+        id: 'PM-001',
+        shopName: 'Gia Dụng Bếp Việt Official',
+        platform: 'TIKTOK',
+        type: 'VIDEO_REVIEW',
+        title: 'Video Review Chảo cạn Titan Lock&King LK-2606A rán trứng không dính',
+        url: 'https://www.tiktok.com/@giadungbepviet/video/7382910482',
+        thumbnail: 'images/LK-2606A.png',
+        productCode: 'LK-2606A',
+        price: 385000,
+        metrics: '420K view - 15K tim - 180 đơn',
+        staff: 'Sale Online Vũ Gia',
+        status: 'ACTIVE',
+        note: 'Video viral cực tốt, chốt đơn đều hàng ngày'
+      },
+      {
+        id: 'PM-002',
+        shopName: 'Vũ Gia Kitchen Mall',
+        platform: 'SHOPEE',
+        type: 'SHOP_PROFILE',
+        title: 'Gian Hàng Shopee Mall Phân Phối Chính Hãng Bộ Nồi Inox 5 Đáy LK-3386A',
+        url: 'https://shopee.vn/product/12984920/83749281',
+        thumbnail: 'images/LK-3386A.png',
+        productCode: 'LK-3386A',
+        price: 540000,
+        metrics: 'Đã bán 1.4K bộ - Đánh giá 4.9/5',
+        staff: 'Sale Online Team 2',
+        status: 'ACTIVE',
+        note: 'Đối tác lớn top ngành hàng gia dụng Shopee'
+      },
+      {
+        id: 'PM-003',
+        shopName: 'Yêu Bếp & Nghiện Nhà',
+        platform: 'FACEBOOK',
+        type: 'VIDEO_REVIEW',
+        title: 'Video Reels Hầm Cháo Chim Câu Bằng Nồi Nấu Chậm Lock&King LK-4209',
+        url: 'https://www.facebook.com/reel/9284719284',
+        thumbnail: 'images/LK-4209.png',
+        productCode: 'LK-4209',
+        price: 450000,
+        metrics: '185K view - 3.2K like - 95 đơn',
+        staff: 'Sale Online FB',
+        status: 'ACTIVE',
+        note: 'Nội dung gia đình ấm cúng, tỷ lệ chuyển đổi cao'
+      },
+      {
+        id: 'PM-004',
+        shopName: 'Tổng Kho Sỉ Gia Dụng Miền Bắc',
+        platform: 'TIKTOK',
+        type: 'LIVESTREAM',
+        title: 'Phiên Livestream Xả Kho Đèn Sưởi Nhà Tắm Takin TK-1003 Đón Mùa Đông',
+        url: 'https://www.tiktok.com/@tongkhogiadung/live',
+        thumbnail: 'images/TK-1003.png',
+        productCode: 'TK-1003',
+        price: 280000,
+        metrics: '150 đơn/phiên - 2.8K mắt xem',
+        staff: 'Sale Offline Kênh Sỉ',
+        status: 'ACTIVE',
+        note: 'Đang đẩy mạnh bán đèn sưởi vụ đông'
+      },
+      {
+        id: 'PM-005',
+        shopName: 'Điện Máy Gia Đình Hưng Yên',
+        platform: 'SHOPEE',
+        type: 'SHOP_PROFILE',
+        title: 'Link Sản Phẩm Chảo Cạn Titan Takin TK-2201 Shop Yêu Thích',
+        url: 'https://shopee.vn/product/8291048/19284729',
+        thumbnail: 'images/TK-2201.png',
+        productCode: 'TK-2201',
+        price: 320000,
+        metrics: '850 đánh giá 5 sao - Đã bán 2.1K cái',
+        staff: 'Sale Đại Lý Hưng Yên',
+        status: 'ACTIVE',
+        note: 'Khách hàng trung thành lấy sỉ định kỳ'
+      },
+      {
+        id: 'PM-006',
+        shopName: 'Đại Lý Gia Dụng Kim Ngân (Bắc Giang)',
+        platform: 'FACEBOOK',
+        type: 'IMAGE_FEEDBACK',
+        title: 'Bộ Ảnh Khai Trương Quầy Kệ Trưng Bày Hàng Lock&King & Takin Chuẩn Hãng',
+        url: 'https://www.facebook.com/dailygiadungkimngan/posts/1029384729',
+        thumbnail: 'images/LK-3122.png',
+        productCode: 'LK-3122',
+        price: 738000,
+        metrics: '1.2K like - 80 bình luận mua hàng',
+        staff: 'Sale Offline Bắc Giang',
+        status: 'ACTIVE',
+        note: 'Đại lý mới được công ty tài trợ kệ và biển bảng'
+      }
+    ];
+
+    function getPartnersMediaDB() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY_PARTNERS_MEDIA);
+        if (!stored) {
+          localStorage.setItem(STORAGE_KEY_PARTNERS_MEDIA, JSON.stringify(seedPartnersMedia));
+          return JSON.parse(JSON.stringify(seedPartnersMedia));
+        }
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        localStorage.setItem(STORAGE_KEY_PARTNERS_MEDIA, JSON.stringify(seedPartnersMedia));
+        return JSON.parse(JSON.stringify(seedPartnersMedia));
+      } catch (e) {
+        console.error('Lỗi đọc dữ liệu đối tác media:', e);
+        return JSON.parse(JSON.stringify(seedPartnersMedia));
+      }
+    }
+
+    function savePartnersMediaDB(items) {
+      try {
+        localStorage.setItem(STORAGE_KEY_PARTNERS_MEDIA, JSON.stringify(items));
+      } catch (e) {
+        console.error('Lỗi lưu dữ liệu đối tác media:', e);
+      }
+    }
+
+    function resetPartnersMediaToDefault() {
+      if (confirm('Bạn có chắc chắn muốn khôi phục danh sách shop đối tác và media mẫu?')) {
+        localStorage.setItem(STORAGE_KEY_PARTNERS_MEDIA, JSON.stringify(seedPartnersMedia));
+        renderPartnersMedia();
+        showToast('Đã khôi phục dữ liệu shop đối tác mẫu thành công!');
+      }
+    }
+
+    // Tự động nhận diện nền tảng khi dán link URL
+    function handleUrlInputAutoDetect(url) {
+      if (!url) return;
+      const lower = url.toLowerCase();
+      const select = document.getElementById('pmFormPlatform');
+      if (!select) return;
+
+      if (lower.includes('tiktok.com')) {
+        select.value = 'TIKTOK';
+      } else if (lower.includes('shopee.vn') || lower.includes('shopee.com')) {
+        select.value = 'SHOPEE';
+      } else if (lower.includes('facebook.com') || lower.includes('fb.watch') || lower.includes('fb.com')) {
+        select.value = 'FACEBOOK';
+      }
+    }
+
+    function getPlatformBadge(platform) {
+      switch (platform) {
+        case 'TIKTOK':
+          return '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-black bg-black text-white border border-pink-500 shadow-2xs">🎵 TikTok</span>';
+        case 'SHOPEE':
+          return '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-black bg-orange-500 text-white border border-orange-600 shadow-2xs">🛒 Shopee</span>';
+        case 'FACEBOOK':
+          return '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-black bg-blue-600 text-white border border-blue-700 shadow-2xs">📘 Facebook</span>';
+        default:
+          return '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-slate-100 text-slate-700 border border-slate-300">🌐 Nền tảng khác</span>';
+      }
+    }
+
+    function getContentTypeBadge(type) {
+      switch (type) {
+        case 'VIDEO_REVIEW':
+          return '<span class="text-[10px] bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-bold border border-purple-200">🎥 Video Review</span>';
+        case 'LIVESTREAM':
+          return '<span class="text-[10px] bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded font-bold border border-rose-200">🔴 Livestream</span>';
+        case 'IMAGE_FEEDBACK':
+          return '<span class="text-[10px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-bold border border-emerald-200">📸 Feedback Ảnh</span>';
+        case 'SHOP_PROFILE':
+          return '<span class="text-[10px] bg-sky-50 text-sky-700 px-1.5 py-0.5 rounded font-bold border border-sky-200">🏪 Link Shop</span>';
+        case 'ADS_POST':
+          return '<span class="text-[10px] bg-amber-50 text-amber-800 px-1.5 py-0.5 rounded font-bold border border-amber-200">📢 Bài Viết Ads</span>';
+        default:
+          return '<span class="text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-bold">Tư Liệu</span>';
+      }
+    }
+
+    function getPmStatusBadge(status) {
+      switch (status) {
+        case 'ACTIVE':
+          return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span> Đang hoạt động</span>';
+        case 'CHECK_PRICE':
+          return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300"><span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block animate-pulse"></span> Cần kiểm tra giá</span>';
+        case 'ARCHIVED':
+          return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-300">Lưu trữ mẫu</span>';
+        default:
+          return '';
+      }
+    }
+
+    function togglePartnersMediaView(mode) {
+      currentPartnerMediaViewMode = mode;
+      const btnGrid = document.getElementById('pmBtnViewGrid');
+      const btnTable = document.getElementById('pmBtnViewTable');
+      const grid = document.getElementById('pmGridView');
+      const table = document.getElementById('pmTableView');
+
+      if (mode === 'grid') {
+        if (btnGrid) btnGrid.className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-2xs transition flex items-center gap-1';
+        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition flex items-center gap-1';
+        if (grid) grid.classList.remove('hidden');
+        if (table) table.classList.add('hidden');
+      } else {
+        if (btnGrid) btnGrid.className = 'px-2.5 py-1 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition flex items-center gap-1';
+        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-lg font-bold bg-white text-slate-800 shadow-2xs transition flex items-center gap-1';
+        if (grid) grid.classList.add('hidden');
+        if (table) table.classList.remove('hidden');
+      }
+      safeLucideIcons();
+    }
+
+    // Render chính
+    function renderPartnersMedia() {
+      const allItems = getPartnersMediaDB();
+
+      // Cập nhật thống kê KPI
+      let countTikTok = 0;
+      let countShopee = 0;
+      let countFacebook = 0;
+
+      allItems.forEach(i => {
+        if (i.platform === 'TIKTOK') countTikTok++;
+        else if (i.platform === 'SHOPEE') countShopee++;
+        else if (i.platform === 'FACEBOOK') countFacebook++;
+      });
+
+      const elTotal = document.getElementById('kpiPmTotal');
+      if (elTotal) elTotal.innerText = allItems.length;
+      const elTikTok = document.getElementById('kpiPmTikTok');
+      if (elTikTok) elTikTok.innerText = countTikTok;
+      const elShopee = document.getElementById('kpiPmShopee');
+      if (elShopee) elShopee.innerText = countShopee;
+      const elFacebook = document.getElementById('kpiPmFacebook');
+      if (elFacebook) elFacebook.innerText = countFacebook;
+
+      const badgeNav = document.getElementById('badgePartnersMediaCount');
+      if (badgeNav) badgeNav.innerText = allItems.length + ' Shop';
+
+      // Lọc
+      const searchEl = document.getElementById('pmFilterSearch');
+      const q = (searchEl ? searchEl.value : '').trim().toUpperCase();
+
+      const platformEl = document.getElementById('pmFilterPlatform');
+      const platformFilter = platformEl ? platformEl.value : 'ALL';
+
+      const typeEl = document.getElementById('pmFilterType');
+      const typeFilter = typeEl ? typeEl.value : 'ALL';
+
+      const statusEl = document.getElementById('pmFilterStatus');
+      const statusFilter = statusEl ? statusEl.value : 'ALL';
+
+      const filtered = allItems.filter(item => {
+        const name = (item.shopName || '').toUpperCase();
+        const title = (item.title || '').toUpperCase();
+        const code = (item.productCode || '').toUpperCase();
+        const staff = (item.staff || '').toUpperCase();
+
+        const matchQ = !q || name.includes(q) || title.includes(q) || code.includes(q) || staff.includes(q);
+        const matchPlatform = (platformFilter === 'ALL' || item.platform === platformFilter);
+        const matchType = (typeFilter === 'ALL' || item.type === typeFilter);
+        const matchStatus = (statusFilter === 'ALL' || item.status === statusFilter);
+
+        return matchQ && matchPlatform && matchType && matchStatus;
+      });
+
+      // 1. RENDER GRID VIEW
+      const grid = document.getElementById('pmGridView');
+      if (grid) {
+        if (filtered.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
+              <i data-lucide="video" class="w-12 h-12 mx-auto mb-3 text-slate-300"></i>
+              <p class="font-bold text-sm text-slate-600">Không tìm thấy tư liệu shop đối tác nào phù hợp</p>
+              <p class="text-xs mt-1">Hãy thử đổi từ khóa hoặc bộ lọc nền tảng</p>
+            </div>
+          `;
+        } else {
+          grid.innerHTML = filtered.map(item => {
+            const platformBadge = getPlatformBadge(item.platform);
+            const typeBadge = getContentTypeBadge(item.type);
+            const statusBadge = getPmStatusBadge(item.status);
+            const priceStr = item.price ? Number(item.price).toLocaleString('vi-VN') + ' đ' : 'Chưa cập nhật';
+
+            return `
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition p-4 flex flex-col justify-between space-y-3">
+                <div class="space-y-2.5">
+                  <div class="flex items-center justify-between gap-2 flex-wrap">
+                    ${platformBadge}
+                    ${typeBadge}
+                  </div>
+
+                  <div class="flex gap-3 items-start">
+                    ${item.thumbnail ? `
+                      <img 
+                        src="${item.thumbnail}" 
+                        alt="${escapeHtml(item.shopName)}" 
+                        onclick="openImageModal('${item.thumbnail}', '${escapeHtml(item.title)}', '${escapeHtml(item.productCode || '')}')" 
+                        class="w-16 h-16 object-contain rounded-xl border border-slate-200 bg-slate-50 p-1 shrink-0 cursor-pointer hover:scale-105 transition" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/100x100/f8fafc/94a3b8?text=MEDIA';"
+                      />
+                    ` : `
+                      <div class="w-16 h-16 rounded-xl bg-pink-50 border border-pink-100 flex items-center justify-center text-pink-500 shrink-0">
+                        <i data-lucide="play-circle" class="w-8 h-8"></i>
+                      </div>
+                    `}
+
+                    <div class="min-w-0 flex-1">
+                      <h4 class="font-black text-slate-900 text-sm leading-snug hover:text-pink-600 transition cursor-pointer" onclick="viewPartnerMediaDetail('${escapeHtml(item.id)}')">
+                        ${escapeHtml(item.shopName)}
+                      </h4>
+                      <p class="text-xs text-slate-600 line-clamp-2 mt-0.5 leading-relaxed">
+                        ${escapeHtml(item.title)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-100 text-[11px] space-y-1">
+                    <div class="flex items-center justify-between">
+                      <span class="text-slate-500">Model liên quan:</span>
+                      <span class="font-mono font-bold text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200">${escapeHtml(item.productCode || 'Đa sản phẩm')}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-slate-500">Giá shop bán:</span>
+                      <strong class="font-mono text-emerald-700 font-bold">${priceStr}</strong>
+                    </div>
+                    ${item.metrics ? `
+                      <div class="flex items-center justify-between text-slate-600">
+                        <span class="text-slate-500">Tương tác:</span>
+                        <span class="font-medium">${escapeHtml(item.metrics)}</span>
+                      </div>
+                    ` : ''}
+                  </div>
+
+                  <div class="flex items-center justify-between text-[11px] text-slate-500">
+                    <span>Phụ trách: <strong>${escapeHtml(item.staff || 'Sale Vũ Gia')}</strong></span>
+                    ${statusBadge}
+                  </div>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-1.5">
+                  <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="flex-1 py-1.5 px-2 bg-slate-900 hover:bg-black text-white rounded-lg text-xs font-bold shadow-2xs flex items-center justify-center gap-1 transition active:scale-95" title="Mở link bài viết / gian hàng">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-pink-400"></i>
+                    <span>Mở Link Shop</span>
+                  </a>
+
+                  <button type="button" onclick="copyPartnerMediaForZalo('${escapeHtml(item.id)}')" class="py-1.5 px-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1" title="Sao chép gửi Zalo">
+                    <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                    <span>Zalo</span>
+                  </button>
+
+                  <button type="button" onclick="viewPartnerMediaDetail('${escapeHtml(item.id)}')" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition" title="Chi tiết">
+                    <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                  </button>
+
+                  <button type="button" onclick="openEditPartnerMediaModal('${escapeHtml(item.id)}')" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition" title="Sửa">
+                    <i data-lucide="edit" class="w-3.5 h-3.5"></i>
+                  </button>
+
+                  <button type="button" onclick="deletePartnerMedia('${escapeHtml(item.id)}')" class="p-1.5 bg-slate-100 hover:bg-rose-50 text-rose-600 rounded-lg text-xs font-bold transition" title="Xóa">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      // 2. RENDER TABLE VIEW
+      const tableTbody = document.getElementById('pmTableTbody');
+      if (tableTbody) {
+        if (filtered.length === 0) {
+          tableTbody.innerHTML = `
+            <tr>
+              <td colspan="9" class="py-12 text-center text-slate-400">
+                <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-2 text-slate-300"></i>
+                <p class="font-bold">Không tìm thấy bản ghi nào</p>
+              </td>
+            </tr>
+          `;
+        } else {
+          tableTbody.innerHTML = filtered.map((item, idx) => {
+            const platformBadge = getPlatformBadge(item.platform);
+            const priceStr = item.price ? Number(item.price).toLocaleString('vi-VN') + ' đ' : '-';
+
+            return `
+              <tr class="hover:bg-slate-50 transition border-b border-slate-200">
+                <td class="py-2.5 px-3 text-center text-slate-500 font-mono border-r border-slate-200">${idx + 1}</td>
+                <td class="py-2.5 px-3 text-center border-r border-slate-200 whitespace-nowrap">${platformBadge}</td>
+                <td class="py-2.5 px-3 font-bold text-slate-900 border-r border-slate-200">
+                  <div class="hover:text-pink-600 cursor-pointer" onclick="viewPartnerMediaDetail('${escapeHtml(item.id)}')">${escapeHtml(item.shopName)}</div>
+                  <div class="text-[10px] text-slate-400 font-normal">Phụ trách: ${escapeHtml(item.staff || 'Sale')}</div>
+                </td>
+                <td class="py-2.5 px-3 border-r border-slate-200 text-slate-800">
+                  <div class="font-semibold line-clamp-1">${escapeHtml(item.title)}</div>
+                  <div class="text-[10.5px] text-slate-400 font-mono truncate max-w-[200px]">${escapeHtml(item.url)}</div>
+                </td>
+                <td class="py-2.5 px-3 border-r border-slate-200 font-mono font-bold text-purple-700 whitespace-nowrap">
+                  ${escapeHtml(item.productCode || '-')}
+                </td>
+                <td class="py-2.5 px-3 text-right font-mono font-bold text-emerald-700 border-r border-slate-200 whitespace-nowrap">
+                  ${priceStr}
+                </td>
+                <td class="py-2.5 px-3 text-center text-[11px] text-slate-600 border-r border-slate-200 whitespace-nowrap">
+                  ${escapeHtml(item.metrics || '-')}
+                </td>
+                <td class="py-2.5 px-3 text-center border-r border-slate-200 whitespace-nowrap">
+                  <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-slate-100 hover:bg-slate-800 hover:text-white rounded text-[10.5px] font-bold transition inline-flex items-center gap-1">
+                    <i data-lucide="external-link" class="w-3 h-3"></i> Mở
+                  </a>
+                </td>
+                <td class="py-2.5 px-3 text-center whitespace-nowrap">
+                  <div class="flex items-center justify-center gap-1">
+                    <button type="button" onclick="copyPartnerMediaForZalo('${escapeHtml(item.id)}')" class="px-1.5 py-0.5 bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white rounded text-[10.5px] font-bold transition" title="Sao chép gửi Zalo">
+                      Zalo
+                    </button>
+                    <button type="button" onclick="viewPartnerMediaDetail('${escapeHtml(item.id)}')" class="p-1 hover:bg-slate-100 text-slate-600 rounded transition" title="Chi tiết">
+                      <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button type="button" onclick="openEditPartnerMediaModal('${escapeHtml(item.id)}')" class="p-1 hover:bg-slate-100 text-slate-600 rounded transition" title="Sửa">
+                      <i data-lucide="edit" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button type="button" onclick="deletePartnerMedia('${escapeHtml(item.id)}')" class="p-1 hover:bg-rose-50 text-rose-600 rounded transition" title="Xóa">
+                      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      safeLucideIcons();
+    }
+
+    // Modal Thêm / Sửa
+    function openCreatePartnerMediaModal() {
+      const modal = document.getElementById('partnerMediaModal');
+      const title = document.getElementById('partnerMediaModalTitle');
+      const form = document.getElementById('partnerMediaForm');
+      if (!modal || !form) return;
+
+      form.reset();
+      document.getElementById('pmFormId').value = '';
+      if (title) title.innerText = 'Thêm Tư Liệu / Link Shop Đối Tác Mới';
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function openEditPartnerMediaModal(id) {
+      const allItems = getPartnersMediaDB();
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      const modal = document.getElementById('partnerMediaModal');
+      const title = document.getElementById('partnerMediaModalTitle');
+      if (!modal) return;
+
+      if (title) title.innerText = 'Chỉnh Sửa Tư Liệu: ' + item.shopName;
+      document.getElementById('pmFormId').value = item.id;
+      document.getElementById('pmFormUrl').value = item.url || '';
+      document.getElementById('pmFormPlatform').value = item.platform || 'TIKTOK';
+      document.getElementById('pmFormType').value = item.type || 'VIDEO_REVIEW';
+      document.getElementById('pmFormShopName').value = item.shopName || '';
+      document.getElementById('pmFormProductCode').value = item.productCode || '';
+      document.getElementById('pmFormTitle').value = item.title || '';
+      document.getElementById('pmFormPrice').value = item.price || '';
+      document.getElementById('pmFormMetrics').value = item.metrics || '';
+      document.getElementById('pmFormThumbnail').value = item.thumbnail || '';
+      document.getElementById('pmFormStaff').value = item.staff || '';
+      document.getElementById('pmFormStatus').value = item.status || 'ACTIVE';
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closePartnerMediaModal() {
+      const modal = document.getElementById('partnerMediaModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function savePartnerMediaForm(e) {
+      e.preventDefault();
+      const id = document.getElementById('pmFormId').value.trim();
+      const url = document.getElementById('pmFormUrl').value.trim();
+      const platform = document.getElementById('pmFormPlatform').value;
+      const type = document.getElementById('pmFormType').value;
+      const shopName = document.getElementById('pmFormShopName').value.trim();
+      const productCode = document.getElementById('pmFormProductCode').value.trim();
+      const title = document.getElementById('pmFormTitle').value.trim();
+      const price = document.getElementById('pmFormPrice').value ? Number(document.getElementById('pmFormPrice').value) : null;
+      const metrics = document.getElementById('pmFormMetrics').value.trim();
+      let thumbnail = document.getElementById('pmFormThumbnail').value.trim();
+      const staff = document.getElementById('pmFormStaff').value.trim();
+      const status = document.getElementById('pmFormStatus').value;
+
+      if (!url || !shopName || !title) {
+        alert('Vui lòng điền đầy đủ các thông tin bắt buộc (*)');
+        return;
+      }
+
+      // Gợi ý ảnh nếu để trống nhưng có productCode
+      if (!thumbnail && productCode) {
+        thumbnail = 'images/' + productCode.toUpperCase() + '.png';
+      }
+
+      const allItems = getPartnersMediaDB();
+
+      if (id) {
+        const idx = allItems.findIndex(i => i.id === id);
+        if (idx !== -1) {
+          allItems[idx] = {
+            ...allItems[idx],
+            url, platform, type, shopName, productCode, title, price, metrics, thumbnail, staff, status
+          };
+          showToast('Đã cập nhật thông tin đối tác thành công!');
+        }
+      } else {
+        const nextId = 'PM-' + String(allItems.length + 1).padStart(3, '0');
+        const newItem = {
+          id: nextId,
+          url, platform, type, shopName, productCode, title, price, metrics, thumbnail, staff, status
+        };
+        allItems.unshift(newItem);
+        showToast('Đã thêm tư liệu shop đối tác mới thành công!');
+      }
+
+      savePartnersMediaDB(allItems);
+      closePartnerMediaModal();
+      renderPartnersMedia();
+    }
+
+    function deletePartnerMedia(id) {
+      const allItems = getPartnersMediaDB();
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      if (confirm('Bạn có chắc chắn muốn xóa bản ghi của shop: ' + item.shopName + '?')) {
+        const next = allItems.filter(i => i.id !== id);
+        savePartnersMediaDB(next);
+        renderPartnersMedia();
+        showToast('Đã xóa bản ghi đối tác!');
+      }
+    }
+
+    function getPartnerMediaZaloText(item) {
+      const platformName = item.platform === 'TIKTOK' ? 'TikTok' : (item.platform === 'SHOPEE' ? 'Shopee' : (item.platform === 'FACEBOOK' ? 'Facebook' : 'Đối tác'));
+      const priceStr = item.price ? Number(item.price).toLocaleString('vi-VN') + ' đ' : '';
+
+      return `⭐ TƯ LIỆU THỰC TẾ SHOP ĐỐI TÁC VŨ GIA ⭐
+────────────────────
+🏪 Shop: ${item.shopName} (${platformName})
+📌 Tiêu đề: ${item.title}
+${item.productCode ? '📦 Model: ' + item.productCode + '\n' : ''}${priceStr ? '💰 Giá đang bán: ' + priceStr + '\n' : ''}${item.metrics ? '🔥 Hiệu quả: ' + item.metrics + '\n' : ''}
+🔗 XEM TRỰC TIẾP TẠI ĐÂY:
+${item.url}
+────────────────────
+🏢 CÔNG TY GIA DỤNG VŨ GIA (Lock&King & Takin)`;
+    }
+
+    function copyPartnerMediaForZalo(id) {
+      const allItems = getPartnersMediaDB();
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      const text = getPartnerMediaZaloText(item);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Đã sao chép link & thông tin tư liệu! Bạn có thể dán (Ctrl+V) ngay vào Zalo.');
+        }).catch(() => {
+          prompt('Sao chép nội dung gửi Zalo:', text);
+        });
+      } else {
+        prompt('Sao chép nội dung gửi Zalo:', text);
+      }
+    }
+
+    function viewPartnerMediaDetail(id) {
+      const allItems = getPartnersMediaDB();
+      const item = allItems.find(i => i.id === id);
+      if (!item) return;
+
+      const modal = document.getElementById('partnerMediaDetailModal');
+      const body = document.getElementById('partnerMediaDetailBody');
+      const btnOpen = document.getElementById('btnOpenLinkModal');
+      const btnCopy = document.getElementById('btnCopyZaloMediaModal');
+      if (!modal || !body) return;
+
+      const platformBadge = getPlatformBadge(item.platform);
+      const typeBadge = getContentTypeBadge(item.type);
+      const priceStr = item.price ? Number(item.price).toLocaleString('vi-VN') + ' đ' : 'Chưa ghi nhận';
+      const zaloText = getPartnerMediaZaloText(item);
+
+      if (btnOpen) {
+        btnOpen.onclick = function() {
+          window.open(item.url, '_blank', 'noopener,noreferrer');
+        };
+      }
+      if (btnCopy) {
+        btnCopy.onclick = function() {
+          copyPartnerMediaForZalo(item.id);
+        };
+      }
+
+      body.innerHTML = `
+        <div class="flex gap-3 items-center bg-slate-50 p-3 rounded-xl border border-slate-200">
+          ${item.thumbnail ? `
+            <img 
+              src="${item.thumbnail}" 
+              alt="${escapeHtml(item.shopName)}" 
+              onclick="openImageModal('${item.thumbnail}', '${escapeHtml(item.title)}', '${escapeHtml(item.productCode || '')}')" 
+              class="w-20 h-20 object-contain rounded-xl border border-slate-200 bg-white p-1 shrink-0 cursor-pointer shadow-xs" 
+              onerror="this.onerror=null; this.src='https://placehold.co/100x100/f8fafc/94a3b8?text=MEDIA';"
+            />
+          ` : ''}
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              ${platformBadge}
+              ${typeBadge}
+            </div>
+            <h4 class="font-black text-slate-900 text-sm mt-1">${escapeHtml(item.shopName)}</h4>
+            <div class="text-[11px] text-slate-500 mt-0.5">Phụ trách: <strong>${escapeHtml(item.staff || 'Sale Vũ Gia')}</strong></div>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="font-bold text-slate-800">📌 Tiêu đề & nội dung:</div>
+          <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-medium leading-relaxed">
+            ${escapeHtml(item.title)}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-[11px]">
+          <div class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+            <span class="text-slate-500">Model sản phẩm:</span>
+            <div class="font-mono font-bold text-purple-700 text-xs mt-0.5">${escapeHtml(item.productCode || 'Tất cả')}</div>
+          </div>
+          <div class="p-2 bg-slate-50 border border-slate-200 rounded-lg">
+            <span class="text-slate-500">Giá shop đang bán:</span>
+            <div class="font-mono font-bold text-emerald-700 text-xs mt-0.5">${priceStr}</div>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-800">🔗 Link trực tiếp:</span>
+            <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-bold text-[10.5px]">Mở tab mới ➔</a>
+          </div>
+          <div class="p-2 bg-slate-100 rounded-lg font-mono text-[10.5px] text-slate-700 break-all select-all">
+            ${escapeHtml(item.url)}
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="font-bold text-slate-800">💬 Xem trước tin nhắn Zalo gửi đại lý:</div>
+          <textarea readonly class="w-full h-28 p-2.5 bg-slate-900 text-slate-200 font-mono text-[11px] rounded-xl border border-slate-800 focus:outline-none resize-none leading-relaxed select-all">${escapeHtml(zaloText)}</textarea>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closePartnerMediaDetailModal() {
+      const modal = document.getElementById('partnerMediaDetailModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function exportPartnersMediaToExcel() {
+      const allItems = getPartnersMediaDB();
+      const exportRows = [
+        ["STT", "Nền Tảng", "Loại Nội Dung", "Tên Shop / Đối Tác", "Tiêu Đề / Mô Tả", "Model Sản Phẩm", "Giá Shop Đang Bán", "Chỉ Số Tương Tác", "Đường Link URL", "Nhân Viên Phụ Trách", "Trạng Thái"]
+      ];
+
+      allItems.forEach((item, idx) => {
+        const platformStr = item.platform === 'TIKTOK' ? 'TikTok' : (item.platform === 'SHOPEE' ? 'Shopee' : (item.platform === 'FACEBOOK' ? 'Facebook' : 'Khác'));
+        const typeStr = item.type === 'VIDEO_REVIEW' ? 'Video Review' : (item.type === 'LIVESTREAM' ? 'Livestream' : (item.type === 'IMAGE_FEEDBACK' ? 'Feedback Ảnh' : (item.type === 'SHOP_PROFILE' ? 'Link Shop' : 'Bài viết Ads')));
+
+        exportRows.push([
+          idx + 1,
+          platformStr,
+          typeStr,
+          item.shopName || '',
+          item.title || '',
+          item.productCode || '',
+          item.price || '',
+          item.metrics || '',
+          item.url || '',
+          item.staff || '',
+          item.status === 'ACTIVE' ? 'Đang hoạt động' : (item.status === 'CHECK_PRICE' ? 'Cần kiểm tra giá' : 'Lưu trữ')
+        ]);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(exportRows);
+      ws['!cols'] = [
+        { wch: 6 },
+        { wch: 12 },
+        { wch: 18 },
+        { wch: 28 },
+        { wch: 45 },
+        { wch: 16 },
+        { wch: 18 },
+        { wch: 24 },
+        { wch: 45 },
+        { wch: 18 },
+        { wch: 16 }
+      ];
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Shop_Doi_Tac_Media");
+      const dateStr = new Date().toISOString().slice(0, 10);
+      XLSX.writeFile(wb, `Danh_Sach_Shop_Doi_Tac_Media_${dateStr}.xlsx`);
+      showToast('Đã xuất danh sách shop đối tác và media ra file Excel thành công!');
+    }
+
     </script>
 
     <!-- MODAL THÊM / SỬA CHƯƠNG TRÌNH CÔNG TY -->
@@ -12611,6 +13523,155 @@ ${camp.rule}
           <i data-lucide="copy" class="w-4 h-4"></i>
           <span>Sao Chép Tin Nhắn Zalo</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL THÊM / SỬA TƯ LIỆU SHOP ĐỐI TÁC -->
+  <div id="partnerMediaModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="p-2 bg-pink-100 text-pink-700 rounded-xl">
+            <i data-lucide="video" class="w-5 h-5"></i>
+          </span>
+          <h3 id="partnerMediaModalTitle" class="text-base font-black text-slate-900">Thêm Tư Liệu / Link Shop Đối Tác</h3>
+        </div>
+        <button type="button" onclick="closePartnerMediaModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="partnerMediaForm" onsubmit="savePartnerMediaForm(event)" class="space-y-3.5 text-xs">
+        <input type="hidden" id="pmFormId" value="" />
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">
+            Đường Link URL Video / Shop <span class="text-rose-500">*</span>
+            <span class="text-[10px] text-pink-600 font-normal ml-1">(Tự động nhận diện TikTok, Shopee, Facebook khi dán)</span>
+          </label>
+          <input type="url" id="pmFormUrl" required oninput="handleUrlInputAutoDetect(this.value)" placeholder="Dán link TikTok, Shopee hoặc Facebook vào đây..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-mono text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nền Tảng <span class="text-rose-500">*</span></label>
+            <select id="pmFormPlatform" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:border-pink-500 text-xs">
+              <option value="TIKTOK">🎵 TikTok (TikTok Shop / Video)</option>
+              <option value="SHOPEE">🛒 Shopee (Shopee Mall / Shop)</option>
+              <option value="FACEBOOK">📘 Facebook (Fanpage / Reels)</option>
+              <option value="OTHER">🌐 Nền tảng khác</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Loại Nội Dung <span class="text-rose-500">*</span></label>
+            <select id="pmFormType" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:border-pink-500 text-xs">
+              <option value="VIDEO_REVIEW">🎥 Video Review / Test sản phẩm</option>
+              <option value="LIVESTREAM">🔴 Livestream chốt đơn</option>
+              <option value="IMAGE_FEEDBACK">📸 Hình ảnh feedback / Quầy kệ</option>
+              <option value="SHOP_PROFILE">🏪 Link Gian hàng / Shop Profile</option>
+              <option value="ADS_POST">📢 Bài viết quảng cáo / Chạy Ads</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tên Shop / Kênh Đối Tác <span class="text-rose-500">*</span></label>
+            <input type="text" id="pmFormShopName" required placeholder="VD: Gia Dụng Bếp Việt Official" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-bold text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Model Sản Phẩm Liên Quan</label>
+            <input type="text" id="pmFormProductCode" placeholder="VD: LK-2606A, TK-2201..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-mono text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Tiêu Đề / Tóm Tắt Nội Dung <span class="text-rose-500">*</span></label>
+          <input type="text" id="pmFormTitle" required placeholder="VD: Video review Chảo cạn Titan LK-2606A rán trứng không dầu 400k view" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Giá Shop Đang Bán (VNĐ)</label>
+            <input type="number" id="pmFormPrice" placeholder="VD: 385000" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-mono font-bold text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Hiệu Quả / Lượt Tương Tác</label>
+            <input type="text" id="pmFormMetrics" placeholder="VD: 350K view, 150 đơn/phiên" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Ảnh Thumbnail / Ảnh Minh Họa (URL)</label>
+          <input type="text" id="pmFormThumbnail" placeholder="VD: images/LK-2606A.png hoặc link ảnh online" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-pink-500 text-xs font-mono" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Nhân Viên Sale Phụ Trách</label>
+            <input type="text" id="pmFormStaff" placeholder="VD: Sale Online Team 1" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:border-pink-500 text-xs" />
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Trạng Thái Theo Dõi</label>
+            <select id="pmFormStatus" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 font-semibold text-slate-800 focus:outline-none focus:border-pink-500 text-xs">
+              <option value="ACTIVE">🟢 Đang hoạt động / Hiệu quả tốt</option>
+              <option value="CHECK_PRICE">🟡 Cần kiểm tra giá bán</option>
+              <option value="ARCHIVED">⚪ Lưu trữ làm tư liệu</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+          <button type="button" onclick="closePartnerMediaModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition">
+            Hủy Bỏ
+          </button>
+          <button type="submit" class="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-xl font-bold shadow transition flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span>Lưu Bản Ghi</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL XEM CHI TIẾT TƯ LIỆU SHOP -->
+  <div id="partnerMediaDetailModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="p-2 bg-pink-100 text-pink-700 rounded-xl">
+            <i data-lucide="video" class="w-5 h-5"></i>
+          </span>
+          <h3 class="text-base font-black text-slate-900">Chi Tiết Tư Liệu & Mẫu Zalo</h3>
+        </div>
+        <button type="button" onclick="closePartnerMediaDetailModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="partnerMediaDetailBody" class="space-y-3 text-xs">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+        <button type="button" onclick="closePartnerMediaDetailModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs transition">
+          Đóng
+        </button>
+        <div class="flex items-center gap-2">
+          <button type="button" id="btnOpenLinkModal" onclick="" class="px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-xs transition flex items-center gap-1">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>Mở Link Shop</span>
+          </button>
+          <button type="button" id="btnCopyZaloMediaModal" onclick="" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs shadow transition flex items-center gap-1.5">
+            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+            <span>Copy Gửi Zalo</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
