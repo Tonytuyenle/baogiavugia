@@ -59,4 +59,4 @@ Hoặc mở trực tiếp tệp `index.html` trên bất kỳ trình duyệt web
 * `HUONG_DAN_SU_DUNG.md`: Tài liệu hướng dẫn sử dụng chi tiết cho nhân viên kinh doanh và quản lý.
 
 ---
-*Bản quyền thuộc Công ty TNHH Lock&King Việt Nam.*
+*Bản quyền thuộc VU GIA COOPERATIVE COMPANY LIMITED | 230 Lacasta, Van Phu Urban Area, Kien Hung Ward, Ha Noi | Websites: Locknking.com - Locknking.vn - Locknking.kr*
