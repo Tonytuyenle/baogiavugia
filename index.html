@@ -275,7 +275,8 @@
 
           <button onclick="navigateTab('customers')" id="nav-customers" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
             <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
-            <span>Đại Lý Online & Offline</span>
+            <span class="flex-1 text-left">Khách Hàng & NPP</span>
+            <span id="badgeActiveCustomers" class="text-[9px] bg-cyan-950/80 text-cyan-300 border border-cyan-700 px-1.5 py-0.5 rounded font-bold">7 Đối Tác</span>
           </button>
 
           <button onclick="navigateTab('new-quote')" id="nav-new-quote" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
@@ -2212,31 +2213,257 @@
 
         <!-- ================= TAB 6: CUSTOMERS ================= -->
         <section id="tab-customers" class="tab-pane hidden">
-          <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-3">
+          <!-- HEADER -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-6 gap-4 pb-4 border-b border-slate-200">
             <div>
-              <h2 class="text-xl font-black text-slate-900">Danh Sách Đại Lý Online & Offline</h2>
-              <p class="text-xs text-slate-500 mt-0.5">Mạng lưới phân phối đại lý vật lý và sàn online</p>
+              <div class="flex items-center gap-2">
+                <span class="p-2 bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-xl shadow-md shadow-sky-500/20">
+                  <i data-lucide="users" class="w-5 h-5"></i>
+                </span>
+                <div>
+                  <h2 class="text-xl font-black text-slate-900">Danh Mục Khách Hàng & Nhà Phân Phối (NPP)</h2>
+                  <p class="text-xs text-slate-500 mt-0.5">Quản lý mạng lưới NPP, Đại lý, Kênh Facebook & theo dõi trạng thái hợp tác</p>
+                </div>
+              </div>
             </div>
-            <button onclick="navigateTab('new-quote')" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
-              <i data-lucide="file-plus" class="w-3.5 h-3.5"></i> Tạo Báo Giá Nhanh
-            </button>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button onclick="openCustomerModal()" class="px-3.5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg text-xs font-bold shadow-md shadow-blue-500/20 flex items-center gap-1.5 transition transform hover:scale-[1.02]">
+                <i data-lucide="user-plus" class="w-4 h-4"></i> + Thêm Khách Hàng / NPP
+              </button>
+              <button onclick="exportCustomerExcel()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition">
+                <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Xuất Excel
+              </button>
+              <button onclick="navigateTab('new-quote')" class="px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1.5 transition">
+                <i data-lucide="file-plus" class="w-4 h-4"></i> Tạo Báo Giá
+              </button>
+            </div>
           </div>
 
+          <!-- KPI STATS CARDS -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm">
+              <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Tổng Số Đối Tác</div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiCustTotal" class="text-xl font-black font-mono text-slate-900">0</span>
+                <span class="text-[10px] text-slate-400 font-medium">khách hàng/NPP</span>
+              </div>
+            </div>
+
+            <div class="bg-emerald-50/70 border border-emerald-200 rounded-xl p-3.5">
+              <div class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                Đang Hoạt Động
+              </div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiCustActive" class="text-xl font-black font-mono text-emerald-700">0</span>
+                <span class="text-[10px] text-emerald-600 font-medium">đối tác</span>
+              </div>
+            </div>
+
+            <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-3.5">
+              <div class="text-[11px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
+                Tạm Dừng
+              </div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiCustPaused" class="text-xl font-black font-mono text-amber-700">0</span>
+                <span class="text-[10px] text-amber-600 font-medium">tạm ngưng</span>
+              </div>
+            </div>
+
+            <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-3.5">
+              <div class="text-[11px] font-bold text-rose-800 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span>
+                Đã Tắt / Ngưng
+              </div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiCustInactive" class="text-xl font-black font-mono text-rose-700">0</span>
+                <span class="text-[10px] text-rose-600 font-medium">ngừng giao dịch</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FILTER BAR -->
+          <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+              <div class="md:col-span-6 relative">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input id="custSearchInput" type="text" placeholder="Tìm theo tên NPP, mã đối tác, link Facebook, số điện thoại..."
+                  oninput="renderCustomerTable()"
+                  class="w-full bg-slate-50 border border-slate-200 rounded-lg pl-9 pr-3 py-2 text-xs focus:bg-white focus:outline-none focus:border-blue-500 transition">
+              </div>
+
+              <div class="md:col-span-3">
+                <select id="custFilterStatus" onchange="renderCustomerTable()"
+                  class="w-full bg-slate-50 hover:bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-500 transition">
+                  <option value="ALL">Tất cả trạng thái</option>
+                  <option value="ACTIVE">🟢 Đang hoạt động</option>
+                  <option value="PAUSED">🟡 Tạm dừng</option>
+                  <option value="INACTIVE">🔴 Đã tắt</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-3">
+                <select id="custFilterGroup" onchange="renderCustomerTable()"
+                  class="w-full bg-slate-50 hover:bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-blue-500 transition">
+                  <option value="ALL">Tất cả phân loại nhóm</option>
+                  <option value="Nhà Phân Phối (NPP)">Nhà Phân Phối (NPP)</option>
+                  <option value="Đại Lý Online Cấp 1">Đại Lý Online Cấp 1</option>
+                  <option value="Đại Lý Offline Cấp 1">Đại Lý Offline Cấp 1</option>
+                  <option value="Cửa Hàng Bán Lẻ">Cửa Hàng Bán Lẻ</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- TABLE -->
           <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <table class="w-full text-xs text-left">
-              <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[10px]">
-                <tr>
-                  <th class="py-3 px-3">Mã ĐL</th>
-                  <th class="py-3 px-3">Tên Đối Tác / Đại Lý</th>
-                  <th class="py-3 px-3">Phân Loại Nhóm</th>
-                  <th class="py-3 px-3">Chính Sách Áp Dụng</th>
-                  <th class="py-3 px-3">Điện Thoại</th>
-                  <th class="py-3 px-3">Địa Chỉ</th>
-                  <th class="py-3 px-3 text-center">Thao Tác</th>
-                </tr>
-              </thead>
-              <tbody id="customerTableTbody" class="divide-y divide-slate-100 font-medium"></tbody>
-            </table>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left">
+                <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 uppercase text-[10px] tracking-wider">
+                  <tr>
+                    <th class="py-3 px-3 w-20">Mã ĐT</th>
+                    <th class="py-3 px-3 min-w-[200px]">Tên Đối Tác / Shop NPP</th>
+                    <th class="py-3 px-3 min-w-[170px]">Link Shop / Facebook</th>
+                    <th class="py-3 px-3 min-w-[180px]">Phân Loại & Chính Sách Giá</th>
+                    <th class="py-3 px-3 min-w-[160px]">Liên Hệ & Địa Chỉ</th>
+                    <th class="py-3 px-3 text-center w-28">Trạng Thái</th>
+                    <th class="py-3 px-3 text-center min-w-[240px]">Thao Tác (Tắt / Tạm Dừng / Xóa)</th>
+                  </tr>
+                </thead>
+                <tbody id="customerTableTbody" class="divide-y divide-slate-100 font-medium"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- MODAL: ADD / EDIT CUSTOMER -->
+          <div id="modalCustomerForm" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+              <div class="p-4 bg-gradient-to-r from-slate-900 to-blue-950 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="user-cog" class="w-5 h-5 text-sky-400"></i>
+                  <h3 id="modalCustTitle" class="font-bold text-sm">Thêm Khách Hàng / NPP Mới</h3>
+                </div>
+                <button type="button" onclick="closeCustomerModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+              </div>
+
+              <form id="formCustomer" onsubmit="saveCustomerForm(event)" class="p-5 space-y-3.5 text-xs">
+                <input type="hidden" id="custFormId" value="">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Mã Đối Tác <span class="text-rose-500">*</span></label>
+                    <input id="custFormCode" type="text" required placeholder="VD: NPP-HH, DL-04..." class="w-full border border-slate-200 rounded-lg p-2 font-mono font-bold bg-slate-50 focus:bg-white uppercase focus:border-blue-500 focus:outline-none">
+                  </div>
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Trạng Thái</label>
+                    <select id="custFormStatus" class="w-full border border-slate-200 rounded-lg p-2 bg-slate-50 font-semibold text-slate-800">
+                      <option value="ACTIVE">🟢 Đang Hoạt Động</option>
+                      <option value="PAUSED">🟡 Tạm Dừng</option>
+                      <option value="INACTIVE">🔴 Đã Tắt</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Tên Đối Tác / Tên Shop NPP <span class="text-rose-500">*</span></label>
+                  <input id="custFormName" type="text" required placeholder="VD: NPP Hồng Hà, NPP Nhàn..." class="w-full border border-slate-200 rounded-lg p-2 font-bold focus:border-blue-500 focus:outline-none">
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1 flex items-center gap-1">
+                    <i data-lucide="facebook" class="w-3.5 h-3.5 text-blue-600"></i> Link Shop Facebook / Fanpage:
+                  </label>
+                  <input id="custFormFacebook" type="url" placeholder="https://www.facebook.com/..." class="w-full border border-slate-200 rounded-lg p-2 font-mono text-blue-700 focus:border-blue-500 focus:outline-none">
+                  <p class="text-[10px] text-slate-400 mt-1">Dán đường dẫn Facebook shop để tiện theo dõi và mở nhanh 1-click</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Phân Loại Nhóm</label>
+                    <select id="custFormGroup" class="w-full border border-slate-200 rounded-lg p-2 bg-slate-50">
+                      <option value="Nhà Phân Phối (NPP)">Nhà Phân Phối (NPP)</option>
+                      <option value="Đại Lý Online Cấp 1">Đại Lý Online Cấp 1</option>
+                      <option value="Đại Lý Offline Cấp 1">Đại Lý Offline Cấp 1</option>
+                      <option value="Cửa Hàng Bán Lẻ">Cửa Hàng Bán Lẻ</option>
+                      <option value="Khác">Khác</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Chính Sách Giá Áp Dụng</label>
+                    <select id="custFormPriceType" class="w-full border border-slate-200 rounded-lg p-2 bg-slate-50">
+                      <option value="nppOfflinePrice">Giá NPP Offline</option>
+                      <option value="nppOnlinePrice">Giá NPP Online</option>
+                      <option value="dealerOfflinePrice">Giá Đại Lý Offline (NPP x 120%)</option>
+                      <option value="facebookPrice">Giá Bán Lẻ / Facebook</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Số Điện Thoại</label>
+                    <input id="custFormPhone" type="text" placeholder="09xx xxx xxx" class="w-full border border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none">
+                  </div>
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Địa Chỉ / Khu Vực</label>
+                    <input id="custFormAddress" type="text" placeholder="Tỉnh / Thành phố..." class="w-full border border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Ghi Chú Hợp Tác</label>
+                  <textarea id="custFormNote" rows="2" placeholder="Ghi chú về phân phối, chính sách đặc thù..." class="w-full border border-slate-200 rounded-lg p-2 focus:border-blue-500 focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                  <button type="button" onclick="closeCustomerModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold">
+                    Hủy
+                  </button>
+                  <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold shadow-md shadow-blue-500/20 flex items-center gap-1.5">
+                    <i data-lucide="check" class="w-4 h-4"></i> Lưu Khách Hàng
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- MODAL: DELETE CONFIRMATION -->
+          <div id="modalDeleteCustomerConfirm" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+              <div class="p-4 bg-rose-600 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                  <h3 class="font-bold text-sm">Xác Nhận Xóa Đối Tác</h3>
+                </div>
+                <button type="button" onclick="closeDeleteCustomerModal()" class="text-rose-200 hover:text-white p-1 rounded-lg">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+              </div>
+
+              <div class="p-5 text-xs text-slate-600 space-y-3">
+                <p>Bạn có chắc chắn muốn xóa đối tác sau khỏi danh mục khách hàng?</p>
+                <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl">
+                  <div id="deleteCustName" class="font-black text-rose-900 text-sm">...</div>
+                  <div id="deleteCustCode" class="font-mono text-rose-700 mt-0.5">...</div>
+                </div>
+                <p class="text-[11px] text-slate-400">⚠️ Thao tác này sẽ gỡ thông tin đối tác khỏi danh mục. Các báo giá đã lập trước đó vẫn được bảo toàn.</p>
+              </div>
+
+              <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2">
+                <button type="button" onclick="closeDeleteCustomerModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-bold">
+                  Hủy Bỏ
+                </button>
+                <button id="btnConfirmDeleteCust" onclick="executeDeleteCustomer()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-bold shadow-md shadow-rose-600/20 flex items-center gap-1.5">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i> Xóa Vĩnh Viễn
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -5556,7 +5783,7 @@
     const LOCK_KING_LOGO_SRC = "data:image/jpeg;base64,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";
 
     /* DATABASE STORAGE KEY (v12) */
-    const STORAGE_KEY = 'LOCK_KING_PMS_DATA_v28_UPDATE_TAKIN_TITANIUM_PANS';
+    const STORAGE_KEY = 'LOCK_KING_PMS_DATA_v29_NPP_CUSTOMERS';
     // Clean old storage keys
     try {
       for (let i = localStorage.length - 1; i >= 0; i--) {
@@ -7503,9 +7730,90 @@
         products: seed.products,
         aliases: seed.aliases,
         customers: [
-          { id: 'CUST-001', code: 'DL-01', name: 'Tổng Kho Gia Dụng Online Miền Bắc', groupName: 'Đại Lý Online Cấp 1', priceType: 'nppOnlinePrice', phone: '0912 345 678', address: 'Kho Gia Lâm, Hà Nội' },
-          { id: 'CUST-002', code: 'DL-02', name: 'Đại Lý Điện Máy & Gia Dụng Cường Thịnh', groupName: 'Đại Lý Offline Cấp 1', priceType: 'dealerOfflinePrice', phone: '0988 776 655', address: 'Quận Cầu Giấy, Hà Nội' },
-          { id: 'CUST-003', code: 'DL-03', name: 'Showroom Gia Dụng Lock&King Thái Hà', groupName: 'Cửa Hàng Bán Lẻ', priceType: 'facebookPrice', phone: '0904 112 233', address: 'Thái Hà, Đống Đa, Hà Nội' }
+          {
+            id: 'CUST-NPP-HONGHA',
+            code: 'NPP-HH',
+            name: 'NPP Hồng Hà',
+            groupName: 'Nhà Phân Phối (NPP)',
+            priceType: 'nppOfflinePrice',
+            facebook: 'https://www.facebook.com/hanguyen.shops',
+            phone: '0983 234 567',
+            address: 'Hà Nội / Miền Bắc',
+            status: 'ACTIVE',
+            note: 'Đối tác phân phối sỉ Lock&King, kênh Facebook & bán buôn'
+          },
+          {
+            id: 'CUST-NPP-NHAN',
+            code: 'NPP-NHAN',
+            name: 'NPP Nhàn (Nhàn Béo VIP)',
+            groupName: 'Nhà Phân Phối (NPP)',
+            priceType: 'nppOfflinePrice',
+            facebook: 'https://www.facebook.com/nhanbeoovip',
+            phone: '0972 888 999',
+            address: 'Tổng kho sỉ & phân phối vùng',
+            status: 'ACTIVE',
+            note: 'Đối tác phân phối sỉ & livestream bán hàng gia dụng'
+          },
+          {
+            id: 'CUST-NPP-VINKO',
+            code: 'NPP-VK',
+            name: 'NPP Vinko (Glasslock Mart)',
+            groupName: 'Nhà Phân Phối (NPP)',
+            priceType: 'nppOfflinePrice',
+            facebook: 'https://www.facebook.com/Glasslockmart.com.vn',
+            phone: '0966 555 444',
+            address: 'Hệ thống phân phối đồ gia dụng cao cấp Glasslock & Lock&King',
+            status: 'ACTIVE',
+            note: 'NPP chuyên đồ gia dụng nhà bếp cao cấp'
+          },
+          {
+            id: 'CUST-NPP-TANELO',
+            code: 'NPP-TE',
+            name: 'NPP Tân Elo (Yến Hàng Đức Elo Đức)',
+            groupName: 'Nhà Phân Phối (NPP)',
+            priceType: 'nppOfflinePrice',
+            facebook: 'https://www.facebook.com/yenhangduceloduc',
+            phone: '0915 678 333',
+            address: 'Tổng kho sỉ gia dụng Elo & Lock&King',
+            status: 'ACTIVE',
+            note: 'Phân phối sỉ gia dụng nhập khẩu châu Âu & Lock&King'
+          },
+          {
+            id: 'CUST-001',
+            code: 'DL-01',
+            name: 'Tổng Kho Gia Dụng Online Miền Bắc',
+            groupName: 'Đại Lý Online Cấp 1',
+            priceType: 'nppOnlinePrice',
+            facebook: 'https://www.facebook.com/tongkhogiadungmienbac',
+            phone: '0912 345 678',
+            address: 'Kho Gia Lâm, Hà Nội',
+            status: 'ACTIVE',
+            note: 'Đại lý sỉ kênh online và sàn TMĐT'
+          },
+          {
+            id: 'CUST-002',
+            code: 'DL-02',
+            name: 'Đại Lý Điện Máy & Gia Dụng Cường Thịnh',
+            groupName: 'Đại Lý Offline Cấp 1',
+            priceType: 'dealerOfflinePrice',
+            facebook: '',
+            phone: '0988 776 655',
+            address: 'Quận Cầu Giấy, Hà Nội',
+            status: 'ACTIVE',
+            note: 'Cửa hàng điện máy truyền thống'
+          },
+          {
+            id: 'CUST-003',
+            code: 'DL-03',
+            name: 'Showroom Gia Dụng Lock&King Thái Hà',
+            groupName: 'Cửa Hàng Bán Lẻ',
+            priceType: 'facebookPrice',
+            facebook: '',
+            phone: '0904 112 233',
+            address: 'Thái Hà, Đống Đa, Hà Nội',
+            status: 'ACTIVE',
+            note: 'Showroom trưng bày và bán lẻ'
+          }
         ],
         quotations: [
           {
@@ -7546,8 +7854,27 @@
 
     function getDB() {
       try {
-        const stored = localStorage.getItem(STORAGE_KEY);
+        let stored = localStorage.getItem(STORAGE_KEY);
         if (!stored) {
+          // Kiểm tra và migrate từ các bản lưu v28 cũ nếu có
+          const prevStored = localStorage.getItem('LOCK_KING_PMS_DATA_v28_UPDATE_TAKIN_TITANIUM_PANS');
+          if (prevStored) {
+            try {
+              const prev = JSON.parse(prevStored);
+              const init = getInitialData();
+              if (Array.isArray(prev.quotations)) init.quotations = prev.quotations;
+              if (Array.isArray(prev.auditLogs)) init.auditLogs = prev.auditLogs;
+              if (Array.isArray(prev.customers)) {
+                prev.customers.forEach(pc => {
+                  if (!init.customers.find(ic => ic.id === pc.id || (ic.code && ic.code === pc.code))) {
+                    init.customers.push(pc);
+                  }
+                });
+              }
+              saveDB(init);
+              return init;
+            } catch(e) {}
+          }
           const init = getInitialData();
           saveDB(init);
           return init;
@@ -7559,6 +7886,22 @@
           saveDB(init);
           return init;
         }
+
+        // Đảm bảo 4 NPP mới luôn có mặt trong danh sách khách hàng
+        const seed = getInitialData();
+        let updated = false;
+        seed.customers.forEach(sc => {
+          const existing = parsed.customers.find(c => c.id === sc.id || (c.code && c.code === sc.code));
+          if (!existing) {
+            parsed.customers.push(sc);
+            updated = true;
+          } else {
+            if (!existing.facebook && sc.facebook) { existing.facebook = sc.facebook; updated = true; }
+            if (!existing.status) { existing.status = sc.status || 'ACTIVE'; updated = true; }
+          }
+        });
+        if (updated) saveDB(parsed);
+
         return parsed;
       } catch (e) {
         console.warn('getDB error, resetting:', e);
@@ -8841,30 +9184,487 @@
     }
 
     /* CUSTOMERS */
+    /* ================= CUSTOMER & NPP MANAGEMENT ================= */
+    let _pendingDeleteCustId = null;
+
+    function getCustomerStatusBadge(status) {
+      if (status === 'PAUSED') {
+        return {
+          code: 'PAUSED',
+          label: 'Tạm Dừng',
+          badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
+          dotColor: 'bg-amber-500'
+        };
+      }
+      if (status === 'INACTIVE') {
+        return {
+          code: 'INACTIVE',
+          label: 'Đã Tắt',
+          badgeClass: 'bg-rose-100 text-rose-800 border-rose-300',
+          dotColor: 'bg-rose-500'
+        };
+      }
+      return {
+        code: 'ACTIVE',
+        label: 'Đang Hoạt Động',
+        badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+        dotColor: 'bg-emerald-500'
+      };
+    }
+
     function renderCustomerTable() {
       const db = getDB();
+      const allCusts = db.customers || [];
+
+      // 1. Cập nhật Thống kê KPI
+      let countActive = 0;
+      let countPaused = 0;
+      let countInactive = 0;
+
+      allCusts.forEach(c => {
+        const st = c.status || 'ACTIVE';
+        if (st === 'PAUSED') countPaused++;
+        else if (st === 'INACTIVE') countInactive++;
+        else countActive++;
+      });
+
+      const elTotal = document.getElementById('kpiCustTotal');
+      if (elTotal) elTotal.innerText = allCusts.length;
+      const elActive = document.getElementById('kpiCustActive');
+      if (elActive) elActive.innerText = countActive;
+      const elPaused = document.getElementById('kpiCustPaused');
+      if (elPaused) elPaused.innerText = countPaused;
+      const elInactive = document.getElementById('kpiCustInactive');
+      if (elInactive) elInactive.innerText = countInactive;
+
+      const badgeNav = document.getElementById('badgeActiveCustomers');
+      if (badgeNav) badgeNav.innerText = allCusts.length + ' Đối Tác';
+
+      // 2. Lọc danh sách
+      const searchEl = document.getElementById('custSearchInput');
+      const q = (searchEl ? searchEl.value : '').trim().toUpperCase();
+
+      const statusEl = document.getElementById('custFilterStatus');
+      const statusFilter = statusEl ? statusEl.value : 'ALL';
+
+      const groupEl = document.getElementById('custFilterGroup');
+      const groupFilter = groupEl ? groupEl.value : 'ALL';
+
+      const filtered = allCusts.filter(c => {
+        const name = (c.name || '').toUpperCase();
+        const code = (c.code || '').toUpperCase();
+        const fb = (c.facebook || '').toUpperCase();
+        const phone = (c.phone || '').toUpperCase();
+        const addr = (c.address || '').toUpperCase();
+        const group = (c.groupName || '').toUpperCase();
+
+        const matchQ = !q || name.includes(q) || code.includes(q) || fb.includes(q) || phone.includes(q) || addr.includes(q) || group.includes(q);
+
+        const curStatus = c.status || 'ACTIVE';
+        const matchStatus = statusFilter === 'ALL' || curStatus === statusFilter;
+
+        let matchGroup = true;
+        if (groupFilter === 'NPP') matchGroup = group.includes('NPP') || group.includes('PHÂN PHỐI');
+        else if (groupFilter === 'DEALER_OFFLINE') matchGroup = group.includes('OFFLINE');
+        else if (groupFilter === 'DEALER_ONLINE') matchGroup = group.includes('ONLINE');
+        else if (groupFilter === 'RETAIL') matchGroup = group.includes('BÁN LẺ') || group.includes('CỬA HÀNG');
+
+        return matchQ && matchStatus && matchGroup;
+      });
+
       const tbody = document.getElementById('customerTableTbody');
-      tbody.innerHTML = db.customers.map(c => `
-        <tr class="hover:bg-slate-50">
-          <td class="py-3 px-3 font-mono font-bold text-sky-800">${c.code}</td>
-          <td class="py-3 px-3 font-bold text-slate-800">${escapeHtml(c.name)}</td>
-          <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">${c.groupName}</span></td>
-          <td class="py-3 px-3 font-semibold text-sky-700">${c.priceType === 'dealerOfflinePrice' ? 'Giá Đại Lý Offline (NPP Offline x 120%)' : (c.priceType === 'nppOfflinePrice' ? 'Giá NPP Offline' : (c.priceType === 'nppOnlinePrice' ? 'Giá NPP Online' : 'Giá Bán Lẻ'))}</td>
-          <td class="py-3 px-3 text-slate-600">${c.phone}</td>
-          <td class="py-3 px-3 text-slate-500">${escapeHtml(c.address)}</td>
-          <td class="py-3 px-3 text-center">
-            <button onclick="quickQuoteCustomer('${c.id}')" class="px-2.5 py-1 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded text-xs font-bold">
-              Lập Báo Giá
+      if (!tbody) return;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-12 text-center text-slate-400">
+              <i data-lucide="users" class="w-10 h-10 mx-auto text-slate-300 mb-2"></i>
+              <div class="font-bold text-slate-600">Không tìm thấy khách hàng hoặc NPP phù hợp</div>
+              <div class="text-[11px] mt-1">Thử đổi từ khóa tìm kiếm hoặc chọn "Tất cả trạng thái"</div>
+            </td>
+          </tr>
+        `;
+        safeLucideIcons();
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(c => {
+        const curStatus = c.status || 'ACTIVE';
+        const stInfo = getCustomerStatusBadge(curStatus);
+        const priceLabel = c.priceType === 'dealerOfflinePrice' ? 'Giá Đại Lý Offline (NPP x 120%)'
+          : (c.priceType === 'nppOfflinePrice' ? 'Giá NPP Offline'
+          : (c.priceType === 'nppOnlinePrice' ? 'Giá NPP Online' : 'Giá Bán Lẻ / FB'));
+
+        // Action buttons contextually based on status
+        let statusToggleBtns = '';
+        if (curStatus === 'ACTIVE') {
+          statusToggleBtns = `
+            <button onclick="toggleCustomerStatus('${c.id}', 'PAUSED')" title="Tạm dừng giao dịch" class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded text-[11px] font-bold flex items-center gap-1 transition">
+              <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-amber-600"></i> Tạm Dừng
             </button>
-          </td>
-        </tr>
-      `).join('');
+            <button onclick="toggleCustomerStatus('${c.id}', 'INACTIVE')" title="Tắt / Ngưng hợp tác" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded text-[11px] font-bold flex items-center gap-1 transition">
+              <i data-lucide="power" class="w-3.5 h-3.5 text-rose-600"></i> Tắt
+            </button>
+          `;
+        } else if (curStatus === 'PAUSED') {
+          statusToggleBtns = `
+            <button onclick="toggleCustomerStatus('${c.id}', 'ACTIVE')" title="Kích hoạt lại đối tác" class="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded text-[11px] font-bold flex items-center gap-1 transition">
+              <i data-lucide="play-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Bật Lại
+            </button>
+            <button onclick="toggleCustomerStatus('${c.id}', 'INACTIVE')" title="Tắt hẳn" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded text-[11px] font-bold flex items-center gap-1 transition">
+              <i data-lucide="power" class="w-3.5 h-3.5 text-rose-600"></i> Tắt
+            </button>
+          `;
+        } else {
+          // INACTIVE
+          statusToggleBtns = `
+            <button onclick="toggleCustomerStatus('${c.id}', 'ACTIVE')" title="Kích hoạt lại" class="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded text-[11px] font-bold flex items-center gap-1 transition">
+              <i data-lucide="play-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Bật Lại
+            </button>
+            <button onclick="toggleCustomerStatus('${c.id}', 'PAUSED')" title="Chuyển sang tạm dừng" class="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded text-[11px] font-bold flex items-center gap-1 transition">
+              <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-amber-600"></i> Tạm Dừng
+            </button>
+          `;
+        }
+
+        // Link Facebook button
+        let fbCell = '<span class="text-slate-400 italic text-[11px]">Chưa gắn link</span>';
+        if (c.facebook) {
+          const cleanFb = c.facebook.replace(/^https?:\/\/(www\.)?facebook\.com\//, '');
+          fbCell = `
+            <a href="${escapeHtml(c.facebook)}" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-[11px] font-semibold transition group"
+               title="Mở Facebook Shop: ${escapeHtml(c.facebook)}">
+              <i data-lucide="facebook" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span class="truncate max-w-[130px] font-mono">${escapeHtml(cleanFb)}</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-blue-400 group-hover:text-blue-600"></i>
+            </a>
+          `;
+        }
+
+        // Avatar letter
+        const firstLetter = (c.name || 'N').charAt(0).toUpperCase();
+
+        return `
+          <tr class="hover:bg-slate-50/80 transition ${curStatus === 'INACTIVE' ? 'opacity-65 bg-slate-50/50' : ''}">
+            <!-- MÃ -->
+            <td class="py-3 px-3">
+              <span class="font-mono font-bold text-sky-800 bg-sky-50 px-2 py-0.5 rounded border border-sky-200 text-[11px]">${escapeHtml(c.code)}</span>
+            </td>
+
+            <!-- TÊN SHOP / NPP -->
+            <td class="py-3 px-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-black text-xs flex items-center justify-center shadow-sm shrink-0">
+                  ${firstLetter}
+                </div>
+                <div>
+                  <div class="font-bold text-slate-900 text-xs flex items-center gap-1.5">
+                    ${escapeHtml(c.name)}
+                    ${c.groupName && c.groupName.includes('NPP') ? '<span class="px-1.5 py-0.2 text-[9px] font-extrabold bg-blue-100 text-blue-800 rounded">NPP</span>' : ''}
+                  </div>
+                  ${c.note ? `<div class="text-[10px] text-slate-400 truncate max-w-[220px]" title="${escapeHtml(c.note)}">${escapeHtml(c.note)}</div>` : ''}
+                </div>
+              </div>
+            </td>
+
+            <!-- LINK SHOP / FACEBOOK -->
+            <td class="py-3 px-3">
+              ${fbCell}
+            </td>
+
+            <!-- NHÓM & GIÁ -->
+            <td class="py-3 px-3">
+              <div class="font-semibold text-slate-700">${escapeHtml(c.groupName || 'Đại lý')}</div>
+              <div class="text-[10px] text-sky-700 font-medium">${priceLabel}</div>
+            </td>
+
+            <!-- LIÊN HỆ & ĐỊA CHỈ -->
+            <td class="py-3 px-3">
+              <div class="text-slate-800 font-mono text-[11px] flex items-center gap-1">
+                <i data-lucide="phone" class="w-3 h-3 text-slate-400"></i> ${escapeHtml(c.phone || 'Chưa cập nhật')}
+              </div>
+              <div class="text-[10px] text-slate-400 truncate max-w-[170px]" title="${escapeHtml(c.address || '')}">
+                ${escapeHtml(c.address || 'Toàn quốc')}
+              </div>
+            </td>
+
+            <!-- TRẠNG THÁI -->
+            <td class="py-3 px-3 text-center">
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold border ${stInfo.badgeClass}">
+                <span class="w-1.5 h-1.5 rounded-full ${stInfo.dotColor}"></span>
+                ${stInfo.label}
+              </span>
+            </td>
+
+            <!-- THAO TÁC -->
+            <td class="py-3 px-3 text-center">
+              <div class="flex items-center justify-center gap-1.5 flex-wrap">
+                ${statusToggleBtns}
+
+                <!-- NÚT BÁO GIÁ -->
+                <button onclick="quickQuoteCustomer('${c.id}')" title="Tạo báo giá nhanh cho đối tác này" class="px-2 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded text-[11px] font-bold flex items-center gap-1 transition">
+                  <i data-lucide="file-plus" class="w-3.5 h-3.5 text-indigo-600"></i> Báo Giá
+                </button>
+
+                <!-- NÚT SỬA -->
+                <button onclick="openCustomerModal('${c.id}')" title="Sửa thông tin đối tác" class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                </button>
+
+                <!-- NÚT XÓA -->
+                <button onclick="openDeleteCustomerModal('${c.id}')" title="Xóa đối tác này" class="p-1 text-rose-400 hover:text-rose-700 hover:bg-rose-50 rounded transition">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      safeLucideIcons();
     }
 
     function quickQuoteCustomer(custId) {
       navigateTab('new-quote');
-      document.getElementById('quoteCustomerSelect').value = custId;
-      handleQuotationCustomerChange(custId);
+      const sel = document.getElementById('quoteCustomerSelect');
+      if (sel) {
+        sel.value = custId;
+        handleQuotationCustomerChange(custId);
+      }
+    }
+
+    // Toggle customer status: ACTIVE | PAUSED | INACTIVE
+    function toggleCustomerStatus(custId, newStatus) {
+      const db = getDB();
+      const cust = db.customers.find(c => c.id === custId);
+      if (!cust) {
+        showToast('Không tìm thấy đối tác cần cập nhật!', false);
+        return;
+      }
+
+      const oldStatus = cust.status || 'ACTIVE';
+      cust.status = newStatus;
+      saveDB(db);
+
+      let actionText = 'kích hoạt lại';
+      if (newStatus === 'PAUSED') actionText = 'TẠM DỪNG';
+      else if (newStatus === 'INACTIVE') actionText = 'TẮT';
+      else actionText = 'BẬT LẠI';
+
+      addAuditLog(actionText, 'KHÁCH HÀNG', `${actionText} đối tác ${cust.name} (Mã: ${cust.code})`, oldStatus, newStatus);
+      showToast(`Đã ${actionText} thành công đối tác: ${cust.name}`, true);
+      renderCustomerTable();
+    }
+
+    // Open Add / Edit Modal
+    function openCustomerModal(custId = null) {
+      const modal = document.getElementById('modalCustomerForm');
+      const title = document.getElementById('modalCustTitle');
+      const form = document.getElementById('formCustomer');
+
+      if (!modal) return;
+
+      if (custId) {
+        const db = getDB();
+        const cust = db.customers.find(c => c.id === custId);
+        if (!cust) return;
+
+        title.innerText = 'Chỉnh Sửa Thông Tin Khách Hàng / NPP';
+        document.getElementById('custFormId').value = cust.id;
+        document.getElementById('custFormCode').value = cust.code || '';
+        document.getElementById('custFormStatus').value = cust.status || 'ACTIVE';
+        document.getElementById('custFormName').value = cust.name || '';
+        document.getElementById('custFormFacebook').value = cust.facebook || '';
+        document.getElementById('custFormGroup').value = cust.groupName || 'Nhà Phân Phối (NPP)';
+        document.getElementById('custFormPriceType').value = cust.priceType || 'nppOfflinePrice';
+        document.getElementById('custFormPhone').value = cust.phone || '';
+        document.getElementById('custFormAddress').value = cust.address || '';
+        document.getElementById('custFormNote').value = cust.note || '';
+      } else {
+        title.innerText = 'Thêm Khách Hàng / NPP Mới';
+        form.reset();
+        const db = getDB();
+        const autoIdx = (db.customers ? db.customers.length : 0) + 1;
+        document.getElementById('custFormId').value = '';
+        document.getElementById('custFormCode').value = 'NPP-' + String(autoIdx).padStart(2, '0');
+        document.getElementById('custFormStatus').value = 'ACTIVE';
+        document.getElementById('custFormGroup').value = 'Nhà Phân Phối (NPP)';
+        document.getElementById('custFormPriceType').value = 'nppOfflinePrice';
+      }
+
+      modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closeCustomerModal() {
+      const modal = document.getElementById('modalCustomerForm');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function saveCustomerForm(event) {
+      if (event) event.preventDefault();
+
+      const custId = document.getElementById('custFormId').value.trim();
+      const code = document.getElementById('custFormCode').value.trim().toUpperCase();
+      const name = document.getElementById('custFormName').value.trim();
+      const status = document.getElementById('custFormStatus').value;
+      const facebook = document.getElementById('custFormFacebook').value.trim();
+      const groupName = document.getElementById('custFormGroup').value;
+      const priceType = document.getElementById('custFormPriceType').value;
+      const phone = document.getElementById('custFormPhone').value.trim();
+      const address = document.getElementById('custFormAddress').value.trim();
+      const note = document.getElementById('custFormNote').value.trim();
+
+      if (!code || !name) {
+        showToast('Vui lòng nhập Mã đối tác và Tên khách hàng/NPP!', false);
+        return;
+      }
+
+      const db = getDB();
+      if (!db.customers) db.customers = [];
+
+      if (custId) {
+        // Cập nhật
+        const idx = db.customers.findIndex(c => c.id === custId);
+        if (idx !== -1) {
+          db.customers[idx] = {
+            ...db.customers[idx],
+            code,
+            name,
+            status,
+            facebook,
+            groupName,
+            priceType,
+            phone,
+            address,
+            note
+          };
+          addAuditLog('SỬA', 'KHÁCH HÀNG', `Cập nhật thông tin đối tác ${name} (Mã: ${code})`);
+          showToast(`Đã cập nhật đối tác: ${name}`, true);
+        }
+      } else {
+        // Thêm mới
+        const newId = 'CUST-' + Date.now().toString(36).toUpperCase();
+        db.customers.push({
+          id: newId,
+          code,
+          name,
+          status,
+          facebook,
+          groupName,
+          priceType,
+          phone,
+          address,
+          note
+        });
+        addAuditLog('THÊM MỚI', 'KHÁCH HÀNG', `Thêm mới đối tác ${name} (Mã: ${code})`);
+        showToast(`Đã thêm mới đối tác: ${name}`, true);
+      }
+
+      saveDB(db);
+      closeCustomerModal();
+      renderCustomerTable();
+    }
+
+    // Modal Delete Customer Confirmation
+    function openDeleteCustomerModal(custId) {
+      const db = getDB();
+      const cust = db.customers.find(c => c.id === custId);
+      if (!cust) return;
+
+      _pendingDeleteCustId = custId;
+      document.getElementById('deleteCustName').innerText = cust.name;
+      document.getElementById('deleteCustCode').innerText = 'Mã: ' + (cust.code || cust.id);
+
+      const modal = document.getElementById('modalDeleteCustomerConfirm');
+      if (modal) modal.classList.remove('hidden');
+      safeLucideIcons();
+    }
+
+    function closeDeleteCustomerModal() {
+      _pendingDeleteCustId = null;
+      const modal = document.getElementById('modalDeleteCustomerConfirm');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function executeDeleteCustomer() {
+      if (!_pendingDeleteCustId) return;
+
+      const db = getDB();
+      const idx = db.customers.findIndex(c => c.id === _pendingDeleteCustId);
+      if (idx !== -1) {
+        const deleted = db.customers[idx];
+        db.customers.splice(idx, 1);
+        saveDB(db);
+        addAuditLog('XÓA', 'KHÁCH HÀNG', `Xóa đối tác ${deleted.name} khỏi hệ thống`, deleted.code, '-');
+        showToast(`Đã xóa thành công đối tác: ${deleted.name}`, true);
+      }
+
+      closeDeleteCustomerModal();
+      renderCustomerTable();
+    }
+
+    // Export customer list to Excel
+    function exportCustomerExcel() {
+      const db = getDB();
+      const list = db.customers || [];
+
+      if (typeof XLSX === 'undefined') {
+        showToast('Thư viện Excel chưa sẵn sàng, vui lòng tải lại trang!', false);
+        return;
+      }
+
+      const rows = [
+        ['DANH MỤC KHÁCH HÀNG & NHÀ PHÂN PHỐI (NPP) - CÔNG TY VŨ GIA'],
+        ['Ngày xuất:', new Date().toLocaleString('vi-VN')],
+        ['Tổng số đối tác:', list.length],
+        [],
+        ['STT', 'Mã ĐT', 'Tên Đối Tác / Shop NPP', 'Link Facebook / Shop', 'Phân Loại Nhóm', 'Chính Sách Giá', 'Điện Thoại', 'Địa Chỉ', 'Trạng Thái', 'Ghi Chú']
+      ];
+
+      list.forEach((c, idx) => {
+        const st = c.status === 'PAUSED' ? 'Tạm Dừng' : (c.status === 'INACTIVE' ? 'Đã Tắt' : 'Đang Hoạt Động');
+        const priceLabel = c.priceType === 'dealerOfflinePrice' ? 'Giá Đại Lý Offline (NPP x 120%)'
+          : (c.priceType === 'nppOfflinePrice' ? 'Giá NPP Offline'
+          : (c.priceType === 'nppOnlinePrice' ? 'Giá NPP Online' : 'Giá Bán Lẻ / FB'));
+
+        rows.push([
+          idx + 1,
+          c.code || '',
+          c.name || '',
+          c.facebook || '',
+          c.groupName || '',
+          priceLabel,
+          c.phone || '',
+          c.address || '',
+          st,
+          c.note || ''
+        ]);
+      });
+
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+
+      // Căn chỉnh độ rộng cột
+      ws['!cols'] = [
+        { wch: 6 },  // STT
+        { wch: 12 }, // Mã
+        { wch: 32 }, // Tên
+        { wch: 45 }, // Facebook
+        { wch: 24 }, // Nhóm
+        { wch: 28 }, // Giá
+        { wch: 16 }, // SĐT
+        { wch: 30 }, // Địa chỉ
+        { wch: 16 }, // Trạng thái
+        { wch: 35 }  // Ghi chú
+      ];
+
+      XLSX.utils.book_append_sheet(wb, ws, 'Khach_Hang_NPP');
+      const dateStr = new Date().toISOString().slice(0, 10);
+      XLSX.writeFile(wb, `Danh_Sach_Khach_Hang_NPP_${dateStr}.xlsx`);
+      showToast('Đã xuất file Excel danh sách khách hàng thành công!', true);
     }
 
     /* QUOTATIONS ENGINE */
@@ -12588,7 +13388,7 @@ ${camp.rule}
     // ==========================================
     // PHÂN HỆ QUẢN LÝ KÊNH ĐỐI TÁC & THƯ VIỆN MEDIA (PARTNERS & MEDIA HUB)
     // ==========================================
-    const STORAGE_KEY_PARTNERS_MEDIA = 'LOCK_KING_PARTNERS_MEDIA_v1';
+    const STORAGE_KEY_PARTNERS_MEDIA = 'LOCK_KING_PARTNERS_MEDIA_v2';
     let currentPartnerMediaViewMode = 'grid'; // 'grid' | 'table'
 
     const seedPartnersMedia = [
@@ -12681,6 +13481,67 @@ ${camp.rule}
         staff: 'Sale Offline Bắc Giang',
         status: 'ACTIVE',
         note: 'Đại lý mới được công ty tài trợ kệ và biển bảng'
+      }
+    ,
+      {
+        id: 'PM-007',
+        shopName: 'NPP Hồng Hà (Hà Nguyễn Shops)',
+        platform: 'FACEBOOK',
+        type: 'SHOP_PROFILE',
+        title: 'Trang Facebook NPP Hồng Hà - Đại Lý Phân Phối Đồ Gia Dụng',
+        url: 'https://www.facebook.com/hanguyen.shops',
+        thumbnail: 'images/LK-1068.png',
+        productCode: 'LK-1068',
+        price: 0,
+        metrics: 'Đối tác NPP Kênh Facebook',
+        staff: 'Kinh Doanh Vũ Gia',
+        status: 'ACTIVE',
+        note: 'Đối tác phân phối sỉ Lock&King, kênh Facebook & bán buôn'
+      },
+      {
+        id: 'PM-008',
+        shopName: 'NPP Nhàn (Nhàn Béo VIP)',
+        platform: 'FACEBOOK',
+        type: 'SHOP_PROFILE',
+        title: 'Trang Facebook NPP Nhàn - Tổng Kho Sỉ & Livestream Hàng Gia Dụng',
+        url: 'https://www.facebook.com/nhanbeoovip',
+        thumbnail: 'images/LK-2606A.png',
+        productCode: 'LK-2606A',
+        price: 0,
+        metrics: 'Đối tác NPP Livestream & Sỉ',
+        staff: 'Kinh Doanh Vũ Gia',
+        status: 'ACTIVE',
+        note: 'Đối tác phân phối sỉ & livestream bán hàng gia dụng'
+      },
+      {
+        id: 'PM-009',
+        shopName: 'NPP Vinko (Glasslock Mart)',
+        platform: 'FACEBOOK',
+        type: 'SHOP_PROFILE',
+        title: 'Fanpage Glasslock Mart / Vinko - Phân Phối Gia Dụng Nhà Bếp Cao Cấp',
+        url: 'https://www.facebook.com/Glasslockmart.com.vn',
+        thumbnail: 'images/LK-3386A.png',
+        productCode: 'LK-3386A',
+        price: 0,
+        metrics: 'Hệ thống Showroom & Fanpage',
+        staff: 'Kinh Doanh Vũ Gia',
+        status: 'ACTIVE',
+        note: 'NPP chuyên đồ gia dụng nhà bếp Lock&King & Glasslock cao cấp'
+      },
+      {
+        id: 'PM-010',
+        shopName: 'NPP Tân Elo (Yến Hàng Đức Elo Đức)',
+        platform: 'FACEBOOK',
+        type: 'SHOP_PROFILE',
+        title: 'Trang Facebook Yến Hàng Đức Elo Đức - NPP Tân Elo Gia Dụng Châu Âu',
+        url: 'https://www.facebook.com/yenhangduceloduc',
+        thumbnail: 'images/LK-3568A.png',
+        productCode: 'LK-3568A',
+        price: 0,
+        metrics: 'NPP Sỉ Gia Dụng Châu Âu',
+        staff: 'Kinh Doanh Vũ Gia',
+        status: 'ACTIVE',
+        note: 'Tổng kho phân phối sỉ gia dụng Elo & Lock&King'
       }
     ];
 
