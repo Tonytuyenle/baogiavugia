@@ -1,0 +1,24 @@
+<USER_REQUEST>
+Cập nhật giá nhập cũ và giá nhập mới: Model	Tên sản phẩm	Thông số kỹ thuật	Thương hiệu/NCC	Giá nhập cũ	Giá nhập mới / áp dụng
+LK-2202A	chảo cạn Titan vàng 22*5,5cm (2,2 mm) LK-2202A	CHẢO CẠN TITANIUM Chất liệu inox cao cấp Chất liệu inox 316 Kích thước 22*5.5cm, dày 2.2mm Chống dính bằng titanium (tạo kháng khuẩn tự nhiên) Đúc liền khối 5 lớp Tay cầm đinh tán chắc chắn	LOCK&KING	193,466 đ	204,786 đ
+LK-2404S	Chảo sâu Titan vàng 24*8,5cm (2,3 mm) LK-2404S	CHẢO SÂU TITANIUM Chất liệu inox cao cấp Chất liệu inox 316 Kích thước 24*28,5cm, dày 2.3mm Chống dính bằng titanium (tạo kháng khuẩn tự nhiên) Đúc liền khối 5 lớp Nắp đậy tiện dụng Tay cầm đinh tán chắc chắn	LOCK&KING	251,705 đ	251,705 đ
+LK-2433	Chảo Belly Lock&King	Chảo Belly Lock&King Chất liệu: Inox, Titanium  Khối lượng: 2 Kg  Kích thước: 24 Cm  Chống dính: Titanium bền bỉ  Chảo: 5 lớp liền khối  Phù hợp: Bếp từ, bếp gas, bếp halogen, bếp điện  Bảo hành: 12 Tháng.	LOCK&KING	298,559 đ	307,555 đ
+LK-2466S	Chảo Titanium  ELITE Lock&King	Chảo Titanium Elite; Inox 316 kết hợp Titanium; đường kính 24 cm; khối lượng khoảng 1,9 kg; chống dính Titanium; cấu tạo 5 lớp liền khối; dùng cho bếp từ, gas, halogen và bếp điện; bảo hành 12 tháng.	LOCK&KING	288,664 đ	289,484 đ
+LK-2606A	Chảo cạn Titanium Lock&king 26cm	Chảo cạn đường kính 26 cm, thành cao khoảng 5,5 cm; khối lượng khoảng 1,5 kg; Inox 316 phủ Nano Titanium; đáy từ 5 lớp liền khối; dùng cho bếp từ, gas, hồng ngoại và halogen; bảo hành 12 tháng.	LOCK&KING	242,251 đ	238,375 đ
+LK-2633	Chảo Belly Lock&King Titanium 26cm	Chất liệu Inox 316 kết hợp Titanium; đường kính 26 cm; khối lượng khoảng 2 kg; chống dính Titanium; cấu tạo 5 lớp liền khối; kèm vung; d
+<truncated 20554 bytes>
+ất xứ: Trung Quốc	TAKIN	672,571 đ	672,571 đ
+TK-0126	26*14CM Nồi áp suất kèm xửng hấp đa năng (1.8mm) TK 0126	NỒI TĂNG ÁP ĐIỆN ĐA NĂNG Thương hiệu: Takin Model: TK 0126 Màu sắc: Bạc xanh Chất liệu: Inox 316 Trọng lượng: 3.3 Kg Phù hợp mọi loại bếp. Bắt nhiệt nhanh, tiết kiệm thời gian An toàn cho sức khỏe	TAKIN	417,810 đ	404,910 đ
+TK-468	Sưởi gốm thấp	MÁY SƯỞI GỐM THÂN THẤP TAKIN CAO CẤP Model: TK-468  Công suất: 2000W  Điện áp: 220v/50Hz  Chất liệu: Nhựa PP,  gốm Kích thước: 65*27cm Quy cách: 4 chiếc/1 thùng	TAKIN	366,857 đ	366,857 đ
+TK-469	Sưởi gốm thân cao	MÁY SƯỞI GỐM THÂN CAO TAKIN CAO CẤP Model: TK-469 Công suất: 2000W Điện áp: 220v/50Hz Chất liệu: Nhựa PP, gốm Kích thước: 93x24cm Quy cách: 4 chiếc/1 thùng	TAKIN	468,762 đ	468,762 đ
+TK-1002	Bộ đèn sưởi 2 bóng Takin	ĐÈN SƯỞI 2 BÓNG VÀNG TAKIN CAO CẤP -Nhãn hiệu: TAKIN -Model: TK-1002 -Điện áp: 230V / 50Hz -Công suất: 825W -Kích thước sản phẩm: 48 × 25 × 23 cm -Kích thước bao bì: 50 × 25,5 × 24 cm -Năm sản xuất: Ghi trên tem bảo hành -Sản xuất tại: Việt Nam" Quy cách: 1 chiếc/1 thùng	TAKIN	128,400 đ	128,400 đ
+TK-1003	Bộ đèn sưởi 3 bóng Takin	ĐÈN SƯỞI 3 BÓNG VÀNG TAKIN CAO CẤP -Nhãn hiệu: TAKIN -Model: TK-1003 -Điện áp: 230V / 50Hz -Công suất: 825W -Kích thước sản phẩm: 48 × 25 × 23 cm -Kích thước bao bì: 50 × 25,5 × 24 cm -Năm sản xuất: Ghi trên tem bảo hành -Sản xuất tại: Việt Nam Quy cách: 1 chiếc/1 thùng	TAKIN	157,290 đ	157,290 đ
+
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-05T11:48:02+07:00.
+
+The user has uploaded 1 image(s):
+- C:/Users/ADMIN/.gemini/antigravity/brain/8a389285-b3a1-45ae-848c-0b660285ae48/.user_uploaded/media_1788583680143.png
+You can embed this image in an artifact if you need the USER to review it.
+</ADDITIONAL_METADATA>

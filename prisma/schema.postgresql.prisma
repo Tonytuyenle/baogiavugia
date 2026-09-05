@@ -1,0 +1,238 @@
+// Prisma Schema for Lock&King Price Management System (PostgreSQL Production)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String      @id @default(cuid())
+  username         String      @unique
+  email            String?     @unique
+  passwordHash     String
+  fullName         String
+  phone            String?
+  role             String      @default("SALES") // ADMIN, SALES, ACCOUNTANT, VIEWER
+  isActive         Boolean     @default(true)
+  failedLoginCount Int         @default(0)
+  lockedUntil      DateTime?
+  quotations       Quotation[]
+  auditLogs        AuditLog[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  name        String
+  description String?
+  isActive    Boolean   @default(true)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id              String         @id @default(cuid())
+  canonicalCode   String         @unique
+  name            String
+  brand           String         @default("Lock&King")
+  categoryId      String?
+  category        Category?      @relation(fields: [categoryId], references: [id])
+  series          String?
+  dimensionVolume String?
+  color           String?
+  unit            String         @default("Cái")
+  cartonSpec      String?
+  costPrice       Decimal?       @db.Decimal(15, 2)
+  vatRate         Decimal        @default(10.0) @db.Decimal(5, 2)
+  imageUrl        String?
+  status          String         @default("ACTIVE")
+  notes           String?
+  updatedBy       String?
+  aliases         ProductAlias[]
+  prices          ProductPrice[]
+  quotationItems  QuotationItem[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([canonicalCode])
+  @@index([status])
+}
+
+model ProductAlias {
+  id        String   @id @default(cuid())
+  aliasCode String   @unique
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  aliasType String   @default("OLD_CODE")
+  notes     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([aliasCode])
+}
+
+model PriceType {
+  id          String         @id @default(cuid())
+  code        String         @unique
+  name        String
+  description String?
+  isSystem    Boolean        @default(false)
+  prices      ProductPrice[]
+}
+
+model CustomerGroup {
+  id                  String         @id @default(cuid())
+  code                String         @unique
+  name                String
+  defaultDiscountRate Decimal        @default(0.0) @db.Decimal(5, 2)
+  customers           Customer[]
+  prices              ProductPrice[]
+}
+
+model Customer {
+  id            String         @id @default(cuid())
+  groupId       String?
+  group         CustomerGroup? @relation(fields: [groupId], references: [id])
+  code          String         @unique
+  name          String
+  taxNumber     String?
+  phone         String?
+  email         String?
+  address       String?
+  contactPerson String?
+  isActive      Boolean        @default(true)
+  quotations    Quotation[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model ProductPrice {
+  id              String         @id @default(cuid())
+  productId       String
+  product         Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  priceTypeId     String
+  priceType       PriceType      @relation(fields: [priceTypeId], references: [id])
+  customerGroupId String?
+  customerGroup   CustomerGroup? @relation(fields: [customerGroupId], references: [id])
+  
+  priceAmount     Decimal        @db.Decimal(15, 2)
+  effectiveFrom   DateTime       @default(now())
+  effectiveTo     DateTime?
+  isCurrent       Boolean        @default(true)
+  status          String         @default("ACTIVE")
+  changeReason    String?
+  sourceDocument  String?
+  createdBy       String?
+  approvedBy      String?
+  approvedAt      DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([productId, priceTypeId, isCurrent])
+}
+
+model Quotation {
+  id             String          @id @default(cuid())
+  code           String          @unique
+  customerId     String?
+  customer       Customer?       @relation(fields: [customerId], references: [id])
+  creatorId      String?
+  creator        User?           @relation(fields: [creatorId], references: [id])
+  customerName   String?
+  customerPhone  String?
+  customerEmail  String?
+  customerAddress String?
+  
+  subtotalAmount Decimal         @default(0) @db.Decimal(15, 2)
+  discountRate   Decimal         @default(0) @db.Decimal(5, 2)
+  discountAmount Decimal         @default(0) @db.Decimal(15, 2)
+  vatRate        Decimal         @default(10) @db.Decimal(5, 2)
+  vatAmount      Decimal         @default(0) @db.Decimal(15, 2)
+  shippingFee    Decimal         @default(0) @db.Decimal(15, 2)
+  totalAmount    Decimal         @default(0) @db.Decimal(15, 2)
+  
+  validUntil     DateTime?
+  paymentTerms   String?
+  deliveryTerms  String?
+  status         String          @default("DRAFT")
+  notes          String?
+  items          QuotationItem[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model QuotationItem {
+  id                  String    @id @default(cuid())
+  quotationId         String
+  quotation           Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
+  productId           String?
+  product             Product?  @relation(fields: [productId], references: [id])
+  productCodeSnapshot String
+  productNameSnapshot String
+  unitPriceSnapshot   Decimal   @db.Decimal(15, 2)
+  quantity            Int       @default(1)
+  discountRate        Decimal   @default(0) @db.Decimal(5, 2)
+  lineTotal           Decimal   @db.Decimal(15, 2)
+  notes               String?
+}
+
+model ImportBatch {
+  id          String      @id @default(cuid())
+  fileName    String
+  uploadedBy  String
+  totalRows   Int         @default(0)
+  validRows   Int         @default(0)
+  errorRows   Int         @default(0)
+  warningRows Int         @default(0)
+  status      String      @default("PARSED")
+  reportJson  String?
+  rows        ImportRow[]
+  createdAt   DateTime    @default(now())
+}
+
+model ImportRow {
+  id                     String      @id @default(cuid())
+  batchId                String
+  batch                  ImportBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  rowNumber              Int
+  rawDataJson            String
+  parsedCode             String?
+  parsedPrice            Decimal?    @db.Decimal(15, 2)
+  parsedPriceType        String?
+  status                 String      @default("VALID")
+  validationMessagesJson String?
+}
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id])
+  userName      String?
+  action        String
+  entityType    String
+  entityId      String?
+  oldValuesJson String?
+  newValuesJson String?
+  reason        String?
+  ipAddress     String?
+  createdAt     DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+model SystemSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedBy   String?
+  updatedAt   DateTime @updatedAt
+}

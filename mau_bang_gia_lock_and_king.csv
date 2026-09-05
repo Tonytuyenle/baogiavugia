@@ -1,0 +1,9 @@
+﻿Mã Sản Phẩm,Tên Sản Phẩm,Giá Đại Lý (VNĐ),Giá NPP (VNĐ),Giá Niêm Yết (VNĐ),Ghi Chú
+LK-30NC1,Bình giữ nhiệt Lock&King Vacuum 500ml,260000,230000,390000,Hợp lệ bình thường
+LK-30NC,Bình giữ nhiệt đời cũ (Test tự động chuyển đổi mã),260000,230000,390000,Test ánh xạ mã cũ sang LK-30NC1
+LK-3020A,Hộp cơm hâm nóng Lock&King 1.5L,450000,390000,680000,Cập nhật giá tháng mới
+LK-2606A,Chảo xào chống dính Lock&King 26cm,360000,300000,490000,Test cảnh báo tăng giá > 10%
+LK3003,Nồi chiên không dầu Lock&King (Test mã viết liền),1250000,1100000,1850000,Test nhận diện LK-3003
+LK-1205,Bình nước thể thao Tritan 700ml,80000,100000,180000,Test cảnh báo nhầm cột (Giá ĐL < Giá NPP)
+LK-9999,Sản phẩm thử nghiệm không tồn tại,350000,280000,450000,Test lỗi chặn mã không tồn tại
+LK-5501,Bộ 3 hộp thủy tinh Lock&King,0,180000,320000,Test lỗi giá bằng 0

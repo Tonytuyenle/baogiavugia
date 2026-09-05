@@ -1,0 +1,238 @@
+// Prisma Schema for Lock&King Price Management System
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String      @id @default(cuid())
+  username         String      @unique
+  email            String?     @unique
+  passwordHash     String
+  fullName         String
+  phone            String?
+  role             String      @default("SALES") // ADMIN, SALES, ACCOUNTANT, VIEWER
+  isActive         Boolean     @default(true)
+  failedLoginCount Int         @default(0)
+  lockedUntil      DateTime?
+  quotations       Quotation[]
+  auditLogs        AuditLog[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  name        String
+  description String?
+  isActive    Boolean   @default(true)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id              String         @id @default(cuid())
+  canonicalCode   String         @unique // Mã sản phẩm chuẩn, không trùng lặp
+  name            String
+  brand           String         @default("Lock&King")
+  categoryId      String?
+  category        Category?      @relation(fields: [categoryId], references: [id])
+  series          String?        // Dòng sản phẩm
+  dimensionVolume String?        // Kích thước hoặc dung tích (VD: 500ml, 26cm)
+  color           String?        // Màu sắc
+  unit            String         @default("Cái") // Đơn vị tính
+  cartonSpec      String?        // Quy cách đóng thùng (VD: 24 cái/thùng)
+  costPrice       Float?         // Giá vốn (chỉ người có quyền mới xem)
+  vatRate         Float          @default(10.0) // Thuế VAT mặc định
+  imageUrl        String?
+  status          String         @default("ACTIVE") // ACTIVE, DISCONTINUED, ARCHIVED
+  notes           String?
+  updatedBy       String?
+  aliases         ProductAlias[]
+  prices          ProductPrice[]
+  quotationItems  QuotationItem[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([canonicalCode])
+  @@index([status])
+}
+
+model ProductAlias {
+  id        String   @id @default(cuid())
+  aliasCode String   @unique // Mã cũ hoặc mã viết liền (VD: LK-30NC, LK3003)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  aliasType String   @default("OLD_CODE") // OLD_CODE, REPLACEMENT, TYPO_COMMON
+  notes     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([aliasCode])
+}
+
+model PriceType {
+  id          String         @id @default(cuid())
+  code        String         @unique // RETAIL, DEALER, DISTRIBUTOR, ONLINE, CAMPAIGN
+  name        String
+  description String?
+  isSystem    Boolean        @default(false)
+  prices      ProductPrice[]
+}
+
+model CustomerGroup {
+  id                  String         @id @default(cuid())
+  code                String         @unique // DEALER, DISTRIBUTOR, VIP, RETAIL
+  name                String
+  defaultDiscountRate Float          @default(0.0)
+  customers           Customer[]
+  prices              ProductPrice[]
+}
+
+model Customer {
+  id            String         @id @default(cuid())
+  groupId       String?
+  group         CustomerGroup? @relation(fields: [groupId], references: [id])
+  code          String         @unique
+  name          String
+  taxNumber     String?
+  phone         String?
+  email         String?
+  address       String?
+  contactPerson String?
+  isActive      Boolean        @default(true)
+  quotations    Quotation[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model ProductPrice {
+  id              String         @id @default(cuid())
+  productId       String
+  product         Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  priceTypeId     String
+  priceType       PriceType      @relation(fields: [priceTypeId], references: [id])
+  customerGroupId String?
+  customerGroup   CustomerGroup? @relation(fields: [customerGroupId], references: [id])
+  
+  priceAmount     Float          // Số tiền định dạng chuẩn (VNĐ)
+  effectiveFrom   DateTime       @default(now())
+  effectiveTo     DateTime?
+  isCurrent       Boolean        @default(true)
+  status          String         @default("ACTIVE") // ACTIVE, EXPIRED, DRAFT, PENDING_APPROVAL
+  changeReason    String?        // Lý do thay đổi
+  sourceDocument  String?        // Tệp hoặc nguồn dữ liệu đối chiếu
+  createdBy       String?
+  approvedBy      String?
+  approvedAt      DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([productId, priceTypeId, isCurrent])
+}
+
+model Quotation {
+  id             String          @id @default(cuid())
+  code           String          @unique // e.g. BG-LK-202609-0001
+  customerId     String?
+  customer       Customer?       @relation(fields: [customerId], references: [id])
+  creatorId      String?
+  creator        User?           @relation(fields: [creatorId], references: [id])
+  customerName   String?         // Khách lẻ hoặc tên ghi nhận
+  customerPhone  String?
+  customerEmail  String?
+  customerAddress String?
+  
+  subtotalAmount Float           @default(0) // Thành tiền trước chiết khấu
+  discountRate   Float           @default(0) // Tỷ lệ chiết khấu toàn đơn (%)
+  discountAmount Float           @default(0) // Tiền chiết khấu
+  vatRate        Float           @default(10) // Tỷ lệ VAT (%)
+  vatAmount      Float           @default(0) // Tiền VAT
+  shippingFee    Float           @default(0) // Phí vận chuyển
+  totalAmount    Float           @default(0) // Tổng thanh toán
+  
+  validUntil     DateTime?       // Thời hạn hiệu lực báo giá
+  paymentTerms   String?         // Điều khoản thanh toán
+  deliveryTerms  String?         // Chính sách giao hàng & bảo hành
+  status         String          @default("DRAFT") // DRAFT, SENT, ACCEPTED, EXPIRED
+  notes          String?
+  items          QuotationItem[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model QuotationItem {
+  id                  String    @id @default(cuid())
+  quotationId         String
+  quotation           Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
+  productId           String?
+  product             Product?  @relation(fields: [productId], references: [id])
+  productCodeSnapshot String    // Lưu mã sản phẩm tại thời điểm lập
+  productNameSnapshot String    // Lưu tên sản phẩm tại thời điểm lập
+  unitPriceSnapshot   Float     // Đơn giá tại thời điểm lập
+  quantity            Int       @default(1)
+  discountRate        Float     @default(0) // Chiết khấu từng sản phẩm (%)
+  lineTotal           Float     // Thành tiền = SL * Giá * (1 - CK)
+  notes               String?
+}
+
+model ImportBatch {
+  id          String      @id @default(cuid())
+  fileName    String
+  uploadedBy  String
+  totalRows   Int         @default(0)
+  validRows   Int         @default(0)
+  errorRows   Int         @default(0)
+  warningRows Int         @default(0)
+  status      String      @default("PARSED") // PARSED, VALIDATED, APPROVED, COMMITTED, FAILED
+  reportJson  String?     // Báo cáo chi tiết dạng JSON
+  rows        ImportRow[]
+  createdAt   DateTime    @default(now())
+}
+
+model ImportRow {
+  id                     String      @id @default(cuid())
+  batchId                String
+  batch                  ImportBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  rowNumber              Int
+  rawDataJson            String
+  parsedCode             String?
+  parsedPrice            Float?
+  parsedPriceType        String?
+  status                 String      @default("VALID") // VALID, ERROR, WARNING
+  validationMessagesJson String?     // Danh sách lỗi hoặc cảnh báo
+}
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id])
+  userName      String?
+  action        String   // CREATE, UPDATE, DELETE, IMPORT, APPROVE, RESTORE, LOGIN
+  entityType    String   // PRODUCT, PRICE, QUOTATION, ALIAS, USER, SYSTEM
+  entityId      String?
+  oldValuesJson String?  // Dữ liệu trước khi sửa
+  newValuesJson String?  // Dữ liệu sau khi sửa
+  reason        String?  // Lý do thay đổi
+  ipAddress     String?
+  createdAt     DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+model SystemSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedBy   String?
+  updatedAt   DateTime @updatedAt
+}
