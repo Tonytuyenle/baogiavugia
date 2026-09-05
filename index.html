@@ -107,7 +107,70 @@
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
-  </style>
+  
+    /* STICKY TABLE HEADER & FREEZE PANES */
+    .sticky-table-container {
+      max-height: calc(100vh - 210px);
+      overflow: auto;
+      position: relative;
+      background-color: #ffffff;
+    }
+    @media (max-width: 768px) {
+      .sticky-table-container {
+        max-height: calc(100vh - 250px);
+      }
+    }
+    .sticky-table-container thead th {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background-color: #0f172a !important; /* bg-slate-900 */
+    }
+    /* Freeze Column 1 (STT) and Column 2 (Model) when scrolling horizontally */
+    .sticky-col-stt {
+      position: sticky !important;
+      left: 0 !important;
+      z-index: 10;
+    }
+    thead th.sticky-col-stt {
+      z-index: 30 !important;
+      background-color: #0f172a !important;
+    }
+    .sticky-col-model {
+      position: sticky !important;
+      left: 36px !important;
+      z-index: 10;
+    }
+    thead th.sticky-col-model {
+      z-index: 30 !important;
+      background-color: #0f172a !important;
+    }
+    tbody td.sticky-col-stt,
+    tbody td.sticky-col-model {
+      background-color: #ffffff;
+    }
+    tr:hover td.sticky-col-stt,
+    tr:hover td.sticky-col-model {
+      background-color: #f8fafc;
+    }
+    /* Section dividers sticky text */
+    .section-divider-content {
+      position: sticky;
+      left: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    /* Custom clean scrollbar */
+    .sticky-table-container::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .sticky-table-container::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 4px;
+    }
+</style>
 </head>
 <body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
@@ -123,19 +186,25 @@
   <div class="flex flex-1 overflow-hidden h-screen">
     
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-slate-900 text-slate-200 flex flex-col flex-shrink-0 z-20 shadow-xl select-none">
+    
+  <!-- MOBILE SIDEBAR BACKDROP OVERLAY -->
+  <div id="mobileSidebarBackdrop" onclick="toggleMobileSidebar(false)" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 lg:hidden transition-opacity"></div>
+<aside id="mainSidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-72 lg:w-64 bg-slate-900 text-slate-200 flex flex-col flex-shrink-0 shadow-2xl lg:shadow-xl select-none transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
       
       <!-- LOGO -->
       <div class="p-4 border-b border-slate-800 flex items-center space-x-3 bg-slate-950/60">
         <div class="h-10 px-2.5 py-1 rounded-xl bg-white flex items-center justify-center shadow-lg">
           <img src="images/lock_and_king_logo.png" alt="Lock&King" class="h-7 w-auto object-contain" />
         </div>
-        <div class="overflow-hidden">
+        <div class="overflow-hidden flex-1">
           <h1 class="font-black text-xs tracking-tight text-white flex items-center gap-1">
             VU GIA COOPERATIVE
           </h1>
           <p class="text-[9px] text-sky-400 font-bold tracking-wider uppercase">Lock&King & Takin</p>
         </div>
+        <button type="button" onclick="toggleMobileSidebar(false)" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition" title="Đóng Menu">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
       </div>
 
       <!-- NAV -->
@@ -230,8 +299,12 @@
     <main class="flex-1 flex flex-col min-w-0 bg-slate-50 overflow-y-auto">
       
       <!-- TOP HEADER -->
-      <header class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-        <div class="flex-1 max-w-2xl relative">
+      <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+        <div class="flex items-center flex-1 max-w-2xl">
+          <button type="button" onclick="toggleMobileSidebar(true)" class="lg:hidden p-2 -ml-2 mr-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition flex-shrink-0" title="Mở danh mục menu">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <div class="flex-1 relative">
           <div class="relative">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
             <input 
@@ -244,6 +317,7 @@
             <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-mono">F2</span>
           </div>
           <div id="searchDropdown" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-2xl z-50 max-h-96 overflow-y-auto divide-y divide-slate-100"></div>
+          </div>
         </div>
 
         <div class="flex items-center space-x-3 ml-4">
@@ -381,14 +455,26 @@
               </h2>
               <p class="text-xs text-slate-500 mt-0.5">LOCK&KING phía trên, TAKIN phía dưới; từng nhóm sản phẩm có dòng phân cách riêng</p>
             </div>
-            <div class="flex items-center gap-2">
-              <button onclick="openCatalogPdfModal()" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition" title="Xuất toàn bộ bảng phân loại giá ra file PDF giữ nguyên form mẫu và hình ảnh">
+            <div class="flex flex-wrap items-center gap-2">
+              <!-- CHUYỂN ĐỔI CHẾ ĐỘ XEM: DẠNG THẺ (MOBILE) & DẠNG BẢNG (TABLE) -->
+              <div class="inline-flex p-1 bg-slate-200/80 rounded-lg text-xs font-bold select-none">
+                <button type="button" id="btnViewTable" onclick="setProductViewMode('table')" class="px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs" title="Xem dạng bảng đầy đủ các cột">
+                  <i data-lucide="table" class="w-3.5 h-3.5"></i>
+                  <span>Bảng Chi Tiết</span>
+                </button>
+                <button type="button" id="btnViewCards" onclick="setProductViewMode('cards')" class="px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900" title="Xem dạng thẻ trực quan tối ưu cho di động">
+                  <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                  <span>Thẻ Di Động</span>
+                </button>
+              </div>
+
+              <button onclick="openCatalogPdfModal()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition" title="Xuất toàn bộ bảng phân loại giá ra file PDF">
                 <i data-lucide="file-down" class="w-4 h-4"></i>
-                <span>Xuất File PDF (Chuẩn Mẫu & Ảnh)</span>
+                <span class="hidden sm:inline">Xuất File PDF</span><span class="sm:hidden">PDF</span>
               </button>
-              <button onclick="exportCatalogToExcel()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition" title="Xuất file Excel đầy đủ form mẫu theo phân quyền đang chọn">
+              <button onclick="exportCatalogToExcel()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition" title="Xuất file Excel chuẩn mẫu">
                 <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
-                <span>Xuất File Excel (Chuẩn Mẫu & Phân Quyền)</span>
+                <span class="hidden sm:inline">Xuất File Excel</span><span class="sm:hidden">Excel</span>
               </button>
             </div>
           </div>
@@ -431,14 +517,21 @@
             </div>
           </div>
 
-          <!-- TABLE -->
-          <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
-              <table class="w-full text-xs text-left">
-                <thead class="bg-slate-900 text-white font-bold border-b border-slate-800 uppercase text-[10px]">
+          <!-- MOBILE CARDS CONTAINER (DẠNG THẺ CHO DI ĐỘNG) -->
+          <div id="productCardsContainer" class="hidden mb-6">
+            <div id="productCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <!-- Rendered dynamically by renderProductCards() -->
+            </div>
+          </div>
+
+          <!-- TABLE CONTAINER (DẠNG BẢNG CHI TIẾT VỚI TIÊU ĐỀ CỐ ĐỊNH STICKY) -->
+          <div id="productTableViewContainer" class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div id="productTableScrollWrapper" class="sticky-table-container">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead class="bg-slate-900 text-white font-bold border-b-2 border-slate-800 uppercase text-[10px] shadow-sm">
                   <tr>
-                    <th class="py-3 px-2 text-center text-slate-400 col-common">STT</th>
-                    <th class="py-3 px-2.5 text-sky-300 col-common">Model</th>
+                    <th class="py-3 px-2 text-center text-slate-400 col-common sticky-col-stt">STT</th>
+                    <th class="py-3 px-2.5 text-sky-300 col-common sticky-col-model">Model</th>
                     <th class="py-3 px-2 text-center text-slate-300 col-common">Hình Ảnh</th>
                     <th class="py-3 px-3 col-common">Tên Sản Phẩm</th>
                     
@@ -471,7 +564,7 @@
                 <tbody id="productTableTbody" class="divide-y divide-slate-100 font-medium">
           <tr class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider select-none">
             <td colspan="20" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-sky-950 to-slate-900 border-y border-slate-700">
-              <div class="flex items-center gap-2">
+              <div class="section-divider-content flex items-center gap-2">
                 <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
                 PHẦN I – THƯƠNG HIỆU LOCK&KING (49 Model)
               </div>
@@ -480,7 +573,7 @@
         
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: CHẢO
               </div>
@@ -1131,7 +1224,7 @@
       
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: NỒI & BỘ NỒI
               </div>
@@ -1764,7 +1857,7 @@
       
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: NỒI TĂNG ÁP
               </div>
@@ -1869,7 +1962,7 @@
       
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: ẤM & BÌNH
               </div>
@@ -1974,7 +2067,7 @@
       
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: ĐỒ ĐIỆN
               </div>
@@ -2943,7 +3036,7 @@
       
           <tr class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider select-none">
             <td colspan="20" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-sky-950 to-slate-900 border-y border-slate-700">
-              <div class="flex items-center gap-2">
+              <div class="section-divider-content flex items-center gap-2">
                 <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
                 PHẦN II – THƯƠNG HIỆU TAKIN (16 Model)
               </div>
@@ -2952,7 +3045,7 @@
         
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: CHẢO
               </div>
@@ -3177,7 +3270,7 @@
       
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: NỒI & BỘ NỒI
               </div>
@@ -3522,7 +3615,7 @@
       
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: NỒI TĂNG ÁP
               </div>
@@ -3579,7 +3672,7 @@
       
           <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
             <td colspan="20" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-              <div class="flex items-center gap-1.5">
+              <div class="section-divider-content flex items-center gap-1.5">
                 <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                 NHÓM SẢN PHẨM: ĐỒ ĐIỆN
               </div>
@@ -7303,11 +7396,25 @@
 
     /* NAVIGATION */
     function navigateTab(tabId) {
+      // Auto-close mobile sidebar if open
+      toggleMobileSidebar(false);
+
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.nav-item').forEach(el => {
         el.classList.remove('bg-slate-800', 'text-white', 'border-l-4', 'border-sky-500');
         el.classList.add('text-slate-300');
       });
+
+      // Update mobile bottom nav active button
+      document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+        btn.classList.remove('text-sky-600', 'font-bold');
+        btn.classList.add('text-slate-500');
+      });
+      const mobBtn = document.getElementById('mob-nav-' + tabId);
+      if (mobBtn) {
+        mobBtn.classList.add('text-sky-600', 'font-bold');
+        mobBtn.classList.remove('text-slate-500');
+      }
 
       const target = document.getElementById('tab-' + tabId);
       if (target) target.classList.remove('hidden');
@@ -7705,7 +7812,7 @@
             rowsHtml += `
               <tr class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider select-none">
                 <td colspan="${currentColSpan}" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-sky-950 to-slate-900 border-y border-slate-700">
-                  <div class="flex items-center gap-2">
+                  <div class="section-divider-content flex items-center gap-2">
                     <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
                     ${p.brand === 'Lock&King' ? 'PHẦN I – THƯƠNG HIỆU LOCK&KING (49 Model)' : 'PHẦN II – THƯƠNG HIỆU TAKIN (16 Model)'}
                   </div>
@@ -7719,7 +7826,7 @@
             rowsHtml += `
               <tr class="bg-amber-600 text-white font-bold text-[11px] uppercase tracking-wider select-none">
                 <td colspan="${currentColSpan}" class="py-1.5 px-4 bg-gradient-to-r from-amber-600 to-orange-600 border-b border-amber-700 shadow-sm">
-                  <div class="flex items-center gap-1.5">
+                  <div class="section-divider-content flex items-center gap-1.5">
                     <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-100"></i>
                     NHÓM SẢN PHẨM: ${p.categoryName}
                   </div>
@@ -7750,8 +7857,8 @@
 
         rowsHtml += `
           <tr class="hover:bg-slate-50/80 transition">
-            <td class="py-2 px-2 text-center text-slate-400 font-mono col-common">${p.stt || '-'}</td>
-            <td class="py-2 px-2.5 col-common">
+            <td class="py-2 px-2 text-center text-slate-400 font-mono col-common sticky-col-stt">${p.stt || '-'}</td>
+            <td class="py-2 px-2.5 col-common sticky-col-model">
               <span class="font-mono font-bold text-xs ${isLK ? 'text-sky-800 bg-sky-50 border-sky-200' : 'text-orange-800 bg-orange-50 border-orange-200'} border px-1.5 py-0.5 rounded">${p.canonicalCode}</span>
             </td>
             
@@ -7832,6 +7939,7 @@
       });
 
       tbody.innerHTML = rowsHtml;
+      renderProductCards(filtered, role);
       safeLucideIcons();
     }
 
@@ -9334,10 +9442,283 @@
       return String(text).replace(/[&<>"']/g, m => map[m]);
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    
+    /* ==========================================================================
+       MOBILE RESPONSIVE & PRODUCT CARDS SYSTEM
+       ========================================================================== */
+
+    // 1. Mobile Sidebar Toggle (Off-canvas Drawer)
+    function toggleMobileSidebar(show) {
+      const sidebar = document.getElementById('mainSidebar');
+      const backdrop = document.getElementById('mobileSidebarBackdrop');
+      if (!sidebar || !backdrop) return;
+      const isCurrentlyOpen = !sidebar.classList.contains('-translate-x-full');
+      const shouldOpen = (typeof show === 'boolean') ? show : !isCurrentlyOpen;
+      if (shouldOpen) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden', 'lg:overflow-auto');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden', 'lg:overflow-auto');
+      }
+      safeLucideIcons();
+    }
+
+    // 2. Product View Mode Switcher: Cards (Mobile) vs Table (Desktop/Full)
+    let currentProductViewMode = 'table';
+    try {
+      const savedMode = localStorage.getItem('PMS_PRODUCT_VIEW_MODE');
+      if (savedMode === 'cards' || savedMode === 'table') {
+        currentProductViewMode = savedMode;
+      } else if (window.innerWidth < 768) {
+        currentProductViewMode = 'cards';
+      }
+    } catch(e) {}
+
+    function setProductViewMode(mode) {
+      currentProductViewMode = mode;
+      const tableView = document.getElementById('productTableViewContainer');
+      const cardsView = document.getElementById('productCardsContainer');
+      const btnTable = document.getElementById('btnViewTable');
+      const btnCards = document.getElementById('btnViewCards');
+
+      if (!tableView || !cardsView) return;
+
+      if (mode === 'cards') {
+        tableView.classList.add('hidden');
+        cardsView.classList.remove('hidden');
+        if (btnCards && btnTable) {
+          btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs';
+          btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        }
+      } else {
+        cardsView.classList.add('hidden');
+        tableView.classList.remove('hidden');
+        if (btnCards && btnTable) {
+          btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs';
+          btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        }
+      }
+
+      try {
+        localStorage.setItem('PMS_PRODUCT_VIEW_MODE', mode);
+      } catch (e) {}
+
+      safeLucideIcons();
+    }
+
+    // 3. Render Product Cards for Mobile
+    function renderProductCards(products, role) {
+      const grid = document.getElementById('productCardsGrid');
+      if (!grid) return;
+
+      const canViewImport = (role === 'ADMIN' || role === 'ACCOUNTANT');
+      const isSaleOnline = (role === 'SALE_ONLINE');
+      const isSaleOffline = (role === 'SALE_OFFLINE');
+
+      if (!products || products.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-xl border border-slate-200">
+            <i data-lucide="package-search" class="w-10 h-10 mx-auto mb-2 text-slate-300"></i>
+            <p class="font-bold text-sm text-slate-700">Không tìm thấy sản phẩm nào</p>
+            <p class="text-xs text-slate-400 mt-1">Vui lòng thử tìm với từ khóa hoặc bộ lọc thương hiệu khác</p>
+          </div>
+        `;
+        safeLucideIcons();
+        return;
+      }
+
+      let cardsHtml = '';
+      products.forEach(p => {
+        const isLK = (p.brand === 'Lock&King');
+        const brandBadge = isLK ? 
+          `<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-sky-100 text-sky-800 border border-sky-200">Lock&King</span>` :
+          `<span class="px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-orange-100 text-orange-800 border border-orange-200">Takin</span>`;
+
+        let priceSectionHtml = '';
+
+        if (isSaleOnline) {
+          // Giao diện Thẻ cho Sale Online
+          priceSectionHtml = `
+            <div class="bg-sky-50/70 border border-sky-100 rounded-lg p-2.5 mb-3">
+              <div class="flex justify-between items-baseline mb-1.5">
+                <span class="text-[11px] font-bold text-slate-600">Giá NPP Online:</span>
+                <span class="text-base font-black text-sky-900 font-mono">${formatVND(p.nppOnlinePrice)}</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-[11px] pt-1.5 border-t border-sky-100">
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Giá Facebook:</span>
+                  <span class="font-bold text-blue-700 font-mono">${formatVND(p.facebookPrice)}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Lợi Nhuận NPP:</span>
+                  <span class="font-bold text-emerald-700 font-mono">+${formatVND(p.profitNPP)} (${p.profitPct})</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Giá Sàn TMĐT:</span>
+                  <span class="font-semibold text-purple-700 font-mono">${formatVND(p.tmdtPrice)}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Giá Niêm Yết:</span>
+                  <span class="font-medium text-slate-400 font-mono line-through">${formatVND(p.retailPrice)}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        } else if (isSaleOffline) {
+          // Giao diện Thẻ cho Sale Offline
+          priceSectionHtml = `
+            <div class="bg-emerald-50/70 border border-emerald-100 rounded-lg p-2.5 mb-3">
+              <div class="flex justify-between items-baseline mb-1.5">
+                <span class="text-[11px] font-bold text-slate-600">Giá NPP Offline:</span>
+                <span class="text-base font-black text-emerald-950 font-mono">${formatVND(p.nppOfflinePrice)}</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-[11px] pt-1.5 border-t border-emerald-100">
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Giá Đại Lý Offline:</span>
+                  <span class="font-bold text-emerald-800 font-mono">${formatVND(p.dealerOfflinePrice)}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">% Lợi Nhuận ĐL:</span>
+                  <span class="font-bold text-amber-700 font-mono">${p.dealerProfitRatio || '0%'}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Lệch Off - On:</span>
+                  <span class="font-bold text-slate-700 font-mono">${p.diffOnlineOffline > 0 ? '+' + formatVND(p.diffOnlineOffline) : '0 đ'}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Đơn Vị Tính:</span>
+                  <span class="font-medium text-slate-600">${escapeHtml(p.unit || 'Cái')}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          // Giao diện Thẻ cho Admin / Kế Toán / Toàn quyền
+          priceSectionHtml = `
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5 mb-3">
+              <div class="grid grid-cols-2 gap-2 text-[11px]">
+                <div class="p-1.5 bg-white rounded border border-slate-200">
+                  <span class="text-slate-400 block text-[9.5px]">Giá NPP Online:</span>
+                  <span class="font-black text-sky-900 font-mono text-xs">${formatVND(p.nppOnlinePrice)}</span>
+                  <span class="text-[9.5px] text-emerald-600 font-bold block mt-0.5">LN: +${formatVND(p.profitNPP)} (${p.profitPct})</span>
+                </div>
+                <div class="p-1.5 bg-white rounded border border-slate-200">
+                  <span class="text-slate-400 block text-[9.5px]">Giá NPP Offline:</span>
+                  <span class="font-black text-slate-800 font-mono text-xs">${formatVND(p.nppOfflinePrice)}</span>
+                  <span class="text-[9.5px] text-emerald-700 font-bold block mt-0.5">ĐL: ${formatVND(p.dealerOfflinePrice)}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Giá Facebook:</span>
+                  <span class="font-bold text-blue-700 font-mono">${formatVND(p.facebookPrice)}</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[9.5px]">Giá Sàn TMĐT:</span>
+                  <span class="font-semibold text-purple-700 font-mono">${formatVND(p.tmdtPrice)}</span>
+                </div>
+                ${canViewImport ? `
+                  <div class="col-span-2 pt-1.5 border-t border-slate-200 flex justify-between items-center text-[10px]">
+                    <span class="text-slate-500 font-medium">Giá Vốn Nhập:</span>
+                    <span class="font-bold text-rose-700 font-mono">${formatVND(p.newImportPrice)} (Cũ: ${formatVND(p.oldImportPrice)})</span>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }
+
+        cardsHtml += `
+          <div class="bg-white rounded-xl border border-slate-200 shadow-xs hover:shadow-md transition p-3.5 flex flex-col justify-between relative group">
+            <div>
+              <!-- CARD HEADER -->
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="font-mono text-[10px] text-slate-400 font-bold">#${p.stt || '-'}</span>
+                  ${brandBadge}
+                  <span class="px-1.5 py-0.5 rounded text-[9.5px] font-semibold bg-slate-100 text-slate-600">${escapeHtml(p.categoryName || '')}</span>
+                </div>
+                <span class="font-mono font-bold text-xs ${isLK ? 'text-sky-800 bg-sky-50 border-sky-200' : 'text-orange-800 bg-orange-50 border-orange-200'} border px-2 py-0.5 rounded">
+                  ${p.canonicalCode}
+                </span>
+              </div>
+
+              <!-- MAIN INFO: THUMB & NAME -->
+              <div class="flex items-start gap-3 mb-2.5">
+                ${p.image ? `
+                  <img 
+                    src="${p.image}" 
+                    alt="${p.canonicalCode}" 
+                    onclick="openImageModal('${p.image}', '${p.canonicalCode} - ${escapeHtml(p.name)}', '${p.canonicalCode}')" 
+                    class="w-14 h-14 object-contain rounded-lg border border-slate-200 bg-white p-0.5 shadow-xs cursor-pointer hover:scale-105 transition flex-shrink-0" 
+                    title="Bấm để phóng to ảnh"
+                    onerror="this.onerror=null; this.src='https://placehold.co/100x100/f1f5f9/94a3b8?text=' + encodeURIComponent('${p.canonicalCode}');"
+                  />
+                ` : `
+                  <div onclick="promptUploadImage('${p.canonicalCode}')" class="w-14 h-14 rounded-lg bg-slate-50 hover:bg-sky-50 border border-dashed border-slate-300 hover:border-sky-400 flex flex-col items-center justify-center text-slate-300 hover:text-sky-600 cursor-pointer transition flex-shrink-0" title="Tải ảnh lên">
+                    <i data-lucide="image-plus" class="w-5 h-5"></i>
+                    <span class="text-[8px] font-bold mt-0.5">Thêm ảnh</span>
+                  </div>
+                `}
+                <div class="min-w-0 flex-1">
+                  <h3 class="font-bold text-xs text-slate-900 leading-snug line-clamp-2" title="${escapeHtml(p.name)}">
+                    ${escapeHtml(p.name)}
+                  </h3>
+                  ${p.specs ? `
+                    <p class="text-[10px] text-slate-500 line-clamp-1 mt-0.5" title="${escapeHtml(p.specs)}">
+                      ${escapeHtml(p.specs)}
+                    </p>
+                  ` : ''}
+                </div>
+              </div>
+
+              <!-- PRICING SECTION -->
+              ${priceSectionHtml}
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex items-center gap-1.5 pt-2 border-t border-slate-100">
+              <button type="button" onclick="quickQuoteProduct('${p.canonicalCode}')" class="flex-1 py-1.5 px-2 bg-sky-50 hover:bg-sky-100 text-sky-800 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-sky-600"></i>
+                <span>Báo Giá</span>
+              </button>
+              <button type="button" onclick="openEditProductModal('${p.canonicalCode}')" class="py-1.5 px-2.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1" title="Sửa thông tin và giá">
+                <i data-lucide="pencil" class="w-3.5 h-3.5 text-amber-600"></i>
+                <span>Sửa</span>
+              </button>
+              <button type="button" onclick="viewProductSpecs('${p.canonicalCode}')" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition" title="Xem thông số kỹ thuật">
+                <i data-lucide="info" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      grid.innerHTML = cardsHtml;
+      safeLucideIcons();
+    }
+
+
+window.addEventListener('DOMContentLoaded', () => {
       getDB();
       switchRole('ADMIN');
       navigateTab('dashboard');
+      setProductViewMode(currentProductViewMode);
+
+      window.addEventListener('resize', () => {
+        try {
+          const saved = localStorage.getItem('PMS_PRODUCT_VIEW_MODE');
+          if (!saved) {
+            if (window.innerWidth < 768 && currentProductViewMode !== 'cards') {
+              setProductViewMode('cards');
+            } else if (window.innerWidth >= 768 && currentProductViewMode !== 'table') {
+              setProductViewMode('table');
+            }
+          }
+        } catch(e) {}
+      });
+
       window.addEventListener('keydown', (e) => {
         if ((e.key === '/' || e.key === 'F2') && document.activeElement && document.activeElement.tagName !== 'INPUT') {
           e.preventDefault();
@@ -9347,5 +9728,29 @@
       });
     });
   </script>
+
+  <!-- MOBILE BOTTOM NAVIGATION BAR -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-2xl flex items-center justify-around py-1 px-1 select-none text-[10px] font-medium text-slate-500">
+    <button type="button" onclick="navigateTab('dashboard')" id="mob-nav-dashboard" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-slate-500 hover:text-sky-600 transition">
+      <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+      <span>Tổng Quan</span>
+    </button>
+    <button type="button" onclick="navigateTab('products')" id="mob-nav-products" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-sky-600 font-bold transition">
+      <i data-lucide="table" class="w-4 h-4"></i>
+      <span>Bảng Giá</span>
+    </button>
+    <button type="button" onclick="navigateTab('quotations')" id="mob-nav-quotations" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-slate-500 hover:text-sky-600 transition">
+      <i data-lucide="file-text" class="w-4 h-4"></i>
+      <span>Báo Giá</span>
+    </button>
+    <button type="button" onclick="openCatalogPdfModal()" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-rose-600 hover:text-rose-700 transition" title="Tải PDF">
+      <i data-lucide="file-down" class="w-4 h-4"></i>
+      <span>Tải PDF</span>
+    </button>
+    <button type="button" onclick="toggleMobileSidebar(true)" class="mobile-nav-btn flex flex-col items-center gap-0.5 py-1 px-2 rounded-lg text-slate-600 hover:text-slate-900 transition" title="Thêm">
+      <i data-lucide="menu" class="w-4 h-4"></i>
+      <span>Menu</span>
+    </button>
+  </nav>
 </body>
 </html>
