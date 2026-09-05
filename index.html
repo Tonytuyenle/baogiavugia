@@ -306,7 +306,7 @@
 
         <button onclick="navigateTab('settings')" id="nav-settings" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
           <i data-lucide="settings" class="w-4 h-4 text-slate-400"></i>
-          <span>Cấu Hình & Sao Lưu</span>
+          <span>Cấu Hình & Phân Quyền</span>
         </button>
       </nav>
 
@@ -2744,7 +2744,82 @@
               </div>
             </div>
           </div>
-        </section>
+        
+          <!-- MA TRẬN PHÂN QUYỀN VAI TRÒ (RBAC MATRIX) -->
+          <div class="mt-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800">
+              <div class="flex items-center gap-3">
+                <span class="p-2.5 bg-indigo-600/30 text-indigo-400 rounded-xl border border-indigo-500/30 shadow-inner">
+                  <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </span>
+                <div>
+                  <h3 class="font-black text-base flex items-center gap-2">
+                    Ma Trận Phân Quyền Vai Trò (Role-Based Permissions)
+                    <span class="text-[10px] bg-indigo-500/20 text-indigo-300 font-extrabold px-2 py-0.5 rounded-full border border-indigo-500/40">RBAC Engine</span>
+                  </h3>
+                  <p class="text-xs text-slate-400 mt-0.5">Bật/tắt quyền xem dữ liệu giá vốn nhạy cảm, giá từng kênh và thao tác sửa xóa cho 6 vai trò</p>
+                </div>
+              </div>
+
+              <!-- ACTIONS -->
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="resetDefaultPermissions()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
+                  <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Mặc Định
+                </button>
+                <button type="button" onclick="savePermissionMatrix()" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-600/30">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i> Lưu Phân Quyền
+                </button>
+              </div>
+            </div>
+
+            <!-- PERMISSION MATRIX TABLE -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left">
+                <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 uppercase text-[10px] tracking-wider">
+                  <tr>
+                    <th class="py-3.5 px-4 min-w-[260px]">Quyền Hạn & Tính Năng Hệ Thống</th>
+                    <th class="py-3.5 px-2 text-center w-28 bg-sky-50/50">
+                      <div class="font-black text-sky-900">ADMIN</div>
+                      <div class="text-[9px] text-sky-600 font-semibold normal-case">Quản trị viên</div>
+                    </th>
+                    <th class="py-3.5 px-2 text-center w-28 bg-purple-50/50">
+                      <div class="font-black text-purple-900">KẾ TOÁN</div>
+                      <div class="text-[9px] text-purple-600 font-semibold normal-case">Thủ kho</div>
+                    </th>
+                    <th class="py-3.5 px-2 text-center w-28 bg-indigo-50/50">
+                      <div class="font-black text-indigo-900">SALE OFFLINE</div>
+                      <div class="text-[9px] text-indigo-600 font-semibold normal-case">Kênh GT</div>
+                    </th>
+                    <th class="py-3.5 px-2 text-center w-28 bg-emerald-50/50">
+                      <div class="font-black text-emerald-900">SALE ONLINE</div>
+                      <div class="text-[9px] text-emerald-600 font-semibold normal-case">Kênh TMĐT</div>
+                    </th>
+                    <th class="py-3.5 px-2 text-center w-28 bg-amber-50/50">
+                      <div class="font-black text-amber-900">TRƯỞNG KD</div>
+                      <div class="text-[9px] text-amber-600 font-semibold normal-case">Tổng hợp</div>
+                    </th>
+                    <th class="py-3.5 px-2 text-center w-28 bg-slate-50/50">
+                      <div class="font-black text-slate-800">VIEWER</div>
+                      <div class="text-[9px] text-slate-500 font-semibold normal-case">Chỉ xem</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="permissionMatrixTbody" class="divide-y divide-slate-100 font-medium">
+                  <!-- Populated via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- FOOTER NOTICE -->
+            <div class="p-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="info" class="w-4 h-4 text-indigo-600"></i>
+                <span>Ghi chú: Vai trò <strong>ADMIN</strong> luôn có toàn quyền để bảo đảm an toàn hệ thống.</span>
+              </div>
+              <span class="text-[11px] font-mono text-slate-400">Key: LOCK_KING_ROLE_PERMISSIONS_v1</span>
+            </div>
+          </div>
+</section>
 
       </div>
     </main>
@@ -7977,34 +8052,255 @@
       setTimeout(() => t.classList.add('hidden'), 3500);
     }
 
-    /* ROLE PERMISSIONS */
+    /* ================= HỆ THỐNG PHÂN QUYỀN VAI TRÒ (RBAC ENGINE) ================= */
+    const STORAGE_KEY_PERMISSIONS = 'LOCK_KING_ROLE_PERMISSIONS_v1';
+
+    const RBAC_ROLES = [
+      { code: 'ADMIN', name: 'Quản Trị Viên (Admin)', badgeClass: 'bg-sky-950 text-sky-300 border-sky-800', desc: 'Toàn quyền cao nhất: sửa giá, xem giá vốn, duyệt Excel và phân quyền.' },
+      { code: 'ACCOUNTANT', name: 'Kế Toán / Thủ Kho', badgeClass: 'bg-purple-950 text-purple-300 border-purple-800', desc: 'Xem giá vốn, kiểm tra biến động giá, đối soát tồn kho, duyệt báo giá.' },
+      { code: 'SALE_OFFLINE', name: 'Kinh Doanh Offline (Kênh GT)', badgeClass: 'bg-indigo-950 text-indigo-300 border-indigo-800', desc: 'Quản lý NPP Offline, lập báo giá Offline. Đã ẩn giá vốn & giá Online.' },
+      { code: 'SALE_ONLINE', name: 'Kinh Doanh Online / Sàn TMĐT', badgeClass: 'bg-emerald-950 text-emerald-300 border-emerald-800', desc: 'Quản lý Shop Online, kênh TMĐT. Đã ẩn giá vốn & giá Offline.' },
+      { code: 'SALES', name: 'Trưởng Phòng Kinh Doanh', badgeClass: 'bg-amber-950 text-amber-300 border-amber-800', desc: 'Xem giá bán cả 2 kênh Online & Offline, tạo báo giá. Đã ẩn giá vốn.' },
+      { code: 'VIEWER', name: 'Chỉ Xem / Đại Lý Khách Hàng', badgeClass: 'bg-slate-800 text-slate-300 border-slate-700', desc: 'Chỉ tra cứu giá niêm yết và xem tư liệu. Không xem giá vốn, không sửa xóa.' }
+    ];
+
+    const RBAC_PERMISSIONS = [
+      // Nhóm A: Bảo Mật Dữ Liệu Giá
+      { code: 'VIEW_IMPORT_PRICE', name: 'Xem Giá Vốn & Lợi Nhuận Gốc', group: 'Bảo Mật Giá Nhạy Cảm', desc: 'Hiển thị cột Giá Vốn nhập và % lợi nhuận gộp của Hãng', icon: 'lock' },
+      { code: 'VIEW_OFFLINE_PRICE', name: 'Xem Giá Kênh Offline (NPP & Đại Lý)', group: 'Bảo Mật Giá Nhạy Cảm', desc: 'Hiển thị Giá NPP Offline và Giá Đại Lý Offline', icon: 'store' },
+      { code: 'VIEW_ONLINE_PRICE', name: 'Xem Giá Kênh Online (NPP & Sàn)', group: 'Bảo Mật Giá Nhạy Cảm', desc: 'Hiển thị Giá NPP Online, Sàn TMĐT, Facebook', icon: 'globe' },
+
+      // Nhóm B: Bảng Giá & Sản Phẩm
+      { code: 'EDIT_PRODUCT_PRICE', name: 'Chỉnh Sửa Giá & Thông Tin Sản Phẩm', group: 'Bảng Giá & Sản Phẩm', desc: 'Cho phép mở modal sửa thông tin và giá sản phẩm', icon: 'edit-3' },
+      { code: 'ADD_DELETE_PRODUCT', name: 'Thêm Mới / Xóa Mã Sản Phẩm', group: 'Bảng Giá & Sản Phẩm', desc: 'Cho phép xóa hoặc thêm mã hàng mới vào danh mục 65 mã', icon: 'plus-circle' },
+      { code: 'IMPORT_PRICE_EXCEL', name: 'Import File Excel Cập Nhật Giá', group: 'Bảng Giá & Sản Phẩm', desc: 'Upload file Excel bảng giá mới để đối soát và ghi đè', icon: 'file-spreadsheet' },
+
+      // Nhóm C: Quản Lý Tồn Kho
+      { code: 'VIEW_INVENTORY', name: 'Xem Số Lượng Tồn Kho', group: 'Quản Lý Tồn Kho', desc: 'Xem số lượng tồn đầu, nhập, xuất, tồn cuối của 65 SKU', icon: 'boxes' },
+      { code: 'UPDATE_INVENTORY', name: 'Cập Nhật / Điều Chỉnh Tồn Kho', group: 'Quản Lý Tồn Kho', desc: 'Nhập xuất tồn, import file Excel tồn kho hàng ngày', icon: 'refresh-cw' },
+
+      // Nhóm D: Khách Hàng & Báo Giá
+      { code: 'MANAGE_CUSTOMERS', name: 'Quản Lý Khách Hàng & NPP', group: 'Khách Hàng & Báo Giá', desc: 'Thêm, sửa, tắt, tạm dừng hoặc xóa NPP/đại lý', icon: 'users' },
+      { code: 'CREATE_QUOTATION', name: 'Lập Báo Giá & Xuất PDF A4', group: 'Khách Hàng & Báo Giá', desc: 'Tạo báo giá mới, xem trước mẫu in A4 và tải PDF', icon: 'file-text' },
+      { code: 'APPROVE_QUOTATION', name: 'Phê Duyệt / Hủy Báo Giá', group: 'Khách Hàng & Báo Giá', desc: 'Đổi trạng thái báo giá thành ĐÃ DUYỆT hoặc HỦY', icon: 'check-circle' },
+
+      // Nhóm E: Chương Trình & Quản Trị
+      { code: 'MANAGE_CAMPAIGNS', name: 'Quản Lý Chương Trình Khuyến Mãi', group: 'Chương Trình & Hệ Thống', desc: 'Bật/Tắt, gia hạn hoặc thêm mới chương trình bán hàng', icon: 'gift' },
+      { code: 'MANAGE_MEDIA_ASSETS', name: 'Quản Trị Kho Ảnh & Tư Liệu', group: 'Chương Trình & Hệ Thống', desc: 'Thêm, sửa, xóa ảnh và video trong kho tư liệu DAM', icon: 'image' },
+      { code: 'MANAGE_PERMISSIONS', name: 'Cấu Hình Ma Trận Phân Quyền', group: 'Chương Trình & Hệ Thống', desc: 'Bật/Tắt quyền hạn của các vai trò trong hệ thống', icon: 'shield' }
+    ];
+
+    const DEFAULT_ROLE_PERMISSIONS = {
+      ADMIN: [
+        'VIEW_IMPORT_PRICE', 'VIEW_OFFLINE_PRICE', 'VIEW_ONLINE_PRICE',
+        'EDIT_PRODUCT_PRICE', 'ADD_DELETE_PRODUCT', 'IMPORT_PRICE_EXCEL',
+        'VIEW_INVENTORY', 'UPDATE_INVENTORY',
+        'MANAGE_CUSTOMERS', 'CREATE_QUOTATION', 'APPROVE_QUOTATION',
+        'MANAGE_CAMPAIGNS', 'MANAGE_MEDIA_ASSETS', 'MANAGE_PERMISSIONS'
+      ],
+      ACCOUNTANT: [
+        'VIEW_IMPORT_PRICE', 'VIEW_OFFLINE_PRICE', 'VIEW_ONLINE_PRICE',
+        'IMPORT_PRICE_EXCEL',
+        'VIEW_INVENTORY', 'UPDATE_INVENTORY',
+        'MANAGE_CUSTOMERS', 'CREATE_QUOTATION', 'APPROVE_QUOTATION',
+        'MANAGE_MEDIA_ASSETS'
+      ],
+      SALE_OFFLINE: [
+        'VIEW_OFFLINE_PRICE',
+        'VIEW_INVENTORY',
+        'MANAGE_CUSTOMERS', 'CREATE_QUOTATION',
+        'MANAGE_CAMPAIGNS', 'MANAGE_MEDIA_ASSETS'
+      ],
+      SALE_ONLINE: [
+        'VIEW_ONLINE_PRICE',
+        'VIEW_INVENTORY',
+        'MANAGE_CUSTOMERS', 'CREATE_QUOTATION',
+        'MANAGE_CAMPAIGNS', 'MANAGE_MEDIA_ASSETS'
+      ],
+      SALES: [
+        'VIEW_OFFLINE_PRICE', 'VIEW_ONLINE_PRICE',
+        'VIEW_INVENTORY',
+        'MANAGE_CUSTOMERS', 'CREATE_QUOTATION', 'APPROVE_QUOTATION',
+        'MANAGE_CAMPAIGNS', 'MANAGE_MEDIA_ASSETS'
+      ],
+      VIEWER: [
+        'VIEW_OFFLINE_PRICE', 'VIEW_ONLINE_PRICE',
+        'VIEW_INVENTORY'
+      ]
+    };
+
+    function getRolePermissionsDB() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY_PERMISSIONS);
+        if (!stored) {
+          localStorage.setItem(STORAGE_KEY_PERMISSIONS, JSON.stringify(DEFAULT_ROLE_PERMISSIONS));
+          return JSON.parse(JSON.stringify(DEFAULT_ROLE_PERMISSIONS));
+        }
+        const parsed = JSON.parse(stored);
+        return parsed;
+      } catch (e) {
+        return JSON.parse(JSON.stringify(DEFAULT_ROLE_PERMISSIONS));
+      }
+    }
+
+    function saveRolePermissionsDB(perms) {
+      try {
+        localStorage.setItem(STORAGE_KEY_PERMISSIONS, JSON.stringify(perms));
+      } catch (e) {
+        console.error('saveRolePermissionsDB error:', e);
+      }
+    }
+
+    function hasPermission(permCode, targetRole = null) {
+      const role = targetRole || currentUser.role || 'ADMIN';
+      if (role === 'ADMIN') return true; // Admin luôn có toàn quyền
+      const perms = getRolePermissionsDB();
+      const rolePerms = perms[role] || [];
+      return rolePerms.includes(permCode);
+    }
+
+    // Render Bảng Ma Trận Phân Quyền
+    function renderPermissionMatrix() {
+      const tbody = document.getElementById('permissionMatrixTbody');
+      if (!tbody) return;
+
+      const currentPerms = getRolePermissionsDB();
+      const rolesList = ['ADMIN', 'ACCOUNTANT', 'SALE_OFFLINE', 'SALE_ONLINE', 'SALES', 'VIEWER'];
+
+      // Gom theo nhóm quyền
+      const groups = {};
+      RBAC_PERMISSIONS.forEach(p => {
+        if (!groups[p.group]) groups[p.group] = [];
+        groups[p.group].push(p);
+      });
+
+      let htmlRows = '';
+      for (const [groupName, permsInGroup] of Object.entries(groups)) {
+        // Dòng tiêu đề nhóm
+        htmlRows += `
+          <tr class="bg-slate-100/80 font-black text-slate-800 text-[11px]">
+            <td colspan="7" class="py-2.5 px-4 uppercase tracking-wider text-indigo-900 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-600 inline-block"></span>
+              ${groupName}
+            </td>
+          </tr>
+        `;
+
+        // Các dòng quyền trong nhóm
+        permsInGroup.forEach(p => {
+          htmlRows += `
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-3 px-4">
+                <div class="font-bold text-slate-900 text-xs flex items-center gap-2">
+                  <i data-lucide="${p.icon}" class="w-3.5 h-3.5 text-indigo-600"></i>
+                  ${p.name}
+                </div>
+                <div class="text-[10px] text-slate-400 mt-0.5">${p.desc}</div>
+              </td>
+          `;
+
+          rolesList.forEach(roleCode => {
+            const isAdmin = (roleCode === 'ADMIN');
+            const isChecked = isAdmin || (currentPerms[roleCode] && currentPerms[roleCode].includes(p.code));
+
+            htmlRows += `
+              <td class="py-3 px-2 text-center align-middle">
+                <input type="checkbox"
+                  data-role="${roleCode}"
+                  data-perm="${p.code}"
+                  ${isChecked ? 'checked' : ''}
+                  ${isAdmin ? 'disabled title="Admin luôn có toàn quyền"' : ''}
+                  class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+              </td>
+            `;
+          });
+
+          htmlRows += '</tr>';
+        });
+      }
+
+      tbody.innerHTML = htmlRows;
+      safeLucideIcons();
+    }
+
+    // Lưu bảng ma trận phân quyền
+    function savePermissionMatrix() {
+      if (currentUser.role !== 'ADMIN') {
+        showToast('Chỉ Quản Trị Viên (Admin) mới có quyền lưu ma trận phân quyền!', false);
+        return;
+      }
+
+      const tbody = document.getElementById('permissionMatrixTbody');
+      if (!tbody) return;
+
+      const checkboxes = tbody.querySelectorAll('input[type="checkbox"][data-role]');
+      const newPerms = {
+        ADMIN: DEFAULT_ROLE_PERMISSIONS.ADMIN,
+        ACCOUNTANT: [],
+        SALE_OFFLINE: [],
+        SALE_ONLINE: [],
+        SALES: [],
+        VIEWER: []
+      };
+
+      checkboxes.forEach(cb => {
+        const role = cb.getAttribute('data-role');
+        const perm = cb.getAttribute('data-perm');
+        if (role !== 'ADMIN' && cb.checked) {
+          if (!newPerms[role]) newPerms[role] = [];
+          newPerms[role].push(perm);
+        }
+      });
+
+      saveRolePermissionsDB(newPerms);
+      showToast('Đã lưu cấu hình ma trận phân quyền thành công!', true);
+
+      applyRolePermissions();
+      renderProductTable();
+      renderCustomerTable();
+      renderCampaigns();
+    }
+
+    // Khôi phục quyền mặc định
+    function resetDefaultPermissions() {
+      if (currentUser.role !== 'ADMIN') {
+        showToast('Chỉ Quản Trị Viên (Admin) mới có quyền khôi phục mặc định!', false);
+        return;
+      }
+
+      if (!confirm('Bạn có chắc chắn muốn khôi phục phân quyền mặc định chuẩn không?')) return;
+
+      saveRolePermissionsDB(DEFAULT_ROLE_PERMISSIONS);
+      showToast('Đã khôi phục ma trận phân quyền về chuẩn mặc định!', true);
+      renderPermissionMatrix();
+      applyRolePermissions();
+      renderProductTable();
+      renderCustomerTable();
+      renderCampaigns();
+    }
+
+    /* SWITCH ROLE WITH PERMISSIONS */
     function switchRole(role) {
       currentUser.role = role;
       const badge = document.getElementById('currentRoleBadge');
-      badge.innerText = role;
-      
-      badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded border ';
-      if (role === 'ADMIN') {
-        badge.className += 'bg-sky-950 text-sky-300 border-sky-800';
-      } else if (role === 'SALE_ONLINE') {
-        badge.className += 'bg-emerald-950 text-emerald-300 border-emerald-800';
-      } else if (role === 'SALE_OFFLINE') {
-        badge.className += 'bg-indigo-950 text-indigo-300 border-indigo-800';
-      } else if (role === 'ACCOUNTANT') {
-        badge.className += 'bg-purple-950 text-purple-300 border-purple-800';
-      } else {
-        badge.className += 'bg-slate-800 text-slate-300 border-slate-700';
+      if (badge) {
+        badge.innerText = role;
+        badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded border ';
+        if (role === 'ADMIN') badge.className += 'bg-sky-950 text-sky-300 border-sky-800';
+        else if (role === 'SALE_ONLINE') badge.className += 'bg-emerald-950 text-emerald-300 border-emerald-800';
+        else if (role === 'SALE_OFFLINE') badge.className += 'bg-indigo-950 text-indigo-300 border-indigo-800';
+        else if (role === 'ACCOUNTANT') badge.className += 'bg-purple-950 text-purple-300 border-purple-800';
+        else if (role === 'SALES') badge.className += 'bg-amber-950 text-amber-300 border-amber-800';
+        else badge.className += 'bg-slate-800 text-slate-300 border-slate-700';
       }
 
+      const roleObj = RBAC_ROLES.find(r => r.code === role);
       const desc = document.getElementById('roleDesc');
-      if (role === 'ADMIN') desc.innerText = 'Toàn quyền sửa giá, duyệt Excel và xem giá vốn.';
-      else if (role === 'SALE_ONLINE') desc.innerText = 'Sale Online: Chỉ xem Giá NPP Online, FB, Sàn TMĐT, Niêm Yết, LN NPP. Đã ẩn giá vốn & Offline.';
-      else if (role === 'SALE_OFFLINE') desc.innerText = 'Sale Offline: Chỉ xem Giá NPP Offline, Giá Đại Lý Offline, % LN Đại Lý. Đã ẩn giá vốn & Online.';
-      else if (role === 'SALES') desc.innerText = 'Kinh doanh tổng hợp: Xem giá bán Online và Offline, đã ẩn giá vốn nhập.';
-      else if (role === 'ACCOUNTANT') desc.innerText = 'Xem giá vốn, đối chiếu biến động giá & lịch sử.';
-      else desc.innerText = 'Chỉ được xem dữ liệu tra cứu. Không thể sửa xóa hay duyệt giá.';
+      if (desc && roleObj) {
+        desc.innerText = roleObj.desc;
+      }
 
-      // Đồng bộ bộ lọc kênh trên bảng giá
+      // Đồng bộ bộ lọc kênh trên bảng giá theo phân quyền
       const chFilter = document.getElementById('productFilterChannel');
       if (chFilter) {
         if (role === 'SALE_ONLINE') chFilter.value = 'ONLINE';
@@ -8015,34 +8311,36 @@
       applyRolePermissions();
       renderProductTable();
       renderDashboard();
-      showToast('Đã chuyển sang vai trò: ' + role);
+      renderCustomerTable();
+      renderCampaigns();
+      renderPermissionMatrix();
+      showToast('Đã chuyển sang vai trò: ' + (roleObj ? roleObj.name : role), true);
     }
 
     function applyRolePermissions() {
       const role = currentUser.role;
-      const chEl = document.getElementById('productFilterChannel');
-      const channelFilter = chEl ? chEl.value : 'ALL';
-      const canViewImport = (role === 'ADMIN' || role === 'ACCOUNTANT');
-      // CHỈ THỂ HIỆN ONLINE / OFFLINE KHI ĐƯỢC LỌC
-      const isSaleOnline = (channelFilter === 'ONLINE' || role === 'SALE_ONLINE');
-      const isSaleOffline = (channelFilter === 'OFFLINE' || role === 'SALE_OFFLINE');
+      const canViewImport = hasPermission('VIEW_IMPORT_PRICE', role);
+      const canViewOffline = hasPermission('VIEW_OFFLINE_PRICE', role);
+      const canViewOnline = hasPermission('VIEW_ONLINE_PRICE', role);
+      const canEditPrice = hasPermission('EDIT_PRODUCT_PRICE', role);
+      const canImportPrice = hasPermission('IMPORT_PRICE_EXCEL', role);
 
-      // Cập nhật tiêu đề: Chỉ để là BẢNG GIÁ SẢN PHẨM, chỉ kèm Online / Offline khi có lọc
+      // 1. Kiểm soát tiêu đề và kênh hiển thị
       const titleTextEl = document.getElementById('productTabMainTitle');
       const badgeEl = document.getElementById('productTabChannelBadge');
       if (titleTextEl) {
-        if (isSaleOnline) {
+        if (!canViewOffline && canViewOnline) {
           titleTextEl.innerText = 'BẢNG GIÁ SẢN PHẨM – KÊNH ONLINE';
           if (badgeEl) {
             badgeEl.innerText = 'ONLINE';
-            badgeEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-800 border border-sky-300';
+            badgeEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300';
             badgeEl.classList.remove('hidden');
           }
-        } else if (isSaleOffline) {
+        } else if (canViewOffline && !canViewOnline) {
           titleTextEl.innerText = 'BẢNG GIÁ SẢN PHẨM – KÊNH OFFLINE';
           if (badgeEl) {
             badgeEl.innerText = 'OFFLINE';
-            badgeEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300';
+            badgeEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 border border-indigo-300';
             badgeEl.classList.remove('hidden');
           }
         } else {
@@ -8051,30 +8349,37 @@
         }
       }
 
-      // Giá vốn
+      // 2. Cột Giá Vốn
       document.querySelectorAll('.col-import-price').forEach(el => {
         el.style.display = canViewImport ? '' : 'none';
       });
 
-      // Cột Online
+      // 3. Cột Kênh Online
       document.querySelectorAll('.col-online').forEach(el => {
-        el.style.display = isSaleOffline ? 'none' : '';
+        el.style.display = canViewOnline ? '' : 'none';
       });
 
-      // Cột Offline
+      // 4. Cột Kênh Offline
       document.querySelectorAll('.col-offline').forEach(el => {
-        el.style.display = isSaleOnline ? 'none' : '';
+        el.style.display = canViewOffline ? '' : 'none';
       });
 
-      // Cột Lệch Off - On
+      // 5. Cột Lệch Off - On
       document.querySelectorAll('.col-diff-off-on').forEach(el => {
-        el.style.display = (isSaleOnline || isSaleOffline) ? 'none' : '';
+        el.style.display = (canViewOnline && canViewOffline) ? '' : 'none';
       });
 
-      // Cột nút Sửa (Admin action)
+      // 6. Cột nút Sửa (Admin action)
       document.querySelectorAll('.col-admin-action').forEach(el => {
-        el.style.display = (role === 'ADMIN' || role === 'ACCOUNTANT') ? '' : 'none';
+        el.style.display = canEditPrice ? '' : 'none';
       });
+
+      // 7. Tab Import Excel
+      const navImport = document.getElementById('nav-import');
+      if (navImport) {
+        if (!canImportPrice) navImport.classList.add('opacity-40');
+        else navImport.classList.remove('opacity-40');
+      }
     }
 
     /* NAVIGATION */
@@ -8333,6 +8638,7 @@
       else if (tabId === 'prices') renderPriceTable();
       else if (tabId === 'customers') renderCustomerTable();
       else if (tabId === 'media-assets') renderMediaAssetsTab();
+      else if (tabId === 'settings') renderPermissionMatrix();
       else if (tabId === 'new-quote') initNewQuoteTab();
       else if (tabId === 'quotations') renderQuotationList();
       else if (tabId === 'audit') renderAuditTable();
@@ -9447,6 +9753,10 @@
 
     // Toggle customer status: ACTIVE | PAUSED | INACTIVE
     function toggleCustomerStatus(custId, newStatus) {
+      if (!hasPermission('MANAGE_CUSTOMERS')) {
+        showToast('Vai trò [' + currentUser.role + '] không có quyền thay đổi trạng thái khách hàng/NPP!', false);
+        return;
+      }
       const db = getDB();
       const cust = db.customers.find(c => c.id === custId);
       if (!cust) {
@@ -12699,6 +13009,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // BẬT / TẮT CHƯƠNG TRÌNH NHANH (TOGGLE ACTIVE / PAUSED)
     function toggleCampaignStatus(id) {
+      if (!hasPermission('MANAGE_CAMPAIGNS')) {
+        showToast('Vai trò [' + currentUser.role + '] không có quyền bật/tắt chương trình khuyến mãi!', false);
+        return;
+      }
       const allCamps = getCampaignsDB();
       const camp = allCamps.find(c => c.id === id);
       if (!camp) return;
