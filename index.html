@@ -451,7 +451,8 @@
           <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-3">
             <div>
               <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                BẢNG GIÁ SẢN PHẨM
+                <span id="productTabMainTitle">BẢNG GIÁ SẢN PHẨM</span>
+                <span id="productTabChannelBadge" class="hidden text-xs font-bold px-2 py-0.5 rounded"></span>
               </h2>
               <p class="text-xs text-slate-500 mt-0.5">LOCK&KING phía trên, TAKIN phía dưới; từng nhóm sản phẩm có dòng phân cách riêng</p>
             </div>
@@ -506,6 +507,13 @@
                 <option value="NỒI TĂNG ÁP">Nồi Tăng Áp</option>
                 <option value="ẤM & BÌNH">Ấm & Bình</option>
                 <option value="ĐỒ ĐIỆN">Đồ Điện</option>
+              </select>
+
+              <!-- LỌC KÊNH BÁN: CHỈ HIỆN ONLINE / OFFLINE KHI LỌC -->
+              <select id="productFilterChannel" onchange="renderProductTable()" class="border border-slate-200 rounded-lg px-2.5 py-1.5 bg-slate-50 font-bold text-slate-700">
+                <option value="ALL">Tất Cả Kênh Bán</option>
+                <option value="ONLINE">Kênh Online</option>
+                <option value="OFFLINE">Kênh Offline</option>
               </select>
             </div>
 
@@ -4472,7 +4480,7 @@
     <!-- DOCUMENT TITLE -->
     <div style="text-align: center; margin: 10px 0 12px 0;">
       <h2 style="font-size: 15px; font-weight: 900; color: #0f172a; text-transform: uppercase; margin: 0; letter-spacing: 0.5px;">
-        BẢNG PHÂN LOẠI GIÁ – KÊNH NHÀ PHÂN PHỐI ONLINE
+        BẢNG GIÁ SẢN PHẨM
       </h2>
       <p style="font-size: 10px; color: #64748b; font-style: italic; margin: 2px 0 0 0;">
         (Áp dụng toàn quốc cho hệ thống Đại lý & NPP Online / Offline chính hãng)
@@ -7356,6 +7364,14 @@
       else if (role === 'ACCOUNTANT') desc.innerText = 'Xem giá vốn, đối chiếu biến động giá & lịch sử.';
       else desc.innerText = 'Chỉ được xem dữ liệu tra cứu. Không thể sửa xóa hay duyệt giá.';
 
+      // Đồng bộ bộ lọc kênh trên bảng giá
+      const chFilter = document.getElementById('productFilterChannel');
+      if (chFilter) {
+        if (role === 'SALE_ONLINE') chFilter.value = 'ONLINE';
+        else if (role === 'SALE_OFFLINE') chFilter.value = 'OFFLINE';
+        else chFilter.value = 'ALL';
+      }
+
       applyRolePermissions();
       renderProductTable();
       renderDashboard();
@@ -7364,9 +7380,36 @@
 
     function applyRolePermissions() {
       const role = currentUser.role;
+      const chEl = document.getElementById('productFilterChannel');
+      const channelFilter = chEl ? chEl.value : 'ALL';
       const canViewImport = (role === 'ADMIN' || role === 'ACCOUNTANT');
-      const isSaleOnline = (role === 'SALE_ONLINE');
-      const isSaleOffline = (role === 'SALE_OFFLINE');
+      // CHỈ THỂ HIỆN ONLINE / OFFLINE KHI ĐƯỢC LỌC
+      const isSaleOnline = (channelFilter === 'ONLINE' || role === 'SALE_ONLINE');
+      const isSaleOffline = (channelFilter === 'OFFLINE' || role === 'SALE_OFFLINE');
+
+      // Cập nhật tiêu đề: Chỉ để là BẢNG GIÁ SẢN PHẨM, chỉ kèm Online / Offline khi có lọc
+      const titleTextEl = document.getElementById('productTabMainTitle');
+      const badgeEl = document.getElementById('productTabChannelBadge');
+      if (titleTextEl) {
+        if (isSaleOnline) {
+          titleTextEl.innerText = 'BẢNG GIÁ SẢN PHẨM – KÊNH ONLINE';
+          if (badgeEl) {
+            badgeEl.innerText = 'ONLINE';
+            badgeEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-800 border border-sky-300';
+            badgeEl.classList.remove('hidden');
+          }
+        } else if (isSaleOffline) {
+          titleTextEl.innerText = 'BẢNG GIÁ SẢN PHẨM – KÊNH OFFLINE';
+          if (badgeEl) {
+            badgeEl.innerText = 'OFFLINE';
+            badgeEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300';
+            badgeEl.classList.remove('hidden');
+          }
+        } else {
+          titleTextEl.innerText = 'BẢNG GIÁ SẢN PHẨM';
+          if (badgeEl) badgeEl.classList.add('hidden');
+        }
+      }
 
       // Giá vốn
       document.querySelectorAll('.col-import-price').forEach(el => {
@@ -7775,6 +7818,8 @@
       const q = (document.getElementById('productFilterSearch').value || '').trim().toUpperCase();
       const brand = document.getElementById('productFilterBrand').value;
       const cat = document.getElementById('productFilterCategory').value;
+      const chEl = document.getElementById('productFilterChannel');
+      const channelFilter = chEl ? chEl.value : 'ALL';
 
       let filtered = db.products.filter(p => {
         const matchQ = !q || p.canonicalCode.toUpperCase().includes(q) || p.name.toUpperCase().includes(q) || (p.specs || '').toUpperCase().includes(q);
@@ -7787,8 +7832,33 @@
       const tbody = document.getElementById('productTableTbody');
       const role = currentUser.role;
       const canViewImport = (role === 'ADMIN' || role === 'ACCOUNTANT');
-      const isSaleOnline = (role === 'SALE_ONLINE');
-      const isSaleOffline = (role === 'SALE_OFFLINE');
+      // CHỈ THỂ HIỆN ONLINE / OFFLINE KHI ĐƯỢC LỌC
+      const isSaleOnline = (channelFilter === 'ONLINE' || role === 'SALE_ONLINE');
+      const isSaleOffline = (channelFilter === 'OFFLINE' || role === 'SALE_OFFLINE');
+
+      // Cập nhật tiêu đề: Chỉ để là BẢNG GIÁ SẢN PHẨM, chỉ kèm Online / Offline khi có lọc
+      const titleTextEl = document.getElementById('productTabMainTitle');
+      const badgeEl = document.getElementById('productTabChannelBadge');
+      if (titleTextEl) {
+        if (isSaleOnline) {
+          titleTextEl.innerText = 'BẢNG GIÁ SẢN PHẨM – KÊNH ONLINE';
+          if (badgeEl) {
+            badgeEl.innerText = 'ONLINE';
+            badgeEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-sky-100 text-sky-800 border border-sky-300';
+            badgeEl.classList.remove('hidden');
+          }
+        } else if (isSaleOffline) {
+          titleTextEl.innerText = 'BẢNG GIÁ SẢN PHẨM – KÊNH OFFLINE';
+          if (badgeEl) {
+            badgeEl.innerText = 'OFFLINE';
+            badgeEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300';
+            badgeEl.classList.remove('hidden');
+          }
+        } else {
+          titleTextEl.innerText = 'BẢNG GIÁ SẢN PHẨM';
+          if (badgeEl) badgeEl.classList.add('hidden');
+        }
+      }
 
       let currentColSpan = 20;
       if (isSaleOnline) currentColSpan = 12;
@@ -8718,23 +8788,23 @@
       const canViewImport = (role === 'ADMIN' || role === 'ACCOUNTANT');
       const todayStr = new Date().toLocaleDateString('vi-VN');
 
-      let titleStr = "BẢNG PHÂN LOẠI GIÁ – KÊNH NPP ONLINE & OFFLINE (65 MODEL)";
+      let titleStr = "BẢNG GIÁ SẢN PHẨM (65 MODEL)";
       let headers = [];
       if (isSaleOnline) {
-        titleStr = "BẢNG PHÂN LOẠI GIÁ – KÊNH NHÀ PHÂN PHỐI ONLINE (DÀNH CHO SALE ONLINE)";
+        titleStr = "BẢNG GIÁ SẢN PHẨM – KÊNH ONLINE (65 MODEL)";
         headers = [
           "STT", "Mã Model", "Hình Ảnh", "Tên Sản Phẩm", 
           "Giá NPP Online", "Giá Facebook", "Giá Sàn TMĐT", "Giá Niêm Yết", 
           "Lợi Nhuận NPP", "% LN NPP / FB", "Thông Số Kỹ Thuật"
         ];
       } else if (isSaleOffline) {
-        titleStr = "BẢNG PHÂN LOẠI GIÁ – KÊNH ĐẠI LÝ & NPP OFFLINE (DÀNH CHO SALE OFFLINE)";
+        titleStr = "BẢNG GIÁ SẢN PHẨM – KÊNH OFFLINE (65 MODEL)";
         headers = [
           "STT", "Mã Model", "Hình Ảnh", "Tên Sản Phẩm", 
           "Giá NPP Offline", "Giá Đại Lý Offline (NPP Offline x 120%)", "% Lợi Nhuận Đại Lý", "Thông Số Kỹ Thuật"
         ];
       } else if (canViewImport) {
-        titleStr = "BẢNG PHÂN LOẠI GIÁ VỐN & PHÂN PHỐI – NỘI BỘ HÃNG LOCK&KING";
+        titleStr = "BẢNG GIÁ SẢN PHẨM – NỘI BỘ";
         headers = [
           "STT", "Mã Model", "Hình Ảnh", "Tên Sản Phẩm", 
           "Giá Nhập Cũ", "Giá Nhập Mới", "Lệch Vốn Nhập", 
@@ -8744,7 +8814,7 @@
           "Thông Số Kỹ Thuật"
         ];
       } else {
-        titleStr = "BẢNG PHÂN LOẠI GIÁ BÁN – KÊNH ONLINE & OFFLINE (65 MODEL)";
+        titleStr = "BẢNG GIÁ SẢN PHẨM (65 MODEL)";
         headers = [
           "STT", "Mã Model", "Hình Ảnh", "Tên Sản Phẩm", 
           "Giá NPP Online", "Giá Facebook", "Giá Sàn TMĐT", "Giá Niêm Yết", 
@@ -9021,13 +9091,13 @@
         docTitleBrand = ' – THƯƠNG HIỆU TAKIN';
       }
 
-      let docTitle = "BẢNG PHÂN LOẠI GIÁ" + docTitleBrand;
+      let docTitle = "BẢNG GIÁ SẢN PHẨM" + docTitleBrand;
       let docSub = "(Áp dụng toàn quốc cho hệ thống Nhà phân phối & Đại lý chính hãng)";
       let headersHtml = '';
       let colCount = 18;
 
       if (isSaleOnline) {
-        docTitle = "BẢNG PHÂN LOẠI GIÁ – KÊNH NHÀ PHÂN PHỐI ONLINE" + (docTitleBrand ? " (" + brandFilter.toUpperCase() + ")" : "");
+        docTitle = "BẢNG GIÁ SẢN PHẨM – KÊNH ONLINE" + (docTitleBrand ? " (" + brandFilter.toUpperCase() + ")" : "");
         docSub = "(Dành riêng cho Kênh Sale Online, Sàn TMĐT & Bán Hàng Mạng Xã Hội)";
         colCount = 11;
         // Tổng độ rộng = 1040px: 32 + 82 + 44 + 242 + 88 + 88 + 82 + 82 + 88 + 62 + 150 = 1040px
@@ -9045,7 +9115,7 @@
           '<th style="padding: 5px 4px; text-align: left; color: #94a3b8; border: 1px solid #64748b; width: 150px;">Thông Số</th>' +
         '</tr>';
       } else if (isSaleOffline) {
-        docTitle = "BẢNG PHÂN LOẠI GIÁ – KÊNH ĐẠI LÝ & NPP OFFLINE" + (docTitleBrand ? " (" + brandFilter.toUpperCase() + ")" : "");
+        docTitle = "BẢNG GIÁ SẢN PHẨM – KÊNH OFFLINE" + (docTitleBrand ? " (" + brandFilter.toUpperCase() + ")" : "");
         docSub = "(Dành riêng cho Kênh Sale Showroom & Đại Lý Offline Toàn Quốc)";
         colCount = 8;
         // Tổng độ rộng = 1040px: 40 + 110 + 60 + 310 + 115 + 115 + 85 + 205 = 1040px
@@ -9060,7 +9130,7 @@
           '<th style="padding: 5px 4px; text-align: left; color: #94a3b8; border: 1px solid #64748b; width: 205px;">Thông Số Kỹ Thuật</th>' +
         '</tr>';
       } else {
-        docTitle = "BẢNG PHÂN LOẠI GIÁ – TOÀN HỆ THỐNG PHÂN PHỐI" + docTitleBrand;
+        docTitle = "BẢNG GIÁ SẢN PHẨM" + docTitleBrand;
         if (includeCost) {
           colCount = 18;
           // Tổng = 1040px
@@ -9514,9 +9584,12 @@
       const grid = document.getElementById('productCardsGrid');
       if (!grid) return;
 
+      const chEl = document.getElementById('productFilterChannel');
+      const channelFilter = chEl ? chEl.value : 'ALL';
       const canViewImport = (role === 'ADMIN' || role === 'ACCOUNTANT');
-      const isSaleOnline = (role === 'SALE_ONLINE');
-      const isSaleOffline = (role === 'SALE_OFFLINE');
+      // CHỈ THỂ HIỆN ONLINE / OFFLINE KHI ĐƯỢC LỌC
+      const isSaleOnline = (channelFilter === 'ONLINE' || role === 'SALE_ONLINE');
+      const isSaleOffline = (channelFilter === 'OFFLINE' || role === 'SALE_OFFLINE');
 
       if (!products || products.length === 0) {
         grid.innerHTML = `
