@@ -1772,6 +1772,306 @@
           </div>
         </section>
 
+        <!-- ================= PHÂN HỆ KHO ẢNH & TƯ LIỆU MARKETING (DAM) ================= -->
+        <section id="tab-media-assets" class="tab-pane hidden">
+          <!-- HEADER -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-6 gap-4 pb-4 border-b border-slate-200">
+            <div>
+              <div class="flex items-center gap-2.5">
+                <span class="p-2.5 bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600 text-white rounded-xl shadow-md shadow-emerald-500/20">
+                  <i data-lucide="image" class="w-6 h-6"></i>
+                </span>
+                <div>
+                  <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                    Kho Ảnh & Tư Liệu Marketing (DAM Hub)
+                    <span class="text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full border border-emerald-300">Lock&King & Takin</span>
+                  </h2>
+                  <p class="text-xs text-slate-500 mt-0.5">Kho vũ khí bán hàng số: Ảnh Packshot Shopee, Ảnh Decor món ăn, Video TikTok/Reels & File in biển hiệu đại lý</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="bg-slate-100 p-1 rounded-xl flex items-center gap-1 border border-slate-200">
+                <button id="btnMediaViewKits" onclick="switchMediaAssetView('kits')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm">
+                  <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-600"></i> Bộ Kit Từng Mã (65)
+                </button>
+                <button id="btnMediaViewGallery" onclick="switchMediaAssetView('gallery')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+                  <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i> Lưới Toàn Bộ Ảnh & Video
+                </button>
+              </div>
+
+              <button onclick="openMediaAssetModal()" class="px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-lg text-xs font-bold shadow-md shadow-emerald-600/20 flex items-center gap-1.5 transition transform hover:scale-[1.02]">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i> + Thêm Tư Liệu Mới
+              </button>
+
+              <button onclick="downloadAllAssetsGuide()" class="px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition">
+                <i data-lucide="file-text" class="w-4 h-4"></i> Tải Catalogue PDF 65 Mã
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI METRICS -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+              <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+                <span>Bộ Kit Mã Hàng</span>
+                <i data-lucide="box" class="w-3.5 h-3.5 text-slate-400"></i>
+              </div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiAssetKitsTotal" class="text-xl font-black font-mono text-slate-900">65</span>
+                <span class="text-[10px] text-slate-400 font-medium">mã chuẩn</span>
+              </div>
+            </div>
+
+            <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-3">
+              <div class="text-[10px] font-bold text-blue-800 uppercase tracking-wider flex items-center justify-between">
+                <span>Ảnh Packshot Nền Trắng</span>
+                <i data-lucide="camera" class="w-3.5 h-3.5 text-blue-600"></i>
+              </div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiAssetPackshot" class="text-xl font-black font-mono text-blue-700">0</span>
+                <span class="text-[10px] text-blue-500 font-medium">ảnh sàn TMĐT</span>
+              </div>
+            </div>
+
+            <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-3">
+              <div class="text-[10px] font-bold text-amber-800 uppercase tracking-wider flex items-center justify-between">
+                <span>Ảnh Decor & Món Ăn</span>
+                <i data-lucide="utensils" class="w-3.5 h-3.5 text-amber-600"></i>
+              </div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiAssetLifestyle" class="text-xl font-black font-mono text-amber-700">0</span>
+                <span class="text-[10px] text-amber-600 font-medium">ảnh FB & Ads</span>
+              </div>
+            </div>
+
+            <div class="bg-rose-50/70 border border-rose-200 rounded-xl p-3">
+              <div class="text-[10px] font-bold text-rose-800 uppercase tracking-wider flex items-center justify-between">
+                <span>Video Review / Reels</span>
+                <i data-lucide="video" class="w-3.5 h-3.5 text-rose-600"></i>
+              </div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiAssetVideos" class="text-xl font-black font-mono text-rose-700">0</span>
+                <span class="text-[10px] text-rose-600 font-medium">clip TikTok/Reels</span>
+              </div>
+            </div>
+
+            <div class="bg-purple-50/70 border border-purple-200 rounded-xl p-3">
+              <div class="text-[10px] font-bold text-purple-800 uppercase tracking-wider flex items-center justify-between">
+                <span>File In Ấn & Biển Hiệu</span>
+                <i data-lucide="printer" class="w-3.5 h-3.5 text-purple-600"></i>
+              </div>
+              <div class="flex items-baseline gap-1 mt-1">
+                <span id="kpiAssetDesignFiles" class="text-xl font-black font-mono text-purple-700">0</span>
+                <span class="text-[10px] text-purple-600 font-medium">file bạt & PDF</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FILTER BAR -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+              <div class="md:col-span-4 relative">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input id="assetFilterSearch" type="text" placeholder="Tìm theo mã hàng (LK-2606A...), tên sản phẩm, từ khóa..."
+                  oninput="renderMediaAssetsTab()"
+                  class="w-full bg-slate-50 border border-slate-200 rounded-lg pl-9 pr-3 py-2 text-xs focus:bg-white focus:outline-none focus:border-emerald-500 transition">
+              </div>
+
+              <div class="md:col-span-3">
+                <select id="assetFilterBrand" onchange="renderMediaAssetsTab()"
+                  class="w-full bg-slate-50 hover:bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-emerald-500 transition">
+                  <option value="ALL">Tất cả thương hiệu (Lock&King & Takin)</option>
+                  <option value="Lock&King">Thương hiệu Lock&King (50 mã)</option>
+                  <option value="Takin">Thương hiệu Takin (15 mã)</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-3">
+                <select id="assetFilterCategory" onchange="renderMediaAssetsTab()"
+                  class="w-full bg-slate-50 hover:bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-emerald-500 transition">
+                  <option value="ALL">Tất cả danh mục sản phẩm</option>
+                  <option value="CHẢO">Chảo cạn, chảo sâu Titanium</option>
+                  <option value="BỘ NỒI">Bộ nồi inox 5 đáy & Nồi luộc gà</option>
+                  <option value="NỒI CƠM">Nồi cơm điện lòng niêu</option>
+                  <option value="ẤM SIÊU TỐC">Ấm điện siêu tốc Inox & Thủy tinh</option>
+                  <option value="ĐÈN SƯỞI">Đèn sưởi & Thiết bị mùa đông Takin</option>
+                  <option value="NỒI CHIÊN">Nồi chiên không dầu & Thiết bị khác</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <select id="assetFilterType" onchange="renderMediaAssetsTab()"
+                  class="w-full bg-slate-50 hover:bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-emerald-500 transition">
+                  <option value="ALL">Tất cả loại tư liệu</option>
+                  <option value="PACKSHOT">📸 Ảnh Nền Trắng</option>
+                  <option value="LIFESTYLE">🍳 Ảnh Decor Món Ăn</option>
+                  <option value="SHELF">🏪 Ảnh Quầy Kệ NPP</option>
+                  <option value="VIDEO">🎬 Video Review & Demo</option>
+                  <option value="DESIGN">📑 File In Biển & PDF</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTAINER CHẾ ĐỘ 1: BỘ KIT TỪNG MÃ (DEFAULT) -->
+          <div id="mediaKitsContainer" class="space-y-4">
+            <!-- Dynamically populated via JS -->
+          </div>
+
+          <!-- CONTAINER CHẾ ĐỘ 2: LƯỚI TOÀN BỘ ẢNH (GALLERY VIEW) -->
+          <div id="mediaGalleryContainer" class="hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5">
+            <!-- Dynamically populated via JS -->
+          </div>
+
+          <!-- MODAL: LIGHTBOX PHÓNG TO ẢNH / XEM VIDEO -->
+          <div id="modalMediaLightbox" class="hidden fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 backdrop-blur-md">
+            <div class="bg-slate-900 rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-hidden flex flex-col border border-slate-800 shadow-2xl animate-in zoom-in-95 duration-150">
+              <!-- Top bar -->
+              <div class="p-3.5 bg-slate-950/90 text-white flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center gap-2.5 truncate">
+                  <span id="lightboxTypeBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">PACKSHOT</span>
+                  <h4 id="lightboxTitle" class="font-bold text-sm text-slate-200 truncate">Tiêu đề tư liệu</h4>
+                </div>
+                <button type="button" onclick="closeMediaLightbox()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+              </div>
+
+              <!-- Media Display Area -->
+              <div class="flex-1 bg-black flex items-center justify-center p-4 overflow-auto min-h-[350px]">
+                <div id="lightboxMediaContent" class="w-full flex items-center justify-center">
+                  <!-- Image or Iframe/Video injected here -->
+                </div>
+              </div>
+
+              <!-- Bottom Bar with Copy & Download Actions -->
+              <div class="p-3.5 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="text-slate-400 flex items-center gap-2">
+                  <span id="lightboxProductCode" class="font-mono font-bold text-sky-400 bg-sky-950/60 px-2 py-0.5 rounded border border-sky-800">LK-2606A</span>
+                  <span id="lightboxSubtext" class="text-[11px] truncate max-w-md">Ảnh chất lượng cao</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button id="btnLightboxCopyLink" onclick="copyLightboxUrl()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-bold flex items-center gap-1.5 transition">
+                    <i data-lucide="copy" class="w-3.5 h-3.5 text-blue-400"></i> Sao Chép Link
+                  </button>
+                  <button id="btnLightboxDownload" onclick="downloadLightboxMedia()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold flex items-center gap-1.5 transition shadow-sm">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i> Tải Về Máy
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODAL: ADD / EDIT MEDIA ASSET -->
+          <div id="modalMediaAssetForm" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+              <div class="p-4 bg-gradient-to-r from-slate-900 to-emerald-950 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="image-plus" class="w-5 h-5 text-emerald-400"></i>
+                  <h3 id="modalAssetFormTitle" class="font-bold text-sm">Thêm Tư Liệu Mới Vào Kho</h3>
+                </div>
+                <button type="button" onclick="closeMediaAssetModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+              </div>
+
+              <form id="formMediaAsset" onsubmit="saveMediaAssetForm(event)" class="p-5 space-y-3.5 text-xs">
+                <input type="hidden" id="assetFormId" value="">
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Gắn Với Mã Sản Phẩm <span class="text-rose-500">*</span></label>
+                  <select id="assetFormProductCode" required class="w-full border border-slate-200 rounded-lg p-2 font-mono font-bold bg-slate-50 focus:bg-white focus:border-emerald-500 focus:outline-none">
+                    <!-- Populated with 65 canonical codes -->
+                  </select>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Phân Loại Tư Liệu <span class="text-rose-500">*</span></label>
+                    <select id="assetFormType" class="w-full border border-slate-200 rounded-lg p-2 bg-slate-50 font-bold text-slate-800">
+                      <option value="PACKSHOT">📸 Ảnh Nền Trắng Shopee</option>
+                      <option value="LIFESTYLE">🍳 Ảnh Decor Món Ăn</option>
+                      <option value="SHELF">🏪 Ảnh Quầy Kệ NPP</option>
+                      <option value="VIDEO">🎬 Video Review / Reels</option>
+                      <option value="DESIGN">📑 File In Biển & PDF</option>
+                      <option value="DRIVE">📁 Thư Mục Google Drive</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Thẻ Gắn (Tag / Danh mục)</label>
+                    <input id="assetFormTags" type="text" placeholder="VD: Bếp từ, Chiên rán, Tiêu biểu..." class="w-full border border-slate-200 rounded-lg p-2 focus:border-emerald-500 focus:outline-none">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Tiêu Đề / Mô Tả Tư Liệu <span class="text-rose-500">*</span></label>
+                  <input id="assetFormTitle" type="text" required placeholder="VD: Ảnh cận cảnh lòng chảo titan 26cm rán trứng không dính..." class="w-full border border-slate-200 rounded-lg p-2 font-bold focus:border-emerald-500 focus:outline-none">
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Đường Dẫn File Ảnh / Video / Link Drive <span class="text-rose-500">*</span></label>
+                  <input id="assetFormUrl" type="text" required placeholder="images/LK-2606A.png hoặc https://drive.google.com/..." class="w-full border border-slate-200 rounded-lg p-2 font-mono text-emerald-700 focus:border-emerald-500 focus:outline-none">
+                  <p class="text-[10px] text-slate-400 mt-1">Hỗ trợ đường dẫn ảnh nội bộ (images/...), link ảnh web, link YouTube, link Google Drive</p>
+                </div>
+
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Ghi Chú Hướng Dẫn Đại Lý</label>
+                  <textarea id="assetFormNote" rows="2" placeholder="Ghi chú về bản quyền, mẹo dùng cho Sale hoặc cú pháp đăng bài..." class="w-full border border-slate-200 rounded-lg p-2 focus:border-emerald-500 focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                  <button type="button" onclick="closeMediaAssetModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold">
+                    Hủy
+                  </button>
+                  <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold shadow-md shadow-emerald-600/20 flex items-center gap-1.5">
+                    <i data-lucide="check" class="w-4 h-4"></i> Lưu Vào Kho Tư Liệu
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- MODAL: PREVIEW & COPY ZALO KIT -->
+          <div id="modalZaloKitPreview" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden animate-in fade-in zoom-in duration-150">
+              <div class="p-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="message-square" class="w-5 h-5 text-white"></i>
+                  <h3 class="font-bold text-sm">Mẫu Tin Nhắn Zalo Gửi Bộ Kit Cho Đại Lý</h3>
+                </div>
+                <button type="button" onclick="closeZaloKitModal()" class="text-blue-200 hover:text-white p-1 rounded-lg">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+              </div>
+
+              <div class="p-5 space-y-3 text-xs">
+                <p class="text-slate-500">Mẫu tin nhắn đã được tự động định dạng đầy đủ thông tin sản phẩm, link ảnh nét và link video review:</p>
+                <div class="relative">
+                  <textarea id="zaloKitTextContent" rows="10" readonly class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 font-mono text-[11px] text-slate-800 focus:outline-none focus:border-blue-500 leading-relaxed"></textarea>
+                </div>
+              </div>
+
+              <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+                  <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Sẵn sàng dán Ctrl+V gửi Zalo
+                </span>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="closeZaloKitModal()" class="px-3.5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-bold">
+                    Đóng
+                  </button>
+                  <button onclick="executeCopyZaloKit()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold shadow-md shadow-blue-600/20 flex items-center gap-1.5 transition">
+                    <i data-lucide="copy" class="w-4 h-4"></i> Sao Chép Tin Nhắn
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- ================= TAB: KÊNH ĐỐI TÁC & THƯ VIỆN MEDIA ================= -->
         <section id="tab-partners-media" class="tab-pane hidden p-4 sm:p-6 space-y-6">
           <!-- 1. TOOLBAR & HEADER -->
@@ -14230,6 +14530,20 @@ ${camp.rule}
         searchEl.value = code;
         renderMediaAssetsTab();
       }
+    }
+
+    
+    function openProductKitModal(code) {
+      const searchInput = document.getElementById('assetFilterSearch');
+      if (searchInput) {
+        searchInput.value = code;
+      }
+      switchMediaAssetView('gallery');
+      showToast('Đang hiển thị toàn bộ ảnh và video của mã ' + code);
+    }
+
+    function closeProductKitModal() {
+      // Helper for modal close
     }
 
     function renderMediaAssetsTab() {
