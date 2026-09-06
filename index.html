@@ -667,6 +667,10 @@
                   <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
                   <span>Thẻ Di Động</span>
                 </button>
+              <button type="button" id="btnViewPriceDiff" onclick="setProductViewMode('diff')" class="px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900" title="Bảng chênh lệch tầng giá: Giá Nhập - NPP Online - Facebook - TMĐT - Niêm Yết">
+                  <i data-lucide="trending-up" class="w-3.5 h-3.5 text-purple-600"></i>
+                  <span>Sheet Chênh Lệch Giá</span>
+                </button>
               </div>
 
               <button onclick="openCatalogPdfModal()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition" title="Xuất toàn bộ bảng phân loại giá ra file PDF">
@@ -1440,6 +1444,98 @@
         </tr>
       </tbody>
               </table>
+            </div>
+          </div>
+
+          <!-- ================= SHEET 2: BẢNG CHÊNH LỆCH TẦNG GIÁ ================= -->
+          <div id="productPriceDiffViewContainer" class="hidden space-y-4 mb-6">
+            <!-- 4 THẺ THỐNG KÊ KPI TỔNG QUAN -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <!-- KPI 1: TỔNG MODEL -->
+              <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tổng Số Model Áp Dụng</p>
+                  <h3 id="kpiDiffTotalCount" class="text-xl font-black text-slate-900 mt-0.5">65 <span class="text-xs font-semibold text-slate-500">mã</span></h3>
+                  <span class="text-[10px] text-sky-600 font-bold">49 Lock&King | 16 Takin</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-black">
+                  <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <!-- KPI 2: BIÊN LN FACEBOOK -->
+              <div class="bg-white p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Biên LN Facebook vs Vốn Nhập</p>
+                  <h3 id="kpiDiffAvgMarginFB" class="text-xl font-black text-emerald-700 mt-0.5">57.8% <span class="text-xs font-semibold text-slate-500">bình quân</span></h3>
+                  <span class="text-[10px] text-emerald-600 font-medium">Làm tròn tăng lên đầu nghìn</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-black">
+                  <i data-lucide="percent" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <!-- KPI 3: CHÊNH SÀN TMĐT -->
+              <div class="bg-white p-3.5 rounded-xl border border-purple-200 bg-purple-50/20 shadow-xs flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-bold text-purple-700 uppercase tracking-wider">Tăng Giá Sàn TMĐT vs Facebook</p>
+                  <h3 id="kpiDiffAvgTMDT" class="text-xl font-black text-purple-700 mt-0.5">+5.0% <span class="text-xs font-semibold text-slate-500">tăng trưởng</span></h3>
+                  <span class="text-[10px] text-purple-600 font-medium">+5% làm tròn đầu nghìn</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-black">
+                  <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <!-- KPI 4: CHÊNH NIÊM YẾT -->
+              <div class="bg-white p-3.5 rounded-xl border border-amber-200 bg-amber-50/20 shadow-xs flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-bold text-amber-700 uppercase tracking-wider">Tăng Giá Niêm Yết vs TMĐT</p>
+                  <h3 id="kpiDiffAvgRetail" class="text-xl font-black text-amber-700 mt-0.5">+15.0% <span class="text-xs font-semibold text-slate-500">tăng trưởng</span></h3>
+                  <span class="text-[10px] text-amber-600 font-medium">+15% làm tròn đầu nghìn</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-black">
+                  <i data-lucide="tag" class="w-5 h-5"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- BẢNG DỮ LIỆU TẦNG GIÁ -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-bold text-xs">Sheet 2</span>
+                  <h3 class="font-black text-slate-900 text-sm">BẢNG CHÊNH LỆCH TẦNG GIÁ (VỐN NHẬP - NPP ONLINE - FACEBOOK - TMĐT - NIÊM YẾT)</h3>
+                </div>
+                <button type="button" onclick="exportPriceDiffSheetOnly()" class="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Tải file Excel bảng chênh lệch giá này">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                  <span>Xuất Excel Sheet Này</span>
+                </button>
+              </div>
+
+              <div class="sticky-table-container max-h-[70vh] overflow-auto">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-slate-900 text-white font-bold border-b-2 border-slate-800 uppercase text-[10px] shadow-sm sticky top-0 z-20">
+                    <tr>
+                      <th class="py-3 px-2 text-center text-slate-400">STT</th>
+                      <th class="py-3 px-2.5 text-sky-300">Model</th>
+                      <th class="py-3 px-2 text-center text-slate-300">Hình Ảnh</th>
+                      <th class="py-3 px-3 text-slate-200">Tên Sản Phẩm</th>
+                      <th class="py-3 px-2 text-right text-rose-300" title="Giá vốn nhập kho mới nhất của hãng">Giá Nhập Hiện Tại</th>
+                      <th class="py-3 px-2.5 text-right text-sky-300" title="Giá NPP Online">Giá NPP Online</th>
+                      <th class="py-3 px-2.5 text-right text-blue-300 bg-slate-800" title="Giá Facebook làm tròn tăng lên đầu nghìn (3 số 0 đuôi)">Giá Facebook<br><span class="text-[9px] font-normal text-blue-200">(Tròn Nghìn)</span></th>
+                      <th class="py-3 px-2.5 text-center text-emerald-300 bg-slate-800/80" title="Lãi gộp và % Biên lợi nhuận so với giá nhập">Biên LN FB vs Giá Nhập<br><span class="text-[9px] font-normal text-emerald-200">(Lãi VNĐ & %)</span></th>
+                      <th class="py-3 px-2.5 text-right text-purple-300" title="Giá sàn TMĐT tăng 5% so với giá FB, làm tròn tăng lên đầu nghìn">Giá Sàn TMĐT<br><span class="text-[9px] font-normal text-purple-200">(+5% FB, Tròn Nghìn)</span></th>
+                      <th class="py-3 px-2.5 text-center text-purple-300" title="Chênh lệch giữa giá TMĐT và Facebook">Biên Độ TMĐT vs FB<br><span class="text-[9px] font-normal text-purple-200">(Chênh VNĐ & %)</span></th>
+                      <th class="py-3 px-2.5 text-right text-amber-300" title="Giá niêm yết tăng 15% so với TMĐT, làm tròn tăng lên đầu nghìn">Giá Niêm Yết<br><span class="text-[9px] font-normal text-amber-200">(+15% TMĐT, Tròn Nghìn)</span></th>
+                      <th class="py-3 px-2.5 text-center text-amber-300" title="Chênh lệch giữa giá Niêm Yết và TMĐT">Biên Độ Niêm Yết vs TMĐT<br><span class="text-[9px] font-normal text-amber-200">(Chênh VNĐ & %)</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="productPriceDiffTbody" class="divide-y divide-slate-100 font-medium">
+                    <!-- Dynamic rendering by renderPriceDiffTable() -->
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </section>
@@ -9690,6 +9786,7 @@
 
       tbody.innerHTML = rowsHtml;
       renderProductCards(filtered, role);
+      renderPriceDiffTable(filtered, canViewImport);
       safeLucideIcons();
     }
 
@@ -10921,7 +11018,333 @@
       }, 1500);
     }
 
-            function exportCatalogToExcel() {
+            
+    /* ================= PHÂN HỆ SHEET 2: CHÊNH LỆCH TẦNG GIÁ ================= */
+
+    function renderPriceDiffTable(products, canViewImport) {
+      const tbody = document.getElementById('productPriceDiffTbody');
+      if (!tbody) return;
+
+      if (!products || products.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="12" class="py-8 text-center text-slate-400 font-bold">Không tìm thấy sản phẩm nào phù hợp bộ lọc</td></tr>';
+        return;
+      }
+
+      let totalImport = 0;
+      let totalFB = 0;
+      let totalTMDT = 0;
+      let totalRetail = 0;
+      let countWithImport = 0;
+
+      let lastBrand = '';
+      let lastCat = '';
+      let rowsHtml = '';
+
+      products.forEach((p, idx) => {
+        // Phân tách thương hiệu
+        if (p.brand !== lastBrand) {
+          lastBrand = p.brand;
+          lastCat = '';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (49 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (16 MODEL)';
+          rowsHtml += `
+            <tr class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider select-none">
+              <td colspan="12" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-purple-950 to-slate-900 border-y border-slate-700">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+                  <span>${brandTitle}</span>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+
+        // Phân tách nhóm sản phẩm
+        if (p.categoryName !== lastCat) {
+          lastCat = p.categoryName;
+          rowsHtml += `
+            <tr class="bg-purple-700 text-white font-bold text-[11px] uppercase tracking-wider select-none">
+              <td colspan="12" class="py-1.5 px-4 bg-gradient-to-r from-purple-700 to-indigo-700 border-b border-purple-800 shadow-xs">
+                <div class="flex items-center gap-1.5">
+                  <i data-lucide="layers" class="w-3.5 h-3.5 text-purple-200"></i>
+                  <span>NHÓM SẢN PHẨM: ${escapeHtml(p.categoryName)}</span>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+
+        const stt = p.stt || (idx + 1);
+        const importPrice = p.newImportPrice || p.oldImportPrice || 0;
+        const nppOnline = p.nppOnlinePrice || 0;
+
+        // 1. Giá Facebook làm tròn tăng lên đầu nghìn
+        const fbRaw = p.facebookPrice || 0;
+        const fbRound = Math.ceil(fbRaw / 1000) * 1000;
+        const fbProfit = fbRound - importPrice;
+        const fbMarginPct = fbRound > 0 ? ((fbProfit / fbRound) * 100).toFixed(1) + '%' : '0%';
+        const fbMarkupPct = importPrice > 0 ? ((fbProfit / importPrice) * 100).toFixed(1) + '%' : '0%';
+
+        // 2. Giá sàn TMĐT tăng 5% so với giá FB, làm tròn tăng đầu nghìn
+        const tmdtRaw = fbRound * 1.05;
+        const tmdtRound = Math.ceil(tmdtRaw / 1000) * 1000;
+        const tmdtDiff = tmdtRound - fbRound;
+        const tmdtDiffPct = fbRound > 0 ? ((tmdtDiff / fbRound) * 100).toFixed(1) + '%' : '0%';
+
+        // 3. Giá niêm yết tăng 15% so với giá sàn TMĐT, làm tròn tăng đầu nghìn
+        const retailRaw = tmdtRound * 1.15;
+        const retailRound = Math.ceil(retailRaw / 1000) * 1000;
+        const retailDiff = retailRound - tmdtRound;
+        const retailDiffPct = tmdtRound > 0 ? ((retailDiff / tmdtRound) * 100).toFixed(1) + '%' : '0%';
+
+        if (importPrice > 0) {
+          totalImport += importPrice;
+          totalFB += fbRound;
+          totalTMDT += tmdtRound;
+          totalRetail += retailRound;
+          countWithImport++;
+        }
+
+        const importCell = canViewImport 
+          ? `<td class="py-2 px-2 text-right font-mono font-bold text-rose-700 bg-rose-50/40">${formatVND(importPrice)}</td>`
+          : `<td class="py-2 px-2 text-center font-mono text-slate-400 bg-slate-50/50" title="Bảo mật nội bộ">***</td>`;
+
+        const fbProfitCell = canViewImport
+          ? `<td class="py-2 px-2.5 text-center bg-emerald-50/30">
+               <div class="font-mono font-bold text-emerald-800 text-xs">+${formatVND(fbProfit)}</div>
+               <span class="inline-block text-[10px] font-mono font-black text-emerald-900 bg-emerald-100 border border-emerald-300 px-1.5 py-0.2 rounded mt-0.5" title="Biên LN gộp = (FB - Nhập) / FB: ${fbMarginPct} | Lãi trên vốn: ${fbMarkupPct}">
+                 ${fbMarginPct}
+               </span>
+             </td>`
+          : `<td class="py-2 px-2.5 text-center text-slate-400 bg-slate-50/50" title="Bảo mật nội bộ">***</td>`;
+
+        const imgHtml = p.image 
+          ? `<img src="${p.image}" onclick="openImageModal('${p.image}', '${escapeHtml(p.name)}', '${p.canonicalCode}')" class="w-9 h-9 object-contain rounded-md border border-slate-200 bg-white p-0.5 mx-auto cursor-pointer hover:scale-110 transition shadow-2xs" onerror="this.onerror=null; this.src='https://placehold.co/100x100/f8fafc/94a3b8?text=IMG';"/>`
+          : `<div class="w-9 h-9 rounded-md bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-[9px] mx-auto">No img</div>`;
+
+        rowsHtml += `
+          <tr class="hover:bg-slate-50/80 transition border-b border-slate-100">
+            <td class="py-2 px-2 text-center text-slate-400 font-mono text-xs">${stt}</td>
+            <td class="py-2 px-2.5">
+              <span class="font-mono font-black text-xs text-purple-900 bg-purple-50 border border-purple-200 px-1.5 py-0.5 rounded shadow-2xs">${p.canonicalCode}</span>
+            </td>
+            <td class="py-1.5 px-2 text-center">${imgHtml}</td>
+            <td class="py-2 px-3 text-slate-800 font-semibold max-w-xs truncate" title="${escapeHtml(p.name)}">
+              <div>${escapeHtml(p.name)}</div>
+              <div class="text-[10px] font-normal text-slate-400">${escapeHtml(p.categoryName || '')}</div>
+            </td>
+            ${importCell}
+            <td class="py-2 px-2.5 text-right font-mono font-bold text-sky-700 bg-sky-50/30">${formatVND(nppOnline)}</td>
+            <td class="py-2 px-2.5 text-right font-mono font-black text-blue-700 bg-blue-50/20">${formatVND(fbRound)}</td>
+            ${fbProfitCell}
+            <td class="py-2 px-2.5 text-right font-mono font-bold text-purple-700 bg-purple-50/20">${formatVND(tmdtRound)}</td>
+            <td class="py-2 px-2.5 text-center bg-purple-50/30">
+              <div class="font-mono font-bold text-purple-900 text-xs">+${formatVND(tmdtDiff)}</div>
+              <span class="inline-block text-[10px] font-mono font-bold text-purple-800 bg-purple-100 border border-purple-200 px-1.5 py-0.2 rounded mt-0.5" title="Mức tăng so với giá Facebook: +${tmdtDiffPct}">
+                +${tmdtDiffPct}
+              </span>
+            </td>
+            <td class="py-2 px-2.5 text-right font-mono font-bold text-amber-700 bg-amber-50/20">${formatVND(retailRound)}</td>
+            <td class="py-2 px-2.5 text-center bg-amber-50/30">
+              <div class="font-mono font-bold text-amber-900 text-xs">+${formatVND(retailDiff)}</div>
+              <span class="inline-block text-[10px] font-mono font-bold text-amber-800 bg-amber-100 border border-amber-200 px-1.5 py-0.2 rounded mt-0.5" title="Mức tăng so với giá sàn TMĐT: +${retailDiffPct}">
+                +${retailDiffPct}
+              </span>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = rowsHtml;
+
+      // Cập nhật thẻ KPI
+      const elCount = document.getElementById('kpiDiffTotalCount');
+      if (elCount) elCount.innerHTML = `${products.length} <span class="text-xs font-semibold text-slate-500">mã</span>`;
+
+      if (countWithImport > 0 && totalFB > 0 && canViewImport) {
+        const avgMargin = ((totalFB - totalImport) / totalFB * 100).toFixed(1);
+        const elAvgMargin = document.getElementById('kpiDiffAvgMarginFB');
+        if (elAvgMargin) elAvgMargin.innerHTML = `${avgMargin}% <span class="text-xs font-semibold text-slate-500">bình quân</span>`;
+      } else if (!canViewImport) {
+        const elAvgMargin = document.getElementById('kpiDiffAvgMarginFB');
+        if (elAvgMargin) elAvgMargin.innerHTML = '*** <span class="text-xs font-semibold text-slate-500">nội bộ</span>';
+      }
+
+      if (totalFB > 0 && totalTMDT > 0) {
+        const avgTMDT = ((totalTMDT - totalFB) / totalFB * 100).toFixed(1);
+        const elAvgTMDT = document.getElementById('kpiDiffAvgTMDT');
+        if (elAvgTMDT) elAvgTMDT.innerHTML = `+${avgTMDT}% <span class="text-xs font-semibold text-slate-500">tăng trưởng</span>`;
+      }
+
+      if (totalTMDT > 0 && totalRetail > 0) {
+        const avgRetail = ((totalRetail - totalTMDT) / totalTMDT * 100).toFixed(1);
+        const elAvgRetail = document.getElementById('kpiDiffAvgRetail');
+        if (elAvgRetail) elAvgRetail.innerHTML = `+${avgRetail}% <span class="text-xs font-semibold text-slate-500">tăng trưởng</span>`;
+      }
+
+      safeLucideIcons();
+    }
+
+    function buildPriceDiffExcelSheet(products, canViewImport) {
+      const todayStr = new Date().toLocaleDateString('vi-VN');
+      const titleStr = "BẢNG CHÊNH LỆCH TẦNG GIÁ (VỐN NHẬP - NPP ONLINE - FACEBOOK - SÀN TMĐT - NIÊM YẾT)";
+      
+      const headers = canViewImport
+        ? [
+            "STT", "Thương Hiệu", "Phân Loại", "Mã Model", "Tên Sản Phẩm",
+            "Giá Nhập Hiện Tại (VNĐ)", "Giá NPP Online (VNĐ)",
+            "Giá Facebook (Làm Tròn Nghìn)", "Lãi FB vs Vốn Nhập (VNĐ)", "% Biên LN FB vs Giá Nhập",
+            "Giá Sàn TMĐT (+5% FB, Tròn Nghìn)", "Chênh Lệch TMĐT vs FB (VNĐ)", "% Biên Độ TMĐT vs FB",
+            "Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)", "Chênh Lệch Niêm Yết vs TMĐT (VNĐ)", "% Biên Độ Niêm Yết vs TMĐT"
+          ]
+        : [
+            "STT", "Thương Hiệu", "Phân Loại", "Mã Model", "Tên Sản Phẩm",
+            "Giá NPP Online (VNĐ)",
+            "Giá Facebook (Làm Tròn Nghìn)",
+            "Giá Sàn TMĐT (+5% FB, Tròn Nghìn)", "Chênh Lệch TMĐT vs FB (VNĐ)", "% Biên Độ TMĐT vs FB",
+            "Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)", "Chênh Lệch Niêm Yết vs TMĐT (VNĐ)", "% Biên Độ Niêm Yết vs TMĐT"
+          ];
+
+      const colCount = headers.length;
+      const rows = [];
+      const merges = [];
+
+      // Dòng 1: Tên Công Ty
+      rows.push(["VU GIA COOPERATIVE COMPANY LIMITED"]);
+      merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: colCount - 1 } });
+
+      // Dòng 2: Thông tin liên hệ
+      rows.push(["Địa chỉ: 230 Lacasta, Van Phu Urban Area, Kien Hung Ward, Ha Noi | Websites: Locknking.com - Locknking.vn - Locknking.kr"]);
+      merges.push({ s: { r: 1, c: 0 }, e: { r: 1, c: colCount - 1 } });
+
+      // Dòng 3: Tiêu đề
+      rows.push([titleStr]);
+      merges.push({ s: { r: 2, c: 0 }, e: { r: 2, c: colCount - 1 } });
+
+      // Dòng 4: Ghi chú quy tắc
+      rows.push(["Quy tắc định giá: 1. Giá FB làm tròn tăng đầu nghìn (đuôi 000) | 2. Giá sàn TMĐT = FB + 5% làm tròn tăng đầu nghìn | 3. Giá Niêm Yết = TMĐT + 15% làm tròn tăng đầu nghìn"]);
+      merges.push({ s: { r: 3, c: 0 }, e: { r: 3, c: colCount - 1 } });
+
+      // Dòng 5: Dòng trống
+      rows.push([]);
+
+      // Dòng 6: Headers
+      rows.push(headers);
+
+      let lastBrand = '';
+      let lastCat = '';
+
+      products.forEach((p, idx) => {
+        if (p.brand !== lastBrand) {
+          lastBrand = p.brand;
+          lastCat = '';
+          const brandRowIdx = rows.length;
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (49 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (16 MODEL)';
+          rows.push([brandTitle]);
+          merges.push({ s: { r: brandRowIdx, c: 0 }, e: { r: brandRowIdx, c: colCount - 1 } });
+        }
+
+        if (p.categoryName !== lastCat) {
+          lastCat = p.categoryName;
+          const catRowIdx = rows.length;
+          rows.push(["▶ NHÓM SẢN PHẨM: " + p.categoryName]);
+          merges.push({ s: { r: catRowIdx, c: 0 }, e: { r: catRowIdx, c: colCount - 1 } });
+        }
+
+        const stt = p.stt || (idx + 1);
+        const importPrice = p.newImportPrice || p.oldImportPrice || 0;
+        const nppOnline = p.nppOnlinePrice || 0;
+
+        const fbRaw = p.facebookPrice || 0;
+        const fbRound = Math.ceil(fbRaw / 1000) * 1000;
+        const fbProfit = fbRound - importPrice;
+        const fbMarginPct = fbRound > 0 ? ((fbProfit / fbRound) * 100).toFixed(1) + '%' : '0%';
+
+        const tmdtRaw = fbRound * 1.05;
+        const tmdtRound = Math.ceil(tmdtRaw / 1000) * 1000;
+        const tmdtDiff = tmdtRound - fbRound;
+        const tmdtDiffPct = fbRound > 0 ? ((tmdtDiff / fbRound) * 100).toFixed(1) + '%' : '0%';
+
+        const retailRaw = tmdtRound * 1.15;
+        const retailRound = Math.ceil(retailRaw / 1000) * 1000;
+        const retailDiff = retailRound - tmdtRound;
+        const retailDiffPct = tmdtRound > 0 ? ((retailDiff / tmdtRound) * 100).toFixed(1) + '%' : '0%';
+
+        if (canViewImport) {
+          rows.push([
+            stt, p.brand, p.categoryName, p.canonicalCode, p.name,
+            importPrice, nppOnline,
+            fbRound, fbProfit, fbMarginPct,
+            tmdtRound, tmdtDiff, tmdtDiffPct,
+            retailRound, retailDiff, retailDiffPct
+          ]);
+        } else {
+          rows.push([
+            stt, p.brand, p.categoryName, p.canonicalCode, p.name,
+            nppOnline,
+            fbRound,
+            tmdtRound, tmdtDiff, tmdtDiffPct,
+            retailRound, retailDiff, retailDiffPct
+          ]);
+        }
+      });
+
+      // Signature block
+      rows.push([]);
+      if (colCount >= 6) {
+        const colMid = Math.floor(colCount / 2);
+        const sigRow = new Array(colCount).fill("");
+        sigRow[1] = "NGƯỜI LẬP BIỂU";
+        sigRow[colMid] = "KẾ TOÁN TRƯỞNG";
+        sigRow[colCount - 2] = "GIÁM ĐỐC ĐIỀU HÀNH";
+        rows.push(sigRow);
+
+        const sigSubRow = new Array(colCount).fill("");
+        sigSubRow[1] = "(Ký, ghi rõ họ tên)";
+        sigSubRow[colMid] = "(Ký, ghi rõ họ tên)";
+        sigSubRow[colCount - 2] = "(Ký tên & đóng dấu)";
+        rows.push(sigSubRow);
+
+        rows.push(new Array(colCount).fill(""));
+        rows.push(new Array(colCount).fill(""));
+
+        const sigNameRow = new Array(colCount).fill("");
+        sigNameRow[1] = "";
+        sigNameRow[colMid] = "Nguyễn Thị Nguyệt";
+        sigNameRow[colCount - 2] = "Lê Quang Tuyến";
+        rows.push(sigNameRow);
+      }
+
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      ws['!merges'] = merges;
+
+      const cols = [];
+      headers.forEach((h, i) => {
+        if (i === 0) cols.push({ wch: 6 });
+        else if (i === 1) cols.push({ wch: 14 });
+        else if (i === 2) cols.push({ wch: 18 });
+        else if (i === 3) cols.push({ wch: 16 });
+        else if (i === 4) cols.push({ wch: 42 });
+        else if (h.includes("%")) cols.push({ wch: 14 });
+        else cols.push({ wch: 18 });
+      });
+      ws['!cols'] = cols;
+
+      return ws;
+    }
+
+    function exportPriceDiffSheetOnly() {
+      const db = getDB();
+      const role = currentUser.role;
+      const canViewImport = (role === 'ADMIN' || role === 'ACCOUNTANT');
+      const wsDiff = buildPriceDiffExcelSheet(db.products, canViewImport);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, wsDiff, "ChenhLech_Gia_FB_TMDT_NY");
+      const dateSlug = new Date().toISOString().substring(0, 10);
+      XLSX.writeFile(wb, "Bang_Chenh_Lech_Tang_Gia_" + dateSlug + ".xlsx");
+      showToast("Đã xuất Sheet Chênh Lệch Tầng Giá ra Excel thành công!");
+    }
+
+    function exportCatalogToExcel() {
       const db = getDB();
       const role = currentUser.role;
       const isSaleOnline = (role === 'SALE_ONLINE');
@@ -11692,25 +12115,35 @@
       currentProductViewMode = mode;
       const tableView = document.getElementById('productTableViewContainer');
       const cardsView = document.getElementById('productCardsContainer');
+      const diffView = document.getElementById('productPriceDiffViewContainer');
       const btnTable = document.getElementById('btnViewTable');
       const btnCards = document.getElementById('btnViewCards');
+      const btnDiff = document.getElementById('btnViewPriceDiff');
 
       if (!tableView || !cardsView) return;
 
       if (mode === 'cards') {
         tableView.classList.add('hidden');
+        if (diffView) diffView.classList.add('hidden');
         cardsView.classList.remove('hidden');
-        if (btnCards && btnTable) {
-          btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs';
-          btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
-        }
+        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs';
+        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        if (btnDiff) btnDiff.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+      } else if (mode === 'diff') {
+        tableView.classList.add('hidden');
+        cardsView.classList.add('hidden');
+        if (diffView) diffView.classList.remove('hidden');
+        if (btnDiff) btnDiff.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-purple-900 font-bold shadow-xs';
+        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        if (typeof renderProductTable === 'function') renderProductTable();
       } else {
         cardsView.classList.add('hidden');
+        if (diffView) diffView.classList.add('hidden');
         tableView.classList.remove('hidden');
-        if (btnCards && btnTable) {
-          btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs';
-          btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
-        }
+        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs';
+        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        if (btnDiff) btnDiff.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
       }
 
       try {
