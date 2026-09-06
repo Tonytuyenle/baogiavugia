@@ -53,7 +53,7 @@ XLSX.utils.book_append_sheet(wb, ws1, 'Bang_Gia_Chuan_65_Ma');
 
 // SHEET 2: BẢNG CHÊNH LỆCH TẦNG GIÁ (VỐN NHẬP - NPP ONLINE - FACEBOOK - SÀN TMĐT - NIÊM YẾT)
 const rowsSheet2 = [
-  ['STT', 'Thương Hiệu', 'Phân Loại', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Giá Nhập Hiện Tại (VNĐ)', 'Giá NPP Online (VNĐ)', 'Giá Facebook (Làm Tròn Nghìn)', 'Lãi FB vs Vốn Nhập (VNĐ)', '% Biên LN FB vs Giá Nhập', 'Giá Sàn TMĐT (+5% FB, Tròn Nghìn)', 'Chênh Lệch TMĐT vs FB (VNĐ)', '% Biên Độ TMĐT vs FB', 'Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)', 'Chênh Lệch Niêm Yết vs TMĐT (VNĐ)', '% Biên Độ Niêm Yết vs TMĐT']
+  ['STT', 'Thương Hiệu', 'Phân Loại', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Giá Nhập Hiện Tại (VNĐ)', 'Giá NPP Online (VNĐ)', 'Giá Facebook (Làm Tròn Nghìn)', 'Lợi Nhuận FB vs NPP Online (VNĐ)', '% Biên LN FB / NPP Online', 'Giá Sàn TMĐT (+5% FB, Tròn Nghìn)', 'Chênh Lệch TMĐT vs FB (VNĐ)', '% Biên Độ TMĐT vs FB', 'Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)', 'Chênh Lệch Niêm Yết vs TMĐT (VNĐ)', '% Biên Độ Niêm Yết vs TMĐT']
 ];
 
 products.forEach((p, idx) => {
@@ -61,10 +61,10 @@ products.forEach((p, idx) => {
   const importPrice = p.newImportPrice || p.oldImportPrice || 0;
   const nppOnline = p.nppOnlinePrice || 0;
 
-  // 1. Facebook: làm tròn tăng đầu nghìn đuôi 000
+  // 1. Facebook: làm tròn tăng đầu nghìn đuôi 000, tính biên LN so với giá NPP Online
   const fbRaw = p.facebookPrice || 0;
   const fbRound = Math.ceil(fbRaw / 1000) * 1000;
-  const fbProfit = fbRound - importPrice;
+  const fbProfit = fbRound - nppOnline;
   const fbMarginPct = fbRound > 0 ? ((fbProfit / fbRound) * 100).toFixed(1) + '%' : '0%';
 
   // 2. TMĐT: tăng 5% so với FB, làm tròn tăng đầu nghìn đuôi 000

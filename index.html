@@ -1466,8 +1466,8 @@
               <!-- KPI 2: BIÊN LN FACEBOOK -->
               <div class="bg-white p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs flex items-center justify-between">
                 <div>
-                  <p class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Biên LN Facebook vs Vốn Nhập</p>
-                  <h3 id="kpiDiffAvgMarginFB" class="text-xl font-black text-emerald-700 mt-0.5">57.8% <span class="text-xs font-semibold text-slate-500">bình quân</span></h3>
+                  <p class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Biên LN Facebook vs NPP Online</p>
+                  <h3 id="kpiDiffAvgMarginFB" class="text-xl font-black text-emerald-700 mt-0.5">47.1% <span class="text-xs font-semibold text-slate-500">bình quân</span></h3>
                   <span class="text-[10px] text-emerald-600 font-medium">Làm tròn tăng lên đầu nghìn</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-black">
@@ -1524,7 +1524,7 @@
                       <th class="py-3 px-2 text-right text-rose-300" title="Giá vốn nhập kho mới nhất của hãng">Giá Nhập Hiện Tại</th>
                       <th class="py-3 px-2.5 text-right text-sky-300" title="Giá NPP Online">Giá NPP Online</th>
                       <th class="py-3 px-2.5 text-right text-blue-300 bg-slate-800" title="Giá Facebook làm tròn tăng lên đầu nghìn (3 số 0 đuôi)">Giá Facebook<br><span class="text-[9px] font-normal text-blue-200">(Tròn Nghìn)</span></th>
-                      <th class="py-3 px-2.5 text-center text-emerald-300 bg-slate-800/80" title="Lãi gộp và % Biên lợi nhuận so với giá nhập">Biên LN FB vs Giá Nhập<br><span class="text-[9px] font-normal text-emerald-200">(Lãi VNĐ & %)</span></th>
+                      <th class="py-3 px-2.5 text-center text-emerald-300 bg-slate-800/80" title="Lãi gộp và % Biên lợi nhuận so với giá nhập">Biên LN FB vs NPP Online<br><span class="text-[9px] font-normal text-emerald-200">(Lãi VNĐ & %)</span></th>
                       <th class="py-3 px-2.5 text-right text-purple-300" title="Giá sàn TMĐT tăng 5% so với giá FB, làm tròn tăng lên đầu nghìn">Giá Sàn TMĐT<br><span class="text-[9px] font-normal text-purple-200">(+5% FB, Tròn Nghìn)</span></th>
                       <th class="py-3 px-2.5 text-center text-purple-300" title="Chênh lệch giữa giá TMĐT và Facebook">Biên Độ TMĐT vs FB<br><span class="text-[9px] font-normal text-purple-200">(Chênh VNĐ & %)</span></th>
                       <th class="py-3 px-2.5 text-right text-amber-300" title="Giá niêm yết tăng 15% so với TMĐT, làm tròn tăng lên đầu nghìn">Giá Niêm Yết<br><span class="text-[9px] font-normal text-amber-200">(+15% TMĐT, Tròn Nghìn)</span></th>
@@ -11077,12 +11077,12 @@
         const importPrice = p.newImportPrice || p.oldImportPrice || 0;
         const nppOnline = p.nppOnlinePrice || 0;
 
-        // 1. Giá Facebook làm tròn tăng lên đầu nghìn
+        // 1. Giá Facebook làm tròn tăng lên đầu nghìn (so với giá NPP Online)
         const fbRaw = p.facebookPrice || 0;
         const fbRound = Math.ceil(fbRaw / 1000) * 1000;
-        const fbProfit = fbRound - importPrice;
+        const fbProfit = fbRound - nppOnline;
         const fbMarginPct = fbRound > 0 ? ((fbProfit / fbRound) * 100).toFixed(1) + '%' : '0%';
-        const fbMarkupPct = importPrice > 0 ? ((fbProfit / importPrice) * 100).toFixed(1) + '%' : '0%';
+        const fbMarkupPct = nppOnline > 0 ? ((fbProfit / nppOnline) * 100).toFixed(1) + '%' : '0%';
 
         // 2. Giá sàn TMĐT tăng 5% so với giá FB, làm tròn tăng đầu nghìn
         const tmdtRaw = fbRound * 1.05;
@@ -11108,14 +11108,12 @@
           ? `<td class="py-2 px-2 text-right font-mono font-bold text-rose-700 bg-rose-50/40">${formatVND(importPrice)}</td>`
           : `<td class="py-2 px-2 text-center font-mono text-slate-400 bg-slate-50/50" title="Bảo mật nội bộ">***</td>`;
 
-        const fbProfitCell = canViewImport
-          ? `<td class="py-2 px-2.5 text-center bg-emerald-50/30">
+        const fbProfitCell = `<td class="py-2 px-2.5 text-center bg-emerald-50/30">
                <div class="font-mono font-bold text-emerald-800 text-xs">+${formatVND(fbProfit)}</div>
-               <span class="inline-block text-[10px] font-mono font-black text-emerald-900 bg-emerald-100 border border-emerald-300 px-1.5 py-0.2 rounded mt-0.5" title="Biên LN gộp = (FB - Nhập) / FB: ${fbMarginPct} | Lãi trên vốn: ${fbMarkupPct}">
+               <span class="inline-block text-[10px] font-mono font-black text-emerald-900 bg-emerald-100 border border-emerald-300 px-1.5 py-0.2 rounded mt-0.5" title="Biên LN NPP / FB = (Giá FB - Giá NPP Online) / Giá FB: ${fbMarginPct} | Tỷ lệ tăng giá: ${fbMarkupPct}">
                  ${fbMarginPct}
                </span>
-             </td>`
-          : `<td class="py-2 px-2.5 text-center text-slate-400 bg-slate-50/50" title="Bảo mật nội bộ">***</td>`;
+             </td>`;
 
         const imgHtml = p.image 
           ? `<img src="${p.image}" onclick="openImageModal('${p.image}', '${escapeHtml(p.name)}', '${p.canonicalCode}')" class="w-9 h-9 object-contain rounded-md border border-slate-200 bg-white p-0.5 mx-auto cursor-pointer hover:scale-110 transition shadow-2xs" onerror="this.onerror=null; this.src='https://placehold.co/100x100/f8fafc/94a3b8?text=IMG';"/>`
@@ -11160,13 +11158,18 @@
       const elCount = document.getElementById('kpiDiffTotalCount');
       if (elCount) elCount.innerHTML = `${products.length} <span class="text-xs font-semibold text-slate-500">mã</span>`;
 
-      if (countWithImport > 0 && totalFB > 0 && canViewImport) {
-        const avgMargin = ((totalFB - totalImport) / totalFB * 100).toFixed(1);
+      // Tính toán tổng NPP Online và Facebook cho KPI
+      let sumNpp = 0;
+      let sumFb = 0;
+      products.forEach(p => {
+        sumNpp += (p.nppOnlinePrice || 0);
+        sumFb += (Math.ceil((p.facebookPrice || 0) / 1000) * 1000);
+      });
+
+      if (sumFb > 0) {
+        const avgMargin = ((sumFb - sumNpp) / sumFb * 100).toFixed(1);
         const elAvgMargin = document.getElementById('kpiDiffAvgMarginFB');
         if (elAvgMargin) elAvgMargin.innerHTML = `${avgMargin}% <span class="text-xs font-semibold text-slate-500">bình quân</span>`;
-      } else if (!canViewImport) {
-        const elAvgMargin = document.getElementById('kpiDiffAvgMarginFB');
-        if (elAvgMargin) elAvgMargin.innerHTML = '*** <span class="text-xs font-semibold text-slate-500">nội bộ</span>';
       }
 
       if (totalFB > 0 && totalTMDT > 0) {
@@ -11192,7 +11195,7 @@
         ? [
             "STT", "Thương Hiệu", "Phân Loại", "Mã Model", "Tên Sản Phẩm",
             "Giá Nhập Hiện Tại (VNĐ)", "Giá NPP Online (VNĐ)",
-            "Giá Facebook (Làm Tròn Nghìn)", "Lãi FB vs Vốn Nhập (VNĐ)", "% Biên LN FB vs Giá Nhập",
+            "Giá Facebook (Làm Tròn Nghìn)", "Lợi Nhuận FB vs NPP Online (VNĐ)", "% Biên LN FB / NPP Online",
             "Giá Sàn TMĐT (+5% FB, Tròn Nghìn)", "Chênh Lệch TMĐT vs FB (VNĐ)", "% Biên Độ TMĐT vs FB",
             "Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)", "Chênh Lệch Niêm Yết vs TMĐT (VNĐ)", "% Biên Độ Niêm Yết vs TMĐT"
           ]
@@ -11221,7 +11224,7 @@
       merges.push({ s: { r: 2, c: 0 }, e: { r: 2, c: colCount - 1 } });
 
       // Dòng 4: Ghi chú quy tắc
-      rows.push(["Quy tắc định giá: 1. Giá FB làm tròn tăng đầu nghìn (đuôi 000) | 2. Giá sàn TMĐT = FB + 5% làm tròn tăng đầu nghìn | 3. Giá Niêm Yết = TMĐT + 15% làm tròn tăng đầu nghìn"]);
+      rows.push(["Quy tắc định giá: 1. Giá FB làm tròn tăng đầu nghìn (đuôi 000), tính Biên LN vs Giá NPP Online = (FB - NPP Online) / FB | 2. Giá sàn TMĐT = FB + 5% làm tròn tăng đầu nghìn | 3. Giá Niêm Yết = TMĐT + 15% làm tròn tăng đầu nghìn"]);
       merges.push({ s: { r: 3, c: 0 }, e: { r: 3, c: colCount - 1 } });
 
       // Dòng 5: Dòng trống
@@ -11256,7 +11259,7 @@
 
         const fbRaw = p.facebookPrice || 0;
         const fbRound = Math.ceil(fbRaw / 1000) * 1000;
-        const fbProfit = fbRound - importPrice;
+        const fbProfit = fbRound - nppOnline;
         const fbMarginPct = fbRound > 0 ? ((fbProfit / fbRound) * 100).toFixed(1) + '%' : '0%';
 
         const tmdtRaw = fbRound * 1.05;
