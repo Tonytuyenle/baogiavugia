@@ -53,7 +53,7 @@ XLSX.utils.book_append_sheet(wb, ws1, 'Bang_Gia_Chuan_65_Ma');
 
 // SHEET 2: BẢNG CHÊNH LỆCH TẦNG GIÁ (VỐN NHẬP - NPP ONLINE - FACEBOOK - SÀN TMĐT - NIÊM YẾT)
 const rowsSheet2 = [
-  ['STT', 'Thương Hiệu', 'Phân Loại', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Giá Nhập Hiện Tại (VNĐ)', 'Giá NPP Online (VNĐ)', 'Giá Facebook (Làm Tròn Nghìn)', 'Lợi Nhuận FB vs NPP Online (VNĐ)', '% Biên LN FB / NPP Online', 'Giá Sàn TMĐT (+5% FB, Tròn Nghìn)', 'Chênh Lệch TMĐT vs FB (VNĐ)', '% Biên Độ TMĐT vs FB', 'Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)', 'Chênh Lệch Niêm Yết vs TMĐT (VNĐ)', '% Biên Độ Niêm Yết vs TMĐT']
+  ['STT', 'Thương Hiệu', 'Phân Loại', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Giá Nhập Hiện Tại (VNĐ)', 'Giá NPP Online (VNĐ)', 'Giá Facebook (Làm Tròn Nghìn)', 'Lợi Nhuận FB vs NPP Online (VNĐ)', '% Biên LN FB / NPP Online', 'Giá Sàn TMĐT (+5% FB, Tròn Nghìn)', 'Chênh Lệch TMĐT vs FB (VNĐ)', '% Biên Độ TMĐT vs FB', 'Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)']
 ];
 
 products.forEach((p, idx) => {
@@ -93,9 +93,7 @@ products.forEach((p, idx) => {
     tmdtRound,
     tmdtDiff,
     tmdtDiffPct,
-    retailRound,
-    retailDiff,
-    retailDiffPct
+    retailRound
   ]);
 });
 

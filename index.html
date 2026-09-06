@@ -1528,7 +1528,6 @@
                       <th class="py-3 px-2.5 text-right text-purple-300" title="Giá sàn TMĐT tăng 5% so với giá FB, làm tròn tăng lên đầu nghìn">Giá Sàn TMĐT<br><span class="text-[9px] font-normal text-purple-200">(+5% FB, Tròn Nghìn)</span></th>
                       <th class="py-3 px-2.5 text-center text-purple-300" title="Chênh lệch giữa giá TMĐT và Facebook">Biên Độ TMĐT vs FB<br><span class="text-[9px] font-normal text-purple-200">(Chênh VNĐ & %)</span></th>
                       <th class="py-3 px-2.5 text-right text-amber-300" title="Giá niêm yết tăng 15% so với TMĐT, làm tròn tăng lên đầu nghìn">Giá Niêm Yết<br><span class="text-[9px] font-normal text-amber-200">(+15% TMĐT, Tròn Nghìn)</span></th>
-                      <th class="py-3 px-2.5 text-center text-amber-300" title="Chênh lệch giữa giá Niêm Yết và TMĐT">Biên Độ Niêm Yết vs TMĐT<br><span class="text-[9px] font-normal text-amber-200">(Chênh VNĐ & %)</span></th>
                     </tr>
                   </thead>
                   <tbody id="productPriceDiffTbody" class="divide-y divide-slate-100 font-medium">
@@ -11026,7 +11025,7 @@
       if (!tbody) return;
 
       if (!products || products.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="12" class="py-8 text-center text-slate-400 font-bold">Không tìm thấy sản phẩm nào phù hợp bộ lọc</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="11" class="py-8 text-center text-slate-400 font-bold">Không tìm thấy sản phẩm nào phù hợp bộ lọc</td></tr>';
         return;
       }
 
@@ -11048,7 +11047,7 @@
           const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (49 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (16 MODEL)';
           rowsHtml += `
             <tr class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider select-none">
-              <td colspan="12" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-purple-950 to-slate-900 border-y border-slate-700">
+              <td colspan="11" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-purple-950 to-slate-900 border-y border-slate-700">
                 <div class="flex items-center gap-2">
                   <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
                   <span>${brandTitle}</span>
@@ -11063,7 +11062,7 @@
           lastCat = p.categoryName;
           rowsHtml += `
             <tr class="bg-purple-700 text-white font-bold text-[11px] uppercase tracking-wider select-none">
-              <td colspan="12" class="py-1.5 px-4 bg-gradient-to-r from-purple-700 to-indigo-700 border-b border-purple-800 shadow-xs">
+              <td colspan="11" class="py-1.5 px-4 bg-gradient-to-r from-purple-700 to-indigo-700 border-b border-purple-800 shadow-xs">
                 <div class="flex items-center gap-1.5">
                   <i data-lucide="layers" class="w-3.5 h-3.5 text-purple-200"></i>
                   <span>NHÓM SẢN PHẨM: ${escapeHtml(p.categoryName)}</span>
@@ -11142,12 +11141,6 @@
               </span>
             </td>
             <td class="py-2 px-2.5 text-right font-mono font-bold text-amber-700 bg-amber-50/20">${formatVND(retailRound)}</td>
-            <td class="py-2 px-2.5 text-center bg-amber-50/30">
-              <div class="font-mono font-bold text-amber-900 text-xs">+${formatVND(retailDiff)}</div>
-              <span class="inline-block text-[10px] font-mono font-bold text-amber-800 bg-amber-100 border border-amber-200 px-1.5 py-0.2 rounded mt-0.5" title="Mức tăng so với giá sàn TMĐT: +${retailDiffPct}">
-                +${retailDiffPct}
-              </span>
-            </td>
           </tr>
         `;
       });
@@ -11197,14 +11190,14 @@
             "Giá Nhập Hiện Tại (VNĐ)", "Giá NPP Online (VNĐ)",
             "Giá Facebook (Làm Tròn Nghìn)", "Lợi Nhuận FB vs NPP Online (VNĐ)", "% Biên LN FB / NPP Online",
             "Giá Sàn TMĐT (+5% FB, Tròn Nghìn)", "Chênh Lệch TMĐT vs FB (VNĐ)", "% Biên Độ TMĐT vs FB",
-            "Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)", "Chênh Lệch Niêm Yết vs TMĐT (VNĐ)", "% Biên Độ Niêm Yết vs TMĐT"
+            "Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)"
           ]
         : [
             "STT", "Thương Hiệu", "Phân Loại", "Mã Model", "Tên Sản Phẩm",
             "Giá NPP Online (VNĐ)",
             "Giá Facebook (Làm Tròn Nghìn)",
             "Giá Sàn TMĐT (+5% FB, Tròn Nghìn)", "Chênh Lệch TMĐT vs FB (VNĐ)", "% Biên Độ TMĐT vs FB",
-            "Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)", "Chênh Lệch Niêm Yết vs TMĐT (VNĐ)", "% Biên Độ Niêm Yết vs TMĐT"
+            "Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)"
           ];
 
       const colCount = headers.length;
@@ -11278,7 +11271,7 @@
             importPrice, nppOnline,
             fbRound, fbProfit, fbMarginPct,
             tmdtRound, tmdtDiff, tmdtDiffPct,
-            retailRound, retailDiff, retailDiffPct
+            retailRound
           ]);
         } else {
           rows.push([
@@ -11286,7 +11279,7 @@
             nppOnline,
             fbRound,
             tmdtRound, tmdtDiff, tmdtDiffPct,
-            retailRound, retailDiff, retailDiffPct
+            retailRound
           ]);
         }
       });
