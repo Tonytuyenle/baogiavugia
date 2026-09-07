@@ -53,7 +53,7 @@ XLSX.utils.book_append_sheet(wb, ws1, 'Bang_Gia_Chuan_56_Ma');
 
 // SHEET 2: BẢNG CHÊNH LỆCH TẦNG GIÁ (VỐN NHẬP - NPP ONLINE - FACEBOOK - SÀN TMĐT - NIÊM YẾT)
 const rowsSheet2 = [
-  ['STT', 'Thương Hiệu', 'Phân Loại', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Giá Nhập Hiện Tại (VNĐ)', 'Giá NPP Online (VNĐ)', 'Giá Facebook (Làm Tròn Nghìn)', 'Lợi Nhuận FB vs NPP Online (VNĐ)', '% Biên LN FB / NPP Online', 'Giá Sàn TMĐT (+5% FB, Tròn Nghìn)', 'Chênh Lệch TMĐT vs FB (VNĐ)', '% Biên Độ TMĐT vs FB', 'Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)']
+  ['STT', 'Thương Hiệu', 'Phân Loại', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Giá Nhập Hiện Tại (VNĐ)', 'Giá NPP Online (VNĐ)', 'Giá Facebook (Làm Tròn Nghìn)', 'Lợi Nhuận FB vs NPP Online (VNĐ)', '% Biên LN FB / NPP Online', 'Giá Sàn TMĐT (+5%/+8% FB, Tròn Nghìn)', 'Chênh Lệch TMĐT vs FB (VNĐ)', '% Biên Độ TMĐT vs FB', 'Giá Niêm Yết (+15% TMĐT, Tròn Nghìn)']
 ];
 
 products.forEach((p, idx) => {
@@ -67,9 +67,10 @@ products.forEach((p, idx) => {
   const fbProfit = fbRound - nppOnline;
   const fbMarginPct = fbRound > 0 ? ((fbProfit / fbRound) * 100).toFixed(1) + '%' : '0%';
 
-  // 2. TMĐT: tăng 5% so với FB, làm tròn tăng đầu nghìn đuôi 000
-  const tmdtRaw = fbRound * 1.05;
-  const tmdtRound = Math.ceil(tmdtRaw / 1000) * 1000;
+  // 2. TMĐT: 5 mã đặc biệt (LK-3212, LK-2633, LK-2433, LK-3122, LK-3126) tăng 8%, các mã còn lại tăng 5% so với FB, làm tròn tăng đầu nghìn đuôi 000
+  const is8Pct = ['LK-3212', 'LK-2633', 'LK-2433', 'LK-3122', 'LK-3126'].includes(p.canonicalCode);
+  const tmdtRate = is8Pct ? 0.08 : 0.05;
+  const tmdtRound = Math.ceil(Math.round(fbRound * (1 + tmdtRate)) / 1000) * 1000;
   const tmdtDiff = tmdtRound - fbRound;
   const tmdtDiffPct = fbRound > 0 ? ((tmdtDiff / fbRound) * 100).toFixed(1) + '%' : '0%';
 
