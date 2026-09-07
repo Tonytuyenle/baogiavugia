@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const XLSX = require('xlsx');
 
-// Đọc toàn bộ danh sách 65 sản phẩm từ index.html để có đầy đủ giá nhập mới và các thông số
+// Đọc toàn bộ danh sách 57 sản phẩm từ index.html để có đầy đủ giá nhập mới và các thông số
 const indexHtml = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf-8');
 const start = indexHtml.indexOf('function getInitialData()');
 const end = indexHtml.indexOf('function getDB()');
@@ -11,7 +11,7 @@ const fn = new Function(fnCode + '; return getInitialData();');
 const data = fn();
 const products = data.products;
 
-// SHEET 1: BẢNG GIÁ CHUẨN 65 MÃ LOCK&KING & TAKIN
+// SHEET 1: BẢNG GIÁ CHUẨN 57 MÃ LOCK&KING & TAKIN (44 Lock&King + 13 Takin)
 const rowsSheet1 = [
   ['STT', 'Thương Hiệu', 'Phân Loại', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Giá NPP Online (VNĐ)', 'Giá Facebook (VNĐ)', 'Giá Sàn TMĐT (VNĐ)', 'Giá Niêm Yết (VNĐ)', 'Lợi Nhuận NPP (VNĐ)', '% LN NPP / Facebook']
 ];
@@ -49,7 +49,7 @@ ws1['!cols'] = [
   { wch: 18 }  // % LN
 ];
 
-XLSX.utils.book_append_sheet(wb, ws1, 'Bang_Gia_Chuan_65_Ma');
+XLSX.utils.book_append_sheet(wb, ws1, 'Bang_Gia_Chuan_57_Ma');
 
 // SHEET 2: BẢNG CHÊNH LỆCH TẦNG GIÁ (VỐN NHẬP - NPP ONLINE - FACEBOOK - SÀN TMĐT - NIÊM YẾT)
 const rowsSheet2 = [
