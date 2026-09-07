@@ -39,6 +39,23 @@
         background: white !important;
       }
 
+      /* In Thống Kê Biến Động Giá NPP 56 Model (A4 Ngang) */
+      body.printing-price-change #printPriceChangeArea,
+      body.printing-price-change #printPriceChangeArea * {
+        visibility: visible !important;
+      }
+      body.printing-price-change #printPriceChangeArea {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 4mm !important;
+        background: white !important;
+      }
+
       /* In Bảng Phân Loại Giá 56 Model (A4 Ngang) */
       body.printing-catalog #printCatalogPdfContent,
       body.printing-catalog #printCatalogPdfContent * {
@@ -1466,10 +1483,20 @@
                   <button type="button" onclick="setPriceChangeFilter('same')" id="btnChangeFilter-same" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition">Không Đổi (29)</button>
                 </div>
 
-                <button type="button" onclick="exportPriceChangeSheetOnly()" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Tải file Excel bảng biến động giá NPP này">
-                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
-                  <span>Xuất Excel Sheet Này</span>
-                </button>
+                <div class="flex items-center gap-2">
+                  <button type="button" onclick="exportPriceChangePdf()" class="px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Tải file PDF bảng thống kê biến động giá NPP">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                    <span>Xuất PDF</span>
+                  </button>
+                  <button type="button" onclick="printPriceChangePdf()" class="px-3 py-1 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="In trực tiếp hoặc Lưu PDF qua trình duyệt">
+                    <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                    <span>In / Lưu PDF</span>
+                  </button>
+                  <button type="button" onclick="exportPriceChangeSheetOnly()" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Tải file Excel bảng biến động giá NPP này">
+                    <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                    <span>Xuất Excel</span>
+                  </button>
+                </div>
               </div>
 
               <div class="sticky-table-container max-h-[70vh] overflow-auto">
@@ -11020,9 +11047,237 @@
       const ws = buildPriceChangeExcelSheet(db.products);
       XLSX.utils.book_append_sheet(wb, ws, "BienDong_Gia_NPP");
       const dateStr = new Date().toISOString().slice(0, 10);
-      XLSX.writeFile(wb, `Thong_Ke_Bien_Dong_Gia_NPP_${dateStr}.xlsx`);
+      XLSX.writeFile(wb, 'Thong_Ke_Bien_Dong_Gia_NPP_' + dateStr + '.xlsx');
       showToast('Đã xuất file Excel bảng biến động giá NPP thành công!');
     }
+
+    // ================= XUẤT PDF VÀ IN ẤN MODULE BIẾN ĐỘNG GIÁ NPP =================
+    function generatePriceChangePrintHtml() {
+      const db = getDB();
+      const products = db.products || [];
+      const todayStr = new Date().toLocaleDateString('vi-VN');
+      
+      let countInc = 0, countDec = 0, countSame = 0;
+      products.forEach(p => {
+        const oldNpp = p.oldNppOnlinePrice !== undefined ? p.oldNppOnlinePrice : (p.nppOnlinePrice || 0);
+        const newNpp = p.nppOnlinePrice || 0;
+        const diff = newNpp - oldNpp;
+        if (diff > 0) countInc++;
+        else if (diff < 0) countDec++;
+        else countSame++;
+      });
+
+      let content = '<div style="padding: 10px; font-family: system-ui, -apple-system, sans-serif; color: #0f172a;">' +
+        '<!-- HEADER LETTERHEAD -->' +
+        '<div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f172a; padding-bottom: 8px; margin-bottom: 8px;">' +
+          '<div style="display: flex; align-items: center; gap: 12px;">' +
+            '<img src="images/lock_and_king_logo.png" alt="Logo" style="height: 38px; max-width: 110px; object-fit: contain; display: block;" onerror="this.style.display=\'none\'" />' +
+            '<div>' +
+              '<h1 style="font-size: 13px; font-weight: 900; color: #0f172a; text-transform: uppercase; margin: 0; letter-spacing: -0.2px;">VU GIA COOPERATIVE COMPANY LIMITED</h1>' +
+              '<p style="font-size: 9px; color: #475569; margin: 1px 0 0 0;">230 Lacasta, Van Phu Urban Area, Kien Hung Ward, Ha Noi</p>' +
+              '<p style="font-size: 8px; color: #94a3b8; margin: 1px 0 0 0;">Websites: Locknking.com - Locknking.vn - Locknking.kr</p>' +
+            '</div>' +
+          '</div>' +
+          '<div style="text-align: right; font-size: 9px;">' +
+            '<div style="display: inline-block; padding: 2px 6px; background: #e0e7ff; color: #3730a3; font-family: monospace; font-weight: 800; border-radius: 4px; border: 1px solid #c7d2fe;">' +
+              'BIỂU GIÁ: BG-BIEN-DONG-NPP' +
+            '</div>' +
+            '<p style="color: #64748b; margin: 2px 0 0 0;">Ngày xuất: <strong style="color: #0f172a;">' + todayStr + '</strong></p>' +
+            '<p style="color: #64748b; margin: 1px 0 0 0;">Quy mô: <strong>56 Model</strong> (43 Lock&King | 13 Takin)</p>' +
+          '</div>' +
+        '</div>' +
+
+        '<!-- DOCUMENT TITLE -->' +
+        '<div style="text-align: center; margin: 8px 0 10px 0;">' +
+          '<h2 style="font-size: 14px; font-weight: 900; color: #0f172a; text-transform: uppercase; margin: 0; letter-spacing: 0.3px;">' +
+            'BẢNG THỐNG KÊ BIẾN ĐỘNG GIÁ NPP ONLINE' +
+          '</h2>' +
+          '<p style="font-size: 9px; color: #64748b; margin: 2px 0 0 0; font-style: italic;">' +
+            '(Đối chiếu chi tiết Giá NPP Online cũ vs Giá NPP Online điều chỉnh mới & Giá kênh bán lẻ Facebook, Sàn TMĐT)' +
+          '</p>' +
+        '</div>' +
+
+        '<!-- KPI STRIP -->' +
+        '<div style="display: flex; gap: 8px; margin-bottom: 10px; font-size: 9px;">' +
+          '<div style="flex: 1; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; background: #f8fafc;">' +
+            '<span style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 8px;">Tổng Model:</span>' +
+            '<div style="font-size: 13px; font-weight: 900; color: #0f172a;">56 <span style="font-size: 9px; font-weight: 600; color: #64748b;">mã</span></div>' +
+          '</div>' +
+          '<div style="flex: 1; padding: 6px; border: 1px solid #a7f3d0; border-radius: 6px; background: #ecfdf5;">' +
+            '<span style="color: #047857; font-weight: 700; text-transform: uppercase; font-size: 8px;">Mã Tăng Giá:</span>' +
+            '<div style="font-size: 13px; font-weight: 900; color: #047857;">' + countInc + ' <span style="font-size: 9px; font-weight: 600; color: #065f46;">mã (+5k ~ +20k)</span></div>' +
+          '</div>' +
+          '<div style="flex: 1; padding: 6px; border: 1px solid #fecdd3; border-radius: 6px; background: #fff1f2;">' +
+            '<span style="color: #be123c; font-weight: 700; text-transform: uppercase; font-size: 8px;">Mã Giảm Giá:</span>' +
+            '<div style="font-size: 13px; font-weight: 900; color: #be123c;">' + countDec + ' <span style="font-size: 9px; font-weight: 600; color: #9f1239;">mã (-15k ~ -140k)</span></div>' +
+          '</div>' +
+          '<div style="flex: 1; padding: 6px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f1f5f9;">' +
+            '<span style="color: #475569; font-weight: 700; text-transform: uppercase; font-size: 8px;">Mã Giữ Nguyên:</span>' +
+            '<div style="font-size: 13px; font-weight: 900; color: #334155;">' + countSame + ' <span style="font-size: 9px; font-weight: 600; color: #64748b;">mã (0 đ - 0%)</span></div>' +
+          '</div>' +
+        '</div>' +
+
+        '<!-- TABLE -->' +
+        '<table style="width: 100%; border-collapse: collapse; font-size: 8.5px; line-height: 1.2;">' +
+          '<thead>' +
+            '<tr style="background: #0f172a; color: white; text-transform: uppercase; font-size: 8px;">' +
+              '<th style="padding: 4px 3px; border: 1px solid #334155; text-align: center; width: 28px;">STT</th>' +
+              '<th style="padding: 4px 4px; border: 1px solid #334155; text-align: left; width: 75px;">Mã Model</th>' +
+              '<th style="padding: 4px 3px; border: 1px solid #334155; text-align: center; width: 32px;">Ảnh</th>' +
+              '<th style="padding: 4px 6px; border: 1px solid #334155; text-align: left;">Tên Sản Phẩm</th>' +
+              '<th style="padding: 4px 5px; border: 1px solid #334155; text-align: right; width: 75px; background: #1e293b;">Giá NPP Cũ</th>' +
+              '<th style="padding: 4px 5px; border: 1px solid #334155; text-align: right; width: 80px; background: #0f172a;">Giá Đ/Chỉnh</th>' +
+              '<th style="padding: 4px 5px; border: 1px solid #334155; text-align: center; width: 90px; background: #1e293b;">Chênh Lệch</th>' +
+              '<th style="padding: 4px 5px; border: 1px solid #334155; text-align: right; width: 75px;">Giá Facebook</th>' +
+              '<th style="padding: 4px 5px; border: 1px solid #334155; text-align: right; width: 75px;">Giá TMĐT</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>';
+
+      let lastBrand = '';
+      let lastCat = '';
+
+      products.forEach((p, idx) => {
+        if (p.brand !== lastBrand) {
+          lastBrand = p.brand;
+          lastCat = '';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (43 MODEL CHÍNH HÃNG)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL CHÍNH HÃNG)';
+          content += '<tr style="background: #1e1b4b; color: #f8fafc; font-weight: 800; font-size: 8.5px; text-transform: uppercase;">' +
+              '<td colspan="9" style="padding: 4px 6px; border: 1px solid #cbd5e1; background: #312e81; color: white;">' +
+                brandTitle +
+              '</td>' +
+            '</tr>';
+        }
+
+        if (p.categoryName !== lastCat) {
+          lastCat = p.categoryName;
+          content += '<tr style="background: #e0e7ff; color: #3730a3; font-weight: 700; font-size: 8px; text-transform: uppercase;">' +
+              '<td colspan="9" style="padding: 3px 6px; border: 1px solid #cbd5e1; background: #ede9fe; color: #4338ca;">' +
+                '▶ NHÓM SẢN PHẨM: ' + escapeHtml(p.categoryName) +
+              '</td>' +
+            '</tr>';
+        }
+
+        const stt = p.stt || (idx + 1);
+        const oldNpp = p.oldNppOnlinePrice !== undefined ? p.oldNppOnlinePrice : (p.nppOnlinePrice || 0);
+        const newNpp = p.nppOnlinePrice || 0;
+        const diff = newNpp - oldNpp;
+        const diffPct = oldNpp > 0 ? ((diff / oldNpp) * 100).toFixed(1) : '0.0';
+
+        let diffCell = '';
+        if (diff > 0) {
+          diffCell = '<span style="color: #047857; font-weight: 800;">+' + formatVND(diff) + '</span><br><span style="font-size: 7.5px; color: #065f46; background: #d1fae5; padding: 0.5px 3px; border-radius: 2px;">+' + diffPct + '% (Tăng)</span>';
+        } else if (diff < 0) {
+          diffCell = '<span style="color: #be123c; font-weight: 800;">' + formatVND(diff) + '</span><br><span style="font-size: 7.5px; color: #9f1239; background: #ffe4e6; padding: 0.5px 3px; border-radius: 2px;">' + diffPct + '% (Giảm)</span>';
+        } else {
+          diffCell = '<span style="color: #64748b; font-weight: 600;">0 đ</span><br><span style="font-size: 7.5px; color: #64748b; background: #f1f5f9; padding: 0.5px 3px; border-radius: 2px;">0% (Không đổi)</span>';
+        }
+
+        const imgTag = p.image
+          ? '<img src="' + p.image + '" style="width: 22px; height: 22px; object-fit: contain; border-radius: 3px; display: block; margin: 0 auto; border: 1px solid #e2e8f0;" onerror="this.style.display=\'none\'"/>'
+          : '';
+
+        content += '<tr style="border-bottom: 1px solid #e2e8f0; font-family: system-ui, sans-serif;">' +
+            '<td style="padding: 2.5px 3px; text-align: center; border: 1px solid #cbd5e1; color: #64748b; font-family: monospace;">' + stt + '</td>' +
+            '<td style="padding: 2.5px 4px; border: 1px solid #cbd5e1; font-family: monospace; font-weight: 800; color: #0369a1; white-space: nowrap;">' + p.canonicalCode + '</td>' +
+            '<td style="padding: 1px 2px; text-align: center; border: 1px solid #cbd5e1;">' + imgTag + '</td>' +
+            '<td style="padding: 2.5px 5px; border: 1px solid #cbd5e1; font-weight: 600; color: #1e293b; max-width: 190px;">' + escapeHtml(p.name) + '</td>' +
+            '<td style="padding: 2.5px 5px; text-align: right; border: 1px solid #cbd5e1; font-family: monospace; color: #64748b; background: #f8fafc;">' + formatVND(oldNpp) + '</td>' +
+            '<td style="padding: 2.5px 5px; text-align: right; border: 1px solid #cbd5e1; font-family: monospace; font-weight: 800; color: #0284c7; background: #f0f9ff;">' + formatVND(newNpp) + '</td>' +
+            '<td style="padding: 2.5px 4px; text-align: center; border: 1px solid #cbd5e1; font-family: monospace; line-height: 1.15;">' + diffCell + '</td>' +
+            '<td style="padding: 2.5px 5px; text-align: right; border: 1px solid #cbd5e1; font-family: monospace; font-weight: 700; color: #1d4ed8;">' + formatVND(p.facebookPrice) + '</td>' +
+            '<td style="padding: 2.5px 5px; text-align: right; border: 1px solid #cbd5e1; font-family: monospace; font-weight: 700; color: #7e22ce;">' + formatVND(p.tmdtPrice) + '</td>' +
+          '</tr>';
+      });
+
+      content += '</tbody>' +
+        '</table>' +
+
+        '<!-- SIGNATURES -->' +
+        '<div style="margin-top: 15px; display: flex; justify-content: space-between; text-align: center; font-size: 9px; color: #334155;">' +
+          '<div style="width: 28%;">' +
+            '<p style="font-weight: 700; margin: 0; text-transform: uppercase;">NGƯỜI LẬP BIỂU</p>' +
+            '<p style="font-size: 8px; color: #64748b; margin: 1px 0 0 0;">(Ký & ghi rõ họ tên)</p>' +
+            '<div style="height: 35px;"></div>' +
+          '</div>' +
+          '<div style="width: 28%;">' +
+            '<p style="font-weight: 700; margin: 0; text-transform: uppercase;">KẾ TOÁN TRƯỞNG</p>' +
+            '<p style="font-size: 8px; color: #64748b; margin: 1px 0 0 0;">(Ký & ghi rõ họ tên)</p>' +
+            '<div style="height: 35px;"></div>' +
+          '</div>' +
+          '<div style="width: 32%;">' +
+            '<p style="font-weight: 700; margin: 0; text-transform: uppercase;">GIÁM ĐỐC ĐIỀU HÀNH</p>' +
+            '<p style="font-size: 8px; color: #64748b; margin: 1px 0 0 0;">(Ký, đóng dấu)</p>' +
+            '<div style="height: 35px;"></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+      return content;
+    }
+
+    function exportPriceChangePdf() {
+      let area = document.getElementById('printPriceChangeArea');
+      if (!area) {
+        area = document.createElement('div');
+        area.id = 'printPriceChangeArea';
+        area.className = 'hidden';
+        document.body.appendChild(area);
+      }
+
+      area.innerHTML = generatePriceChangePrintHtml();
+      area.classList.remove('hidden');
+
+      const dateStr = new Date().toISOString().slice(0, 10);
+      const fileName = 'Bang_Thong_Ke_Bien_Dong_Gia_NPP_' + dateStr + '.pdf';
+
+      showToast('Đang tạo và tải xuống file PDF biến động giá NPP... Vui lòng đợi trong giây lát.');
+
+      if (typeof html2pdf !== 'undefined') {
+        const opt = {
+          margin: [5, 5, 5, 5],
+          filename: fileName,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, logging: false },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
+        html2pdf().set(opt).from(area).save().then(() => {
+          area.classList.add('hidden');
+          showToast('Đã tải xuống file PDF biến động giá NPP thành công!');
+        }).catch(err => {
+          console.error('Lỗi khi xuất PDF:', err);
+          area.classList.add('hidden');
+          showToast('Có lỗi xảy ra khi tạo PDF: ' + err.message, false);
+        });
+      } else {
+        printPriceChangePdf();
+      }
+    }
+
+    function printPriceChangePdf() {
+      let area = document.getElementById('printPriceChangeArea');
+      if (!area) {
+        area = document.createElement('div');
+        area.id = 'printPriceChangeArea';
+        area.className = 'hidden';
+        document.body.appendChild(area);
+      }
+
+      area.innerHTML = generatePriceChangePrintHtml();
+      setPrintOrientation('landscape', '5mm');
+      document.body.classList.add('printing-price-change');
+      document.body.classList.remove('printing-catalog');
+      document.body.classList.remove('printing-quotation');
+
+      setTimeout(() => {
+        window.print();
+        setTimeout(() => {
+          document.body.classList.remove('printing-price-change');
+        }, 1500);
+      }, 150);
+    }
+
 
     function exportCatalogToExcel() {
       const db = getDB();
@@ -16312,5 +16567,8 @@ ${item.url}
       <span>Menu</span>
     </button>
   </nav>
+  <!-- KHU VỰC IN ẤN & XUẤT PDF CHO MODULE BIẾN ĐỘNG GIÁ NPP -->
+  <div id="printPriceChangeArea" class="hidden" style="width: 1040px; max-width: 1040px; min-width: 1040px; margin: 0 auto; background: white; font-family: system-ui, -apple-system, sans-serif;"></div>
+
 </body>
 </html>
