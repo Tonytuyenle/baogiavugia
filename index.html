@@ -671,6 +671,10 @@
                   <i data-lucide="trending-up" class="w-3.5 h-3.5 text-purple-600"></i>
                   <span>Sheet Chênh Lệch Giá</span>
                 </button>
+                <button type="button" id="btnViewPriceChange" onclick="setProductViewMode('change')" class="px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900" title="Bảng thống kê biến động giá NPP Online: Giá cũ vs Giá điều chỉnh mới, chênh lệch tăng/giảm">
+                  <i data-lucide="arrow-left-right" class="w-3.5 h-3.5 text-indigo-600"></i>
+                  <span>Biến Động Giá NPP</span>
+                </button>
               </div>
 
               <button onclick="openCatalogPdfModal()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition" title="Xuất toàn bộ bảng phân loại giá ra file PDF">
@@ -1388,6 +1392,103 @@
                   </thead>
                   <tbody id="productPriceDiffTbody" class="divide-y divide-slate-100 font-medium">
                     <!-- Dynamic rendering by renderPriceDiffTable() -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- ================= SHEET 3: BẢNG THỐNG KÊ BIẾN ĐỘNG GIÁ NPP ================= -->
+          <div id="productPriceChangeViewContainer" class="hidden space-y-4 mb-6">
+            <!-- 4 THẺ THỐNG KÊ KPI TỔNG QUAN -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <!-- KPI 1: TỔNG MODEL -->
+              <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tổng Số Model Áp Dụng</p>
+                  <h3 id="kpiChangeTotalCount" class="text-xl font-black text-slate-900 mt-0.5">56 <span class="text-xs font-semibold text-slate-500">mã</span></h3>
+                  <span class="text-[10px] text-sky-600 font-bold">43 Lock&King | 13 Takin</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-black">
+                  <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <!-- KPI 2: MÃ TĂNG GIÁ -->
+              <div class="bg-white p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Mã Tăng Giá NPP</p>
+                  <h3 id="kpiChangeIncCount" class="text-xl font-black text-emerald-700 mt-0.5">14 <span class="text-xs font-semibold text-slate-500">mã</span></h3>
+                  <span class="text-[10px] text-emerald-600 font-medium">Mức tăng tối đa: +20.000 đ</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-black">
+                  <i data-lucide="trending-up" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <!-- KPI 3: MÃ GIẢM GIÁ -->
+              <div class="bg-white p-3.5 rounded-xl border border-rose-200 bg-rose-50/20 shadow-xs flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-bold text-rose-700 uppercase tracking-wider">Mã Giảm Giá NPP</p>
+                  <h3 id="kpiChangeDecCount" class="text-xl font-black text-rose-700 mt-0.5">13 <span class="text-xs font-semibold text-slate-500">mã</span></h3>
+                  <span class="text-[10px] text-rose-600 font-medium">Mức giảm sâu nhất: -140.000 đ</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-black">
+                  <i data-lucide="trending-down" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <!-- KPI 4: MÃ GIỮ NGUYÊN -->
+              <div class="bg-white p-3.5 rounded-xl border border-slate-200 bg-slate-50/40 shadow-xs flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Mã Giữ Nguyên Giá</p>
+                  <h3 id="kpiChangeSameCount" class="text-xl font-black text-slate-700 mt-0.5">29 <span class="text-xs font-semibold text-slate-500">mã</span></h3>
+                  <span class="text-[10px] text-slate-500 font-medium">Chênh lệch: 0 đ (0%)</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center font-black">
+                  <i data-lucide="minus" class="w-5 h-5"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- BẢNG DỮ LIỆU BIẾN ĐỘNG GIÁ -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 font-bold text-xs">Module Thống Kê</span>
+                  <h3 class="font-black text-slate-900 text-sm">BẢNG THỐNG KÊ BIẾN ĐỘNG GIÁ NPP ONLINE (GIÁ CŨ VS ĐIỀU CHỈNH & KÊNH BÁN)</h3>
+                </div>
+                
+                <!-- BỘ LỌC BIẾN ĐỘNG -->
+                <div class="flex items-center gap-1.5 bg-slate-200/70 p-0.5 rounded-lg text-xs font-semibold">
+                  <button type="button" onclick="setPriceChangeFilter('all')" id="btnChangeFilter-all" class="px-2.5 py-1 rounded-md bg-white text-indigo-900 shadow-2xs font-bold transition">Tất Cả (56)</button>
+                  <button type="button" onclick="setPriceChangeFilter('inc')" id="btnChangeFilter-inc" class="px-2.5 py-1 rounded-md text-emerald-800 hover:text-emerald-950 transition">Tăng Giá (14)</button>
+                  <button type="button" onclick="setPriceChangeFilter('dec')" id="btnChangeFilter-dec" class="px-2.5 py-1 rounded-md text-rose-800 hover:text-rose-950 transition">Giảm Giá (13)</button>
+                  <button type="button" onclick="setPriceChangeFilter('same')" id="btnChangeFilter-same" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition">Không Đổi (29)</button>
+                </div>
+
+                <button type="button" onclick="exportPriceChangeSheetOnly()" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Tải file Excel bảng biến động giá NPP này">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                  <span>Xuất Excel Sheet Này</span>
+                </button>
+              </div>
+
+              <div class="sticky-table-container max-h-[70vh] overflow-auto">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-slate-900 text-white font-bold border-b-2 border-slate-800 uppercase text-[10px] shadow-sm sticky top-0 z-20">
+                    <tr>
+                      <th class="py-3 px-2 text-center text-slate-400">STT</th>
+                      <th class="py-3 px-2.5 text-sky-300">Model</th>
+                      <th class="py-3 px-2 text-center text-slate-300">Hình Ảnh</th>
+                      <th class="py-3 px-3 text-slate-200">Tên Sản Phẩm</th>
+                      <th class="py-3 px-2.5 text-right text-slate-400 bg-slate-800/70" title="Giá NPP Online cũ trước điều chỉnh">Giá NPP Cũ<br><span class="text-[9px] font-normal text-slate-300">(Online - cũ)</span></th>
+                      <th class="py-3 px-2.5 text-right text-sky-300 bg-slate-800" title="Giá NPP Online điều chỉnh áp dụng mới">Giá Điều Chỉnh<br><span class="text-[9px] font-normal text-sky-200">(Online - mới)</span></th>
+                      <th class="py-3 px-3 text-center text-amber-300 bg-slate-800/90" title="Mức tăng giảm VNĐ và % chênh lệch giữa giá mới và giá cũ">Chênh Lệch (Tăng/Giảm)<br><span class="text-[9px] font-normal text-amber-200">(Số Tiền & %)</span></th>
+                      <th class="py-3 px-2.5 text-right text-blue-300" title="Giá Facebook chuẩn bán lẻ">Giá Facebook<br><span class="text-[9px] font-normal text-blue-200">(Tròn Nghìn)</span></th>
+                      <th class="py-3 px-2.5 text-right text-purple-300" title="Giá bán sàn TMĐT">Giá Sàn TMĐT<br><span class="text-[9px] font-normal text-purple-200">(+5%/+8% FB)</span></th>
+                    </tr>
+                  </thead>
+                  <tbody id="productPriceChangeTbody" class="divide-y divide-slate-100 font-medium">
+                    <!-- Dynamic rendering by renderPriceChangeTable() -->
                   </tbody>
                 </table>
               </div>
@@ -5939,7 +6040,7 @@
     const LOCK_KING_LOGO_SRC = "data:image/jpeg;base64,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";
 
     /* DATABASE STORAGE KEY (v12) */
-    const STORAGE_KEY = 'LOCK_KING_PMS_DATA_v36_UPDATE_RETAIL_20PCT';
+    const STORAGE_KEY = 'LOCK_KING_PMS_DATA_v37_NPP_PRICE_COMPARISON';
     // Clean old storage keys
     try {
       for (let i = localStorage.length - 1; i >= 0; i--) {
@@ -5993,7 +6094,8 @@
             "importPriceDiffPct": "5.85",
             "specs": "CHẢO CẠN TITANIUM Chất liệu inox cao cấp Chất liệu inox 316 Kích thước 22*5.5cm, dày 2.2mm Chống dính bằng titanium (tạo kháng khuẩn tự nhiên) Đúc liền khối 5 lớp Tay cầm đinh tán chắc chắn",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 260000
         },
         {
             "stt": 2,
@@ -6021,7 +6123,8 @@
             "importPriceDiffPct": "3.01",
             "specs": "Chảo Belly Lock&King Chất liệu: Inox, Titanium  Khối lượng: 2 Kg  Kích thước: 24 Cm  Chống dính: Titanium bền bỉ  Chảo: 5 lớp liền khối  Phù hợp: Bếp từ, bếp gas, bếp halogen, bếp điện  Bảo hành: 12 Tháng.",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 410000
         },
         {
             "stt": 3,
@@ -6049,7 +6152,8 @@
             "importPriceDiffPct": "-1.60",
             "specs": "Chảo cạn đường kính 26 cm, thành cao khoảng 5,5 cm; khối lượng khoảng 1,5 kg; Inox 316 phủ Nano Titanium; đáy từ 5 lớp liền khối; dùng cho bếp từ, gas, hồng ngoại và halogen; bảo hành 12 tháng.",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 310000
         },
         {
             "stt": 4,
@@ -6077,7 +6181,8 @@
             "importPriceDiffPct": "0.27",
             "specs": "Chất liệu Inox 316 kết hợp Titanium; đường kính 26 cm; khối lượng khoảng 2 kg; chống dính Titanium; cấu tạo 5 lớp liền khối; kèm vung; dùng cho bếp từ, gas, halogen và bếp điện; bảo hành 12 tháng.",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 470000
         },
         {
             "stt": 5,
@@ -6105,7 +6210,8 @@
             "importPriceDiffPct": "5.40",
             "specs": "CHẢO CẠN TITANIUM Chất liệu inox cao cấp Chất liệu inox 313 Model: LK-2808 Chất liệu inox 316 Cao cấp Kích thước 28*7cm, dày 2.2mm Chống dính bằng titanium (tạo kháng khuẩn tự nhiên) Đúc liền khối 5 lớp Tay cầm đinh tán chắc chắn\"",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 341000
         },
         {
             "stt": 6,
@@ -6133,7 +6239,8 @@
             "importPriceDiffPct": "6.63",
             "specs": "CHẢO SÂU TITANIUM Chất liệu inox cao cấp Chất liệu inox 316 Kích thước 28*9cm, dày 2.3mm Chống dính bằng titanium (tạo kháng khuẩn tự nhiên) Đúc liền khối 5 lớp Nắp đậy tiện dụng Tay cầm đinh tán chắc chắn",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 412000
         },
         {
             "stt": 7,
@@ -6161,7 +6268,8 @@
             "importPriceDiffPct": "0.42",
             "specs": "Chảo cạn Titanium đường kính 30 cm; thân inox cao cấp; chống dính Titanium; đáy từ; dùng trên nhiều loại bếp. Chưa tìm thấy nguồn online khớp tuyệt đối Model, cần hãng xác nhận cấu tạo và khối lượng.",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 360000
         },
         {
             "stt": 8,
@@ -6189,7 +6297,8 @@
             "importPriceDiffPct": "-0.75",
             "specs": "Tên sản phẩm: Chảo xào lớn Model: LK-3212 Chất liệu: Inox 316 Đóng gói: 4 chiếc/ thùng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 645000
         },
         {
             "stt": 9,
@@ -6217,7 +6326,8 @@
             "importPriceDiffPct": "4.96",
             "specs": "Nồi luộc gà Inox cao cấp LOCK&KING LK-30NC1  Chất liệu: Inox cao cấp  Tay cầm: Quai đinh tán chắc chắn  Vung: Kính cường lực bền bỉ  Kích thước: 30 cm  Khối lượng: 3,1 kg  Sử dụng: Bếp từ, bếp ga, bếp Halogen, bếp điện  Bảo hành: 12 tháng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 399000
         },
         {
             "stt": 10,
@@ -6245,7 +6355,8 @@
             "importPriceDiffPct": "-1.51",
             "specs": "Nồi luộc gà Inox cao cấp LOCK&KING LK-32NC  Chất liệu: Inox cao cấp  Tay cầm: Quai đinh tán chắc chắn  Vung: Kính cường lực bền bỉ  Kích thước: 32 cm  Khối lượng: 3,5 kg  Sử dụng: Bếp từ, bếp ga, bếp Halogen, bếp điện  Bảo hành: 12 tháng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 455000
         },
         {
             "stt": 11,
@@ -6273,7 +6384,8 @@
             "importPriceDiffPct": "0.05",
             "specs": "Bộ Nồi Inox 5 đáy Cao Cấp Lock&King LK-336A    Chất liệu: Inox Cao cấp  Sử dụng: Bếp từ, bếp ga, bếp Halogen, bếp điện  Công nghệ: Đáy 5 lớp chống phồng  Quai: Đinh tán chắc chắn  Kích thước: 18 – 20 – 24 cm  Khối lượng: 6kg",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 540000
         },
         {
             "stt": 12,
@@ -6301,7 +6413,8 @@
             "importPriceDiffPct": "-1.87",
             "specs": "Nồi Inox 5 Đáy Cao Cấp Lock&King LK-3018A   Chất liệu: Inox cao cấp  Tay cầm: Quai đinh tán chắc chắn  Vung: Kính cường lực bền bỉ  Kích thước: 18 cm  Khối lượng: 1,65 kg  Sử dụng: Bếp từ, bếp ga, bếp Halogen, bếp điện  Bảo hành: 12 tháng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 170000
         },
         {
             "stt": 13,
@@ -6329,7 +6442,8 @@
             "importPriceDiffPct": "-0.61",
             "specs": "Nồi Inox 5 Đáy Cao Cấp Lock&King LK-3020A    Chất liệu: Inox cao cấp  Tay cầm: Quai đinh tán chắc chắn  Vung: Kính cường lực bền bỉ  Kích thước: 20 cm  Khối lượng: 2 kg  Sử dụng: Bếp từ, bếp ga, bếp Halogen, bếp điện  Bảo hành: 12 tháng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 185000
         },
         {
             "stt": 14,
@@ -6357,7 +6471,8 @@
             "importPriceDiffPct": "-2.29",
             "specs": "Nồi Inox 5 Đáy Cao Cấp Lock&King LK-3024   Chất liệu: Inox cao cấp  Tay cầm: Quai đinh tán chắc chắn  Vung: Kính cường lực bền bỉ  Kích thước: 20 cm  Khối lượng: 2 kg  Sử dụng: Bếp từ, bếp ga, bếp Halogen, bếp điện  Bảo hành: 12 tháng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 230000
         },
         {
             "stt": 15,
@@ -6385,7 +6500,8 @@
             "importPriceDiffPct": "-2.41",
             "specs": "Quánh Titanium Cao Cấp Thương hiệu: Lock&King Model: LK-3116 Màu sắc: Nâu bạc Chất liệu: Inox 316, Titanium Đúc liền khối 5 lớp Thể tích: 1.8 Lít Trọng lượng: 1.3 Kg Phù hợp mọi loại bếp. Bắt nhiệt nhanh, tiết kiệm thời gian An toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 325000
         },
         {
             "stt": 16,
@@ -6413,7 +6529,8 @@
             "importPriceDiffPct": "-4.39",
             "specs": "Tên sản phẩm: Nồi Titanium Cao Cấp Thương hiệu: Lock&King Model: LK- 3118 Màu sắc: Nâu bạc Chất liệu: Inox 316, Titanium Đúc liền khối 5 lớp Thể tích: 2.5 Lít Trọng lượng: 1.3Kg Phù hợp mọi loại bếp. Bắt nhiệt nhanh, tiết kiệm thời gian An toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 372000
         },
         {
             "stt": 17,
@@ -6441,7 +6558,8 @@
             "importPriceDiffPct": "-4.40",
             "specs": "Tên sản phẩm: Nồi Titanium Cao Cấp Thương hiệu: Lock&King Model: LK- 3120 Màu sắc: Nâu bạc Chất liệu: Inox 316, Titanium Đúc liền khối 5 lớp Thể tích: 3.6 Lít Trọng lượng: 1.7Kg Phù hợp mọi loại bếp. Bắt nhiệt nhanh, tiết kiệm thời gian An toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 420000
         },
         {
             "stt": 18,
@@ -6469,7 +6587,8 @@
             "importPriceDiffPct": "-3.28",
             "specs": "Nồi Titanium Cao Cấp Thương hiệu: Lock&King Model: LK- 3124 Màu sắc: Nâu bạc Chất liệu: Inox 316, Titanium Đúc liền khối 5 lớp Thể tích: 6.3 Lít Trọng lượng: 2.3Kg Phù hợp mọi loại bếp. Bắt nhiệt nhanh, tiết kiệm thời gian An toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 500000
         },
         {
             "stt": 19,
@@ -6497,7 +6616,8 @@
             "importPriceDiffPct": "-4.36",
             "specs": "Tên sản phẩm: Bộ Nồi 3 Món Titanium Cao Cấp Thương hiệu: Lock&King Model: LK-3338 Màu sắc: Nâu bạc Chất liệu: Inox 316, Titanium Đúc liền khối 5 lớp Thể tích: 2.5 - 3.6 - 6.3 Lít Kích thước: 18 - 20 - 24 cm Trọng lượng: 5.9Kg Phù hợp mọi loại bếp. Bắt nhiệt nhanh, tiết kiệm thời gian An toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 1240000
         },
         {
             "stt": 20,
@@ -6525,7 +6645,8 @@
             "importPriceDiffPct": "-1.38",
             "specs": "Bộ 3 nồi inox cao cấp kích thước 18–20–24 cm; đáy từ 5 lớp chống phồng; quai đinh tán; dùng cho bếp từ, gas, halogen và bếp điện. Thông số đối chiếu theo dòng LK-3386A, cần hãng xác nhận hậu tố A.",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 530000
         },
         {
             "stt": 21,
@@ -6553,7 +6674,8 @@
             "importPriceDiffPct": "-1.38",
             "specs": "Bộ 5 món kích thước 16–18–20–24–24 cm; inox cao cấp; đáy 5 lớp chống phồng; quai đinh tán; khối lượng khoảng 6 kg; dùng cho bếp từ, gas, halogen và bếp điện.",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 940000
         },
         {
             "stt": 22,
@@ -6581,7 +6703,8 @@
             "importPriceDiffPct": "-2.87",
             "specs": "Nồi tăng áp Đa Năng Cao Cấp Thương hiệu: Lock&King Model: LK-3122 Màu sắc: Bạc xanh Chất liệu: Inox 316 Đúc liền khối 5 lớp Trọng lượng: 3.3 Kg Phù hợp mọi loại bếp. Bắt nhiệt nhanh, tiết kiệm thời gian An toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 460000
         },
         {
             "stt": 23,
@@ -6609,7 +6732,8 @@
             "importPriceDiffPct": "-4.61",
             "specs": "Nồi tăng áp Đa Năng Cao Cấp Thương hiệu: Lock&King Model: LK-3126 Màu sắc: Bạc xanh Chất liệu: Inox 316 Đúc liền khối 5 lớp Trọng lượng: 3.3 Kg Phù hợp mọi loại bếp. Bắt nhiệt nhanh, tiết kiệm thời gian An toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 525000
         },
         {
             "stt": 24,
@@ -6637,7 +6761,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Ấm đun nước * Thông tin sản phẩm* - Chất liệu: Inox 304 - Model: LK-1038 - Dung Tích: 3,8L - Cấu tạo: 3 lớp - Đường kính miệng trên: 10cm  - Đường kính đáy: 22cm - Chiều cao thành ấm: 15cm - Chiều cao có tay cầm: 25cm - Chiều dài (cả ấm và vòi): 25cm - Trọng lượng: 1,6kg - Xuất xứ: Trung Quốc",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 300000
         },
         {
             "stt": 25,
@@ -6665,7 +6790,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Nồi chiên không dầu LOCK&KING  Model: LK-92  Dung tích: 9,2L  Công suất: 1800W  Điện áp: 220v/50Hz  Kích thước: 704x410x413mm  Trọng lượng 15,2 kg",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 835000
         },
         {
             "stt": 26,
@@ -6693,7 +6819,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Máy Sưởi Gốm Lock&King  Model: LK-586  Công suất: 2000W  Điện áp: 220v/50Hz  Chất liệu: Nhựa PP, gốm  Kích thước: 65*27cm",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 430000
         },
         {
             "stt": 27,
@@ -6721,7 +6848,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Máy Sưởi Gốm Lock&King   Model: LK-588   Công suất: 2000W  Điện áp: 220v/50Hz   Chất liệu: Nhựa PP,   gốm Kích thước: 93x24cm",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 585000
         },
         {
             "stt": 28,
@@ -6749,7 +6877,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "TỦ SẤY QUẦN ÁO CAO CẤP LOCK&KING 1500W -Công suất: 1500W - Điện áp: 220V- 50Hz - Trọng lượng sấy tối đa: 20kg - Hẹn giờ thông minh: 30-180 (phút) - Bảng điều khiển: Núm vặn  - Công nghệ sấy: Cộng hưởng nhiệt PTC làm khô tĩnh học - Kích thước: 160*90*46cm - inox: 16 thanh phi 19 - Nhựa: Nguyên sinh - Có bánh xe, thuận tiện di chuyển",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 460000
         },
         {
             "stt": 29,
@@ -6777,7 +6906,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "TỦ SẤY QUẦN ÁO CAO CẤP LOCK&KING 2400W -Công suất: 2400W - Điện áp: 220V- 50Hz - Trọng lượng sấy tối đa: 50kg - Hẹn giờ thông minh: 30-180 (phút) - Bảng điều khiển: Núm vặn  - Công nghệ sấy: Cộng hưởng nhiệt PTC làm khô tĩnh học - Kích thước: 180*100*48cm - inox: 16 thanh phi 25,5 độ dày 0.4, chất liệu inox 201 - Nhựa: Nguyên sinh - Có bánh xe, thuận tiện di chuyển",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 850000
         },
         {
             "stt": 30,
@@ -6805,7 +6935,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "-Tên sản phẩm: Đèn sưới nhà tắm 3 bóng cao cấp Lock&King -Model: LK-1003 -Điện áp: 230/50Hz -Công suất: 825w -Kích thước sản phẩm: 25x24x48 cm -Kích thước bao bì: 25.5x25.5x51 cm -Loại Bóng: Bóng vàng -Năm sản xuất: Ghi trên tem bảo hành -Sản xuất tại: Việt Nam",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 197000
         },
         {
             "stt": 31,
@@ -6833,7 +6964,8 @@
             "importPriceDiffPct": "1.27",
             "specs": "Bình thủy điện dung tích 3 lít; chức năng đun sôi và giữ ấm nước; quy cách 4 chiếc/thùng theo dữ liệu nội bộ. Chưa tìm thấy nguồn online khớp Model LK-1030, cần hãng xác nhận công suất và điện áp.",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 1020000
         },
         {
             "stt": 32,
@@ -6861,7 +6993,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "-Tên sản phẩm: Đèn sưới nhà tắm 3 bóng cao cấp Lock&King -Model: LK-1033 -Điện áp: 230/50Hz -Công suất: 825w -Kích thước sản phẩm: 51.8x23.5x21.4 cm -Kích thước bao bì: 57x26x26 cm -Loại Bóng: Bóng mờ -Năm sản xuất: Ghi trên tem bảo hành -Sản xuất tại: Việt Nam",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 372000
         },
         {
             "stt": 33,
@@ -6889,7 +7022,8 @@
             "importPriceDiffPct": "1.34",
             "specs": "Tên sản phẩm: Bình Thủy Điện Thương hiệu: Lock&King Model: LK-1050 Chức năng: Đun – giữ ấm nước Màu sắc: Màu be Chất liệu: Nhựa PP, Thủy tinh, Inox 304 Công suất: 1200W Dung tích: 5 lít Trọng lượng: 2,8 kg Tính năng nổi bật: Có chế độ khóa thông minh Giữ ấm lên đến 48h Lấy nước tự động Tiết kiệm thời gian Khử Clo – an toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 890000
         },
         {
             "stt": 34,
@@ -6917,7 +7051,8 @@
             "importPriceDiffPct": "1.07",
             "specs": "Ấm siêu tốc An toàn cho sức khỏe Model: LK-1068 Chất liệu: inox 304 Điện áp: 220 -240V Dung tích: 1,7L Công suất: 1850 -2200W Tần suất: 50-60Hz Xuất xứ: Trung Quốc",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 340000
         },
         {
             "stt": 35,
@@ -6945,7 +7080,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Nồi áp suất điện Lock&King LK-4160 Tên sản phẩm: Nồi áp suất điện Model: LK-4160 Thương hiệu: Lock&King Điện áp: 220V 50Hz Công suất: 1000W Dung tích: 6L Công dụng: Sử dụng trong gia đình Quy chuẩn áp dụng: QCVN 4:2009/BKHCN và sửa đổi 1:2016 QCVN 4:2009/BKHCN Khối lượng tịnh: 4,7 kg Năm sản xuất: 2025",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 1080000
         },
         {
             "stt": 36,
@@ -6973,7 +7109,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Nồi áp suất điện Lock&King LK-4161 Tên sản phẩm: Nồi áp suất điện Lock&King LK-4161 Tên sản phẩm: Nồi áp suất điện Model: LK-4161 Điện áp: 220V 50Hz Công suất: 1000W Dung tích: 6L Công dụng: Sử dụng trong gia đình Quy chuẩn áp dụng: QCVN 4:2009/BKHCN và sửa đổi 1:2016 QCVN 4:2009/BKHCN Khối lượng tịnh: 4,5 kg Năm sản xuất: 2025 Quy cách đóng gói: 1 chiếc / 1 hộp, 2 hộp / thùng carton",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 850000
         },
         {
             "stt": 37,
@@ -7001,7 +7138,8 @@
             "importPriceDiffPct": "-1.38",
             "specs": "Nồi Nấu Chậm Nấu triệu món ngon • Model: LK-4208A • Điện áp: 220V/50Hz  • Công suất: 170W – siêu tiết kiệm điện.  • Dung tích: 4.2L – nấu được lượng lớn thức ăn.  • Chất liệu lòng nồi: gốm Ceramic cao cấp giữ nhiệt tốt.  • Vỏ nồi: nhựa PP an toàn cho sức khỏe người sử dụng  • Chức năng: nấu cháo, hầm xương, kho cá, nấu chè, nấu thức ăn cho bé…  • 3 chế độ: Low – High – Warm -Quy cách: 2 chiếc/1 kiện",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 510000
         },
         {
             "stt": 38,
@@ -7029,7 +7167,8 @@
             "importPriceDiffPct": "0.51",
             "specs": "Nồi Nấu Chậm Nấu triệu món ngon • Model: LK-4209 • Điện áp: 220V/50Hz  • Công suất: 170W – siêu tiết kiệm điện.  • Dung tích: 4.2L – nấu được lượng lớn thức ăn.  • Chất liệu lòng nồi: gốm Ceramic cao cấp giữ nhiệt tốt.  • Vỏ nồi: nhựa PP an toàn cho sức khỏe người sử dụng  • Chức năng: nấu cháo, hầm xương, kho cá, nấu chè, nấu thức ăn cho bé…  • 3 chế độ: Low – High – Warm -Quy cách: 2 chiếc/1 kiện",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 510000
         },
         {
             "stt": 39,
@@ -7057,7 +7196,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "\"Quạt Sưởi Để Bàn Lock&King LK-5301 • Model: LK-5301 • Điện áp: 220V/50Hz  • Công suất: 1500W – siêu tiết kiệm điện. • Kích thước: 260x290mm • Chất liệu lõi sưởi: gốm cao cấp - tránh làm khô da • Vỏ: nhựa PP cứng cáp, an toàn cho sức khỏe người sử dụng  • Chức năng: Sưởi ấm cho gia đình  • 6 chế độ: Quạt - Ấm 1 - Ấm 2,   Quạt đèn - Ấm 1+đèn - Ấm 2+đèn -Quy cách: 4 chiếc/1 kiện \"",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 600000
         },
         {
             "stt": 40,
@@ -7085,7 +7225,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Tên sản phẩm: Nồi Nấu Đa Năng  • Thương hiệu: Lock&King • Model: LK-6015 • Chức năng: Nấu ăn trong gia đình • Màu sắc: Xanh lá nhạt • Chất liệu: Nhựa PP, Inox 304 • Công suất: 1600W • Dung tích: 1,5 lít • Trọng lượng: 1,1 kg • Tính năng nổi bật: • Làm nóng nhanh • Có thể nấu và hấp • Nấu nhiều món cùng lúc • Tiết kiệm thời gian • An toàn cho sức khỏe",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 260000
         },
         {
             "stt": 41,
@@ -7113,7 +7254,8 @@
             "importPriceDiffPct": "2.62",
             "specs": "Nồi nấu lẩu đi kèm xửng hấp, không có chức năng nấu cơm và nướng.  Hiệu: LOCK&KING,  Model: LK-6201;  Công suất 1500W,  Điện áp: 220V/50Hz;  Dung tích: 6.2L; hàng mới 100%",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 685000
         },
         {
             "stt": 42,
@@ -7141,7 +7283,8 @@
             "importPriceDiffPct": "1.02",
             "specs": "Tên sản phẩm: Máy làm sữa hạt Thương hiệu: Lock&King Model: LK-7812 Điện áp định mức: 220V Tần số: 50Hz Công suất nấu: 800W Công suất xay: 200W Các chức năng chính: - Sữa đậu nành - Cháo - Súp - Sinh tố - Đun nước - Giữ ấm",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 710000
         },
         {
             "stt": 43,
@@ -7169,7 +7312,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "NỒI CHIÊN KHÔNG DẦU CHIÊN VẠN MÓN NGON -Nhãn hiệu: LOCK&KING, - Model: LK-9014 -Công suất: 1800W,  -Điện áp: 220V; 50Hz -Dung tích: 14L, - Điều khiển cơ. -Xuất xứ: TQ SX 2025,  - hàng mới 100%.\"",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 1130000
         },
         {
             "stt": 44,
@@ -7197,7 +7341,8 @@
             "importPriceDiffPct": "5.26",
             "specs": "Chảo cạn Lock&King Chất liệu inox 316 Cao cấp Kích thước 22*5.5cm, dày 2.2mm Chống dính bằng titanium (tạo kháng khuẩn tự nhiên) Đúc liền khối 5 lớp Tay cầm đinh tán chắc chắn",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 260000
         },
         {
             "stt": 45,
@@ -7225,7 +7370,8 @@
             "importPriceDiffPct": "6.22",
             "specs": "CHẢO CẠN TITAN VÀNG TAKIN SIZE 26 VÂN SAO BIỂN Model: TK-2662 Chất liệu inox 316 Cao cấp Kích thước 26*6.5cm, dày 2.2mm Chống dính bằng titanium (tạo kháng khuẩn tự nhiên) Đúc liền khối 5 lớp Tay cầm đinh tán chắc chắn Quy cách: 1 chiếc/ hộp",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 310000
         },
         {
             "stt": 46,
@@ -7253,7 +7399,8 @@
             "importPriceDiffPct": "2.04",
             "specs": "Chảo chiên Titanium Pro size 28  Model: TK-2882C  Chất liệu inox 316 Cao cấp  Kích thước 28*7cm, dày 2.2mm  Chống dính bằng titanium (tạo kháng khuẩn tự nhiên)  Đúc liền khối 5 lớp  Tay cầm đinh tán chắc chắn",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 341000
         },
         {
             "stt": 47,
@@ -7281,7 +7428,8 @@
             "importPriceDiffPct": "3.17",
             "specs": "Chảo chiên Titanium Pro size 30  Model: TK-3030C  Chất liệu inox 316 Cao cấp  Kích thước 30*7.5cm, dày 2.2mm  Chống dính bằng titanium (tạo kháng khuẩn tự nhiên)  Đúc liền khối 5 lớp  Tay cầm đinh tán chắc chắn",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 360000
         },
         {
             "stt": 48,
@@ -7309,7 +7457,8 @@
             "importPriceDiffPct": "-1.42",
             "specs": "BỘ NỒI 3 MÓN 5 LỚP INOX CAO CẤP TAKIN  Model: TK-036A  Số món: 3 món  Chất liệu: Inox 304 cao cấp  Đáy nồi cấu tạo 5 lớp  Kích thước đường kính: 18-20-24cm  Xuất xứ: Trung Quốc Quy cách: 4 bộ/1 thùng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 515000
         },
         {
             "stt": 49,
@@ -7337,7 +7486,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "NỒI TÁO LẺ SIZE 24 TAKIN CAO CẤP  Chất liệu: Inox  Model: TK-0324  Size: 24cm  Xuất xứ: Trung Quốc Quy cách: 8 chiếc/1 thùng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 245000
         },
         {
             "stt": 50,
@@ -7365,7 +7515,8 @@
             "importPriceDiffPct": "3.61",
             "specs": "BỘ NỒI TÁO 3 MÓN TAKIN CAO CẤP  Model: TK-0348A  Số món: 3 món  Chất liệu: Inox 304 cao cấp  Đáy nồi cấu tạo 5 lớp  Kích thước đường kính: 18-20-24cm Quy cách: 4 bộ/1 thùng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 580000
         },
         {
             "stt": 51,
@@ -7393,7 +7544,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Bộ nồi inox 5 đáy cao cấp Takin TK-0369     – Bộ 3 nồi 5 đáy chất liệu inox 304 bền đẹp, dễ vệ sinh    – Dùng để nấu ăn trong gia đình    – Đường kính 18cm/2L, 20cm/3L và 24cm/7L.    – Tay cầm quai tán chắc chắn chịu lực tốt lên đến 50kg; nắp kính trong suốt dễ quan sát.    – Nồi dùng được trên mọi loại bếp: bếp gas, bếp hồng ngoại và bếp từ.",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 535000
         },
         {
             "stt": 52,
@@ -7421,7 +7573,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "Bộ nồi Takin 4 món 5 đáy inox cao cấp Model: TK-0488  Số món: 4 món  Chất liệu: Inox 304 cao cấp  Đáy nồi cấu tạo 5 lớp Kích thước đường kính: 18x20x24x24cm  Xuất xứ: Trung Quốc",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 810000
         },
         {
             "stt": 53,
@@ -7449,7 +7602,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "MÁY SƯỞI GỐM THÂN THẤP TAKIN CAO CẤP Model: TK-468  Công suất: 2000W  Điện áp: 220v/50Hz  Chất liệu: Nhựa PP,  gốm Kích thước: 65*27cm Quy cách: 4 chiếc/1 thùng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 452000
         },
         {
             "stt": 54,
@@ -7477,7 +7631,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "MÁY SƯỞI GỐM THÂN CAO TAKIN CAO CẤP Model: TK-469 Công suất: 2000W Điện áp: 220v/50Hz Chất liệu: Nhựa PP, gốm Kích thước: 93x24cm Quy cách: 4 chiếc/1 thùng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 615000
         },
         {
             "stt": 55,
@@ -7505,7 +7660,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "ĐÈN SƯỞI 2 BÓNG VÀNG TAKIN CAO CẤP -Nhãn hiệu: TAKIN -Model: TK-1002 -Điện áp: 230V / 50Hz -Công suất: 825W -Kích thước sản phẩm: 48 × 25 × 23 cm -Kích thước bao bì: 50 × 25,5 × 24 cm -Năm sản xuất: Ghi trên tem bảo hành -Sản xuất tại: Việt Nam\" Quy cách: 1 chiếc/1 thùng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 158000
         },
         {
             "stt": 56,
@@ -7533,7 +7689,8 @@
             "importPriceDiffPct": "0.00",
             "specs": "ĐÈN SƯỞI 3 BÓNG VÀNG TAKIN CAO CẤP -Nhãn hiệu: TAKIN -Model: TK-1003 -Điện áp: 230V / 50Hz -Công suất: 825W -Kích thước sản phẩm: 48 × 25 × 23 cm -Kích thước bao bì: 50 × 25,5 × 24 cm -Năm sản xuất: Ghi trên tem bảo hành -Sản xuất tại: Việt Nam Quy cách: 1 chiếc/1 thùng",
             "status": "ACTIVE",
-            "updatedAt": "2026-09-05T12:15:00Z"
+            "updatedAt": "2026-09-05T12:15:00Z",
+            "oldNppOnlinePrice": 194000
         }
     ],
   "aliases": [
@@ -9034,6 +9191,7 @@
       tbody.innerHTML = rowsHtml;
       renderProductCards(filtered, role);
       renderPriceDiffTable(filtered, canViewImport);
+      renderPriceChangeTable(filtered);
       safeLucideIcons();
     }
 
@@ -10590,6 +10748,282 @@
       showToast("Đã xuất Sheet Chênh Lệch Tầng Giá ra Excel thành công!");
     }
 
+    
+    // ================= SHEET 3: MODULE THỐNG KÊ BIẾN ĐỘNG GIÁ NPP ONLINE =================
+    let currentPriceChangeFilter = 'all';
+
+    function setPriceChangeFilter(type) {
+      currentPriceChangeFilter = type;
+      ['all', 'inc', 'dec', 'same'].forEach(k => {
+        const btn = document.getElementById('btnChangeFilter-' + k);
+        if (!btn) return;
+        if (k === type) {
+          btn.className = 'px-2.5 py-1 rounded-md bg-white text-indigo-900 shadow-2xs font-bold transition';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition';
+        }
+      });
+      if (typeof renderProductTable === 'function') {
+        renderProductTable();
+      }
+    }
+
+    function renderPriceChangeTable(products) {
+      const tbody = document.getElementById('productPriceChangeTbody');
+      if (!tbody) return;
+
+      const db = getDB();
+      const allProducts = db.products || [];
+
+      // Cập nhật 4 thẻ KPI tổng quan (tính trên toàn bộ 56 mã)
+      let countInc = 0;
+      let countDec = 0;
+      let countSame = 0;
+
+      allProducts.forEach(p => {
+        const oldNpp = p.oldNppOnlinePrice !== undefined ? p.oldNppOnlinePrice : (p.nppOnlinePrice || 0);
+        const newNpp = p.nppOnlinePrice || 0;
+        const diff = newNpp - oldNpp;
+        if (diff > 0) countInc++;
+        else if (diff < 0) countDec++;
+        else countSame++;
+      });
+
+      const elTotal = document.getElementById('kpiChangeTotalCount');
+      if (elTotal) elTotal.innerHTML = `${allProducts.length} <span class="text-xs font-semibold text-slate-500">mã</span>`;
+      const elInc = document.getElementById('kpiChangeIncCount');
+      if (elInc) elInc.innerHTML = `${countInc} <span class="text-xs font-semibold text-slate-500">mã</span>`;
+      const elDec = document.getElementById('kpiChangeDecCount');
+      if (elDec) elDec.innerHTML = `${countDec} <span class="text-xs font-semibold text-slate-500">mã</span>`;
+      const elSame = document.getElementById('kpiChangeSameCount');
+      if (elSame) elSame.innerHTML = `${countSame} <span class="text-xs font-semibold text-slate-500">mã</span>`;
+
+      // Lọc danh sách hiển thị
+      let list = products || allProducts;
+      if (currentPriceChangeFilter === 'inc') {
+        list = list.filter(p => {
+          const oldNpp = p.oldNppOnlinePrice !== undefined ? p.oldNppOnlinePrice : (p.nppOnlinePrice || 0);
+          return (p.nppOnlinePrice || 0) > oldNpp;
+        });
+      } else if (currentPriceChangeFilter === 'dec') {
+        list = list.filter(p => {
+          const oldNpp = p.oldNppOnlinePrice !== undefined ? p.oldNppOnlinePrice : (p.nppOnlinePrice || 0);
+          return (p.nppOnlinePrice || 0) < oldNpp;
+        });
+      } else if (currentPriceChangeFilter === 'same') {
+        list = list.filter(p => {
+          const oldNpp = p.oldNppOnlinePrice !== undefined ? p.oldNppOnlinePrice : (p.nppOnlinePrice || 0);
+          return (p.nppOnlinePrice || 0) === oldNpp;
+        });
+      }
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="py-8 text-center text-slate-400 font-bold">Không tìm thấy mã sản phẩm nào phù hợp bộ lọc biến động</td></tr>';
+        return;
+      }
+
+      let lastBrand = '';
+      let lastCat = '';
+      let rowsHtml = '';
+
+      list.forEach((p, idx) => {
+        // Header thương hiệu
+        if (p.brand !== lastBrand) {
+          lastBrand = p.brand;
+          lastCat = '';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (43 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
+          rowsHtml += `
+            <tr class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider select-none">
+              <td colspan="9" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 border-y border-slate-700">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+                  <span>${brandTitle}</span>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+
+        // Header nhóm ngành hàng
+        if (p.categoryName !== lastCat) {
+          lastCat = p.categoryName;
+          rowsHtml += `
+            <tr class="bg-indigo-700 text-white font-bold text-[11px] uppercase tracking-wider select-none">
+              <td colspan="9" class="py-1.5 px-4 bg-gradient-to-r from-indigo-700 to-sky-700 border-b border-indigo-800 shadow-xs">
+                <div class="flex items-center gap-1.5">
+                  <i data-lucide="layers" class="w-3.5 h-3.5 text-indigo-200"></i>
+                  <span>NHÓM SẢN PHẨM: ${escapeHtml(p.categoryName)}</span>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+
+        const stt = p.stt || (idx + 1);
+        const oldNpp = p.oldNppOnlinePrice !== undefined ? p.oldNppOnlinePrice : (p.nppOnlinePrice || 0);
+        const newNpp = p.nppOnlinePrice || 0;
+        const diff = newNpp - oldNpp;
+        const diffPct = oldNpp > 0 ? ((diff / oldNpp) * 100).toFixed(1) : '0.0';
+
+        let diffCellHtml = '';
+        if (diff > 0) {
+          diffCellHtml = `
+            <td class="py-2 px-2.5 text-center bg-emerald-50/40">
+              <div class="font-mono font-bold text-emerald-700 text-xs">+${formatVND(diff)}</div>
+              <span class="inline-block text-[10px] font-mono font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-1.5 py-0.2 rounded mt-0.5">
+                +${diffPct}% (Tăng)
+              </span>
+            </td>
+          `;
+        } else if (diff < 0) {
+          diffCellHtml = `
+            <td class="py-2 px-2.5 text-center bg-rose-50/40">
+              <div class="font-mono font-bold text-rose-700 text-xs">${formatVND(diff)}</div>
+              <span class="inline-block text-[10px] font-mono font-bold text-rose-800 bg-rose-100 border border-rose-300 px-1.5 py-0.2 rounded mt-0.5">
+                ${diffPct}% (Giảm)
+              </span>
+            </td>
+          `;
+        } else {
+          diffCellHtml = `
+            <td class="py-2 px-2.5 text-center bg-slate-50/50">
+              <div class="font-mono font-medium text-slate-500 text-xs">0 đ</div>
+              <span class="inline-block text-[10px] font-mono text-slate-500 bg-slate-100 border border-slate-200 px-1.5 py-0.2 rounded mt-0.5">
+                0.0% (Giữ nguyên)
+              </span>
+            </td>
+          `;
+        }
+
+        const imgHtml = p.image 
+          ? `<img src="${p.image}" onclick="openImageModal('${p.image}', '${escapeHtml(p.name)}', '${p.canonicalCode}')" class="w-9 h-9 object-contain rounded-md border border-slate-200 bg-white p-0.5 mx-auto cursor-pointer hover:scale-110 transition shadow-2xs" onerror="this.onerror=null; this.src='https://placehold.co/100x100/f8fafc/94a3b8?text=IMG';"/>`
+          : `<div class="w-9 h-9 rounded-md bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-[9px] mx-auto">No img</div>`;
+
+        rowsHtml += `
+          <tr class="hover:bg-slate-50/80 transition border-b border-slate-100">
+            <td class="py-2 px-2 text-center text-slate-400 font-mono text-xs">${stt}</td>
+            <td class="py-2 px-2.5">
+              <span class="font-mono font-black text-xs text-sky-900 bg-sky-50 border border-sky-200 px-1.5 py-0.5 rounded shadow-2xs">${p.canonicalCode}</span>
+            </td>
+            <td class="py-1.5 px-2 text-center">${imgHtml}</td>
+            <td class="py-2 px-3 text-slate-800 font-semibold max-w-xs truncate" title="${escapeHtml(p.name)}">
+              <div>${escapeHtml(p.name)}</div>
+              <div class="text-[10px] font-normal text-slate-400">${escapeHtml(p.categoryName || '')}</div>
+            </td>
+            <td class="py-2 px-2.5 text-right font-mono text-slate-500 bg-slate-50/40">${formatVND(oldNpp)}</td>
+            <td class="py-2 px-2.5 text-right font-mono font-bold text-sky-700 bg-sky-50/30">${formatVND(newNpp)}</td>
+            ${diffCellHtml}
+            <td class="py-2 px-2.5 text-right font-mono font-bold text-blue-700 bg-blue-50/10">${formatVND(p.facebookPrice)}</td>
+            <td class="py-2 px-2.5 text-right font-mono font-bold text-purple-700 bg-purple-50/10">${formatVND(p.tmdtPrice)}</td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = rowsHtml;
+      safeLucideIcons();
+    }
+
+    function buildPriceChangeExcelSheet(products) {
+      const todayStr = new Date().toLocaleDateString('vi-VN');
+      const titleStr = "BẢNG THỐNG KÊ BIẾN ĐỘNG GIÁ NPP ONLINE (GIÁ CŨ VS ĐIỀU CHỈNH & KÊNH BÁN)";
+      
+      const headers = [
+        "STT", "Thương Hiệu", "Phân Loại", "Mã Model", "Tên Sản Phẩm",
+        "Giá NPP Online - Cũ (VNĐ)", "Giá NPP Online - Mới (VNĐ)",
+        "Chênh Lệch (VNĐ)", "% Tăng/Giảm", "Trạng Thái",
+        "Giá Facebook (VNĐ)", "Giá Sàn TMĐT (VNĐ)"
+      ];
+
+      const colCount = headers.length;
+      const rows = [];
+      const merges = [];
+
+      // Dòng 1-4 Header công ty
+      rows.push(["VU GIA COOPERATIVE COMPANY LIMITED"]);
+      merges.push({ s: { r: 0, c: 0 }, e: { r: 0, c: colCount - 1 } });
+
+      rows.push(["Địa chỉ: 230 Lacasta, Van Phu Urban Area, Kien Hung Ward, Ha Noi | Websites: Locknking.com - Locknking.vn - Locknking.kr"]);
+      merges.push({ s: { r: 1, c: 0 }, e: { r: 1, c: colCount - 1 } });
+
+      rows.push([titleStr]);
+      merges.push({ s: { r: 2, c: 0 }, e: { r: 2, c: colCount - 1 } });
+
+      rows.push(["Ghi chú: So sánh biến động giá NPP Online cũ trước điều chỉnh và giá NPP Online mới, kèm giá các kênh bán Facebook và Sàn TMĐT"]);
+      merges.push({ s: { r: 3, c: 0 }, e: { r: 3, c: colCount - 1 } });
+
+      rows.push([]);
+      rows.push(headers);
+
+      let lastBrand = '';
+      let lastCat = '';
+
+      products.forEach((p, idx) => {
+        if (p.brand !== lastBrand) {
+          lastBrand = p.brand;
+          lastCat = '';
+          const brandRowIdx = rows.length;
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (43 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
+          rows.push([brandTitle]);
+          merges.push({ s: { r: brandRowIdx, c: 0 }, e: { r: brandRowIdx, c: colCount - 1 } });
+        }
+
+        if (p.categoryName !== lastCat) {
+          lastCat = p.categoryName;
+          const catRowIdx = rows.length;
+          rows.push(["▶ NHÓM SẢN PHẨM: " + p.categoryName]);
+          merges.push({ s: { r: catRowIdx, c: 0 }, e: { r: catRowIdx, c: colCount - 1 } });
+        }
+
+        const stt = p.stt || (idx + 1);
+        const oldNpp = p.oldNppOnlinePrice !== undefined ? p.oldNppOnlinePrice : (p.nppOnlinePrice || 0);
+        const newNpp = p.nppOnlinePrice || 0;
+        const diff = newNpp - oldNpp;
+        const diffPct = oldNpp > 0 ? ((diff / oldNpp) * 100).toFixed(1) + '%' : '0.0%';
+        const statusStr = diff > 0 ? 'Tăng giá' : (diff < 0 ? 'Giảm giá' : 'Giữ nguyên');
+
+        rows.push([
+          stt, p.brand, p.categoryName, p.canonicalCode, p.name,
+          oldNpp, newNpp,
+          diff, diffPct, statusStr,
+          p.facebookPrice || 0, p.tmdtPrice || 0
+        ]);
+      });
+
+      rows.push([]);
+      rows.push(["", "", "", "", "", "", "", "", "Hà Nội, Ngày " + todayStr]);
+      rows.push(["", "", "", "", "", "", "", "", "NGƯỜI LẬP BIỂU"]);
+      rows.push(["", "", "", "", "", "", "", "", "(Ký, họ tên)"]);
+
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      ws['!merges'] = merges;
+      ws['!cols'] = [
+        { wch: 6 },  // STT
+        { wch: 14 }, // Brand
+        { wch: 18 }, // Cat
+        { wch: 20 }, // Model
+        { wch: 45 }, // Name
+        { wch: 22 }, // Giá NPP Cũ
+        { wch: 22 }, // Giá NPP Mới
+        { wch: 18 }, // Chênh lệch
+        { wch: 14 }, // %
+        { wch: 14 }, // Trạng thái
+        { wch: 20 }, // Giá FB
+        { wch: 20 }  // Giá TMĐT
+      ];
+
+      return ws;
+    }
+
+    function exportPriceChangeSheetOnly() {
+      const db = getDB();
+      const wb = XLSX.utils.book_new();
+      const ws = buildPriceChangeExcelSheet(db.products);
+      XLSX.utils.book_append_sheet(wb, ws, "BienDong_Gia_NPP");
+      const dateStr = new Date().toISOString().slice(0, 10);
+      XLSX.writeFile(wb, `Thong_Ke_Bien_Dong_Gia_NPP_${dateStr}.xlsx`);
+      showToast('Đã xuất file Excel bảng biến động giá NPP thành công!');
+    }
+
     function exportCatalogToExcel() {
       const db = getDB();
       const role = currentUser.role;
@@ -11362,34 +11796,41 @@
       const tableView = document.getElementById('productTableViewContainer');
       const cardsView = document.getElementById('productCardsContainer');
       const diffView = document.getElementById('productPriceDiffViewContainer');
+      const changeView = document.getElementById('productPriceChangeViewContainer');
       const btnTable = document.getElementById('btnViewTable');
       const btnCards = document.getElementById('btnViewCards');
       const btnDiff = document.getElementById('btnViewPriceDiff');
+      const btnChange = document.getElementById('btnViewPriceChange');
 
       if (!tableView || !cardsView) return;
 
+      // Reset all views
+      tableView.classList.add('hidden');
+      cardsView.classList.add('hidden');
+      if (diffView) diffView.classList.add('hidden');
+      if (changeView) changeView.classList.add('hidden');
+
+      // Reset all button styles
+      const defaultBtnClass = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+      if (btnTable) btnTable.className = defaultBtnClass;
+      if (btnCards) btnCards.className = defaultBtnClass;
+      if (btnDiff) btnDiff.className = defaultBtnClass;
+      if (btnChange) btnChange.className = defaultBtnClass;
+
       if (mode === 'cards') {
-        tableView.classList.add('hidden');
-        if (diffView) diffView.classList.add('hidden');
         cardsView.classList.remove('hidden');
-        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs';
-        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
-        if (btnDiff) btnDiff.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs font-bold';
       } else if (mode === 'diff') {
-        tableView.classList.add('hidden');
-        cardsView.classList.add('hidden');
         if (diffView) diffView.classList.remove('hidden');
         if (btnDiff) btnDiff.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-purple-900 font-bold shadow-xs';
-        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
-        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        if (typeof renderProductTable === 'function') renderProductTable();
+      } else if (mode === 'change') {
+        if (changeView) changeView.classList.remove('hidden');
+        if (btnChange) btnChange.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-indigo-900 font-bold shadow-xs';
         if (typeof renderProductTable === 'function') renderProductTable();
       } else {
-        cardsView.classList.add('hidden');
-        if (diffView) diffView.classList.add('hidden');
         tableView.classList.remove('hidden');
-        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs';
-        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
-        if (btnDiff) btnDiff.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-md transition flex items-center gap-1.5 bg-white text-sky-900 shadow-xs font-bold';
       }
 
       try {

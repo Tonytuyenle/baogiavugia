@@ -15,7 +15,8 @@
     "dealerPrice": 467000,
     "distributorPrice": 265000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 260000
   },
   {
     "stt": 2,
@@ -33,7 +34,8 @@
     "dealerPrice": 750000,
     "distributorPrice": 395000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 410000
   },
   {
     "stt": 3,
@@ -51,7 +53,8 @@
     "dealerPrice": 590000,
     "distributorPrice": 320000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 310000
   },
   {
     "stt": 4,
@@ -69,7 +72,8 @@
     "dealerPrice": 850000,
     "distributorPrice": 450000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 470000
   },
   {
     "stt": 5,
@@ -87,7 +91,8 @@
     "dealerPrice": 630000,
     "distributorPrice": 351000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 341000
   },
   {
     "stt": 6,
@@ -105,7 +110,8 @@
     "dealerPrice": 650000,
     "distributorPrice": 350000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 412000
   },
   {
     "stt": 7,
@@ -123,7 +129,8 @@
     "dealerPrice": 750000,
     "distributorPrice": 375000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 360000
   },
   {
     "stt": 8,
@@ -141,7 +148,8 @@
     "dealerPrice": 1290000,
     "distributorPrice": 645000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 645000
   },
   {
     "stt": 9,
@@ -159,7 +167,8 @@
     "dealerPrice": 750000,
     "distributorPrice": 414000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 399000
   },
   {
     "stt": 10,
@@ -177,7 +186,8 @@
     "dealerPrice": 830000,
     "distributorPrice": 470000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 455000
   },
   {
     "stt": 11,
@@ -195,7 +205,8 @@
     "dealerPrice": 990000,
     "distributorPrice": 540000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 540000
   },
   {
     "stt": 12,
@@ -213,7 +224,8 @@
     "dealerPrice": 295000,
     "distributorPrice": 170000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 170000
   },
   {
     "stt": 13,
@@ -231,7 +243,8 @@
     "dealerPrice": 315000,
     "distributorPrice": 185000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 185000
   },
   {
     "stt": 14,
@@ -249,7 +262,8 @@
     "dealerPrice": 395000,
     "distributorPrice": 230000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 230000
   },
   {
     "stt": 15,
@@ -267,7 +281,8 @@
     "dealerPrice": 689000,
     "distributorPrice": 325000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 325000
   },
   {
     "stt": 16,
@@ -285,7 +300,8 @@
     "dealerPrice": 779000,
     "distributorPrice": 340000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 372000
   },
   {
     "stt": 17,
@@ -303,7 +319,8 @@
     "dealerPrice": 889000,
     "distributorPrice": 390000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 420000
   },
   {
     "stt": 18,
@@ -321,7 +338,8 @@
     "dealerPrice": 1049000,
     "distributorPrice": 460000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 500000
   },
   {
     "stt": 19,
@@ -339,7 +357,8 @@
     "dealerPrice": 2090000,
     "distributorPrice": 1100000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 1240000
   },
   {
     "stt": 20,
@@ -357,7 +376,8 @@
     "dealerPrice": 990000,
     "distributorPrice": 550000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 530000
   },
   {
     "stt": 21,
@@ -375,7 +395,8 @@
     "dealerPrice": 1690000,
     "distributorPrice": 960000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 940000
   },
   {
     "stt": 22,
@@ -393,7 +414,8 @@
     "dealerPrice": 820000,
     "distributorPrice": 470000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 460000
   },
   {
     "stt": 23,
@@ -411,7 +433,8 @@
     "dealerPrice": 990000,
     "distributorPrice": 535000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 525000
   },
   {
     "stt": 24,
@@ -429,7 +452,8 @@
     "dealerPrice": 525000,
     "distributorPrice": 300000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 300000
   },
   {
     "stt": 25,
@@ -447,7 +471,8 @@
     "dealerPrice": 1590000,
     "distributorPrice": 835000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 835000
   },
   {
     "stt": 26,
@@ -465,7 +490,8 @@
     "dealerPrice": 745000,
     "distributorPrice": 430000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 430000
   },
   {
     "stt": 27,
@@ -483,7 +509,8 @@
     "dealerPrice": 1050000,
     "distributorPrice": 585000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 585000
   },
   {
     "stt": 28,
@@ -501,7 +528,8 @@
     "dealerPrice": 920000,
     "distributorPrice": 460000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 460000
   },
   {
     "stt": 29,
@@ -519,7 +547,8 @@
     "dealerPrice": 1690000,
     "distributorPrice": 850000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 850000
   },
   {
     "stt": 30,
@@ -537,7 +566,8 @@
     "dealerPrice": 354000,
     "distributorPrice": 197000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 197000
   },
   {
     "stt": 31,
@@ -555,7 +585,8 @@
     "dealerPrice": 1890000,
     "distributorPrice": 1020000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 1020000
   },
   {
     "stt": 32,
@@ -573,7 +604,8 @@
     "dealerPrice": 670000,
     "distributorPrice": 372000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 372000
   },
   {
     "stt": 33,
@@ -591,7 +623,8 @@
     "dealerPrice": 1495000,
     "distributorPrice": 780000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 890000
   },
   {
     "stt": 34,
@@ -609,7 +642,8 @@
     "dealerPrice": 599000,
     "distributorPrice": 310000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 340000
   },
   {
     "stt": 35,
@@ -627,7 +661,8 @@
     "dealerPrice": 1880000,
     "distributorPrice": 1000000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 1080000
   },
   {
     "stt": 36,
@@ -645,7 +680,8 @@
     "dealerPrice": 1490000,
     "distributorPrice": 800000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 850000
   },
   {
     "stt": 37,
@@ -663,7 +699,8 @@
     "dealerPrice": 950000,
     "distributorPrice": 510000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 510000
   },
   {
     "stt": 38,
@@ -681,7 +718,8 @@
     "dealerPrice": 950000,
     "distributorPrice": 510000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 510000
   },
   {
     "stt": 39,
@@ -699,7 +737,8 @@
     "dealerPrice": 1190000,
     "distributorPrice": 600000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 600000
   },
   {
     "stt": 40,
@@ -717,7 +756,8 @@
     "dealerPrice": 490000,
     "distributorPrice": 260000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 260000
   },
   {
     "stt": 41,
@@ -735,7 +775,8 @@
     "dealerPrice": 1290000,
     "distributorPrice": 685000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 685000
   },
   {
     "stt": 42,
@@ -753,7 +794,8 @@
     "dealerPrice": 1190000,
     "distributorPrice": 660000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 710000
   },
   {
     "stt": 43,
@@ -771,7 +813,8 @@
     "dealerPrice": 2190000,
     "distributorPrice": 1130000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 1130000
   },
   {
     "stt": 44,
@@ -789,7 +832,8 @@
     "dealerPrice": 467000,
     "distributorPrice": 265000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 260000
   },
   {
     "stt": 45,
@@ -807,7 +851,8 @@
     "dealerPrice": 590000,
     "distributorPrice": 320000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 310000
   },
   {
     "stt": 46,
@@ -825,7 +870,8 @@
     "dealerPrice": 630000,
     "distributorPrice": 351000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 341000
   },
   {
     "stt": 47,
@@ -843,7 +889,8 @@
     "dealerPrice": 750000,
     "distributorPrice": 375000,
     "unit": "Cái",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 360000
   },
   {
     "stt": 48,
@@ -861,7 +908,8 @@
     "dealerPrice": 891000,
     "distributorPrice": 495000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 515000
   },
   {
     "stt": 49,
@@ -879,7 +927,8 @@
     "dealerPrice": 441000,
     "distributorPrice": 245000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 245000
   },
   {
     "stt": 50,
@@ -897,7 +946,8 @@
     "dealerPrice": 1044000,
     "distributorPrice": 580000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 580000
   },
   {
     "stt": 51,
@@ -915,7 +965,8 @@
     "dealerPrice": 969000,
     "distributorPrice": 535000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 535000
   },
   {
     "stt": 52,
@@ -933,7 +984,8 @@
     "dealerPrice": 1469000,
     "distributorPrice": 810000,
     "unit": "Bộ",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 810000
   },
   {
     "stt": 53,
@@ -951,7 +1003,8 @@
     "dealerPrice": 900000,
     "distributorPrice": 452000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 452000
   },
   {
     "stt": 54,
@@ -969,7 +1022,8 @@
     "dealerPrice": 1050000,
     "distributorPrice": 615000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 615000
   },
   {
     "stt": 55,
@@ -987,7 +1041,8 @@
     "dealerPrice": 270000,
     "distributorPrice": 158000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 158000
   },
   {
     "stt": 56,
@@ -1005,6 +1060,7 @@
     "dealerPrice": 330000,
     "distributorPrice": 194000,
     "unit": "Chiếc",
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 194000
   }
 ]
