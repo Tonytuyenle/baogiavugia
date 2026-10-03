@@ -370,6 +370,25 @@
   },
   {
     "stt": 20,
+    "canonicalCode": "LK-3348",
+    "name": "Bộ nồi Táo Lock&king 3 món inox cao cấp",
+    "brand": "Lock&King",
+    "categoryName": "NỒI & BỘ NỒI",
+    "nppOnlinePrice": 580000,
+    "facebookPrice": 1044000,
+    "tmdtPrice": 1097000,
+    "retailPrice": 1317000,
+    "profitNPP": 464000,
+    "profitPct": "44.4%",
+    "costPrice": 580000,
+    "dealerPrice": 1044000,
+    "distributorPrice": 580000,
+    "unit": "Bộ",
+    "status": "ACTIVE",
+    "oldNppOnlinePrice": 580000
+  },
+  {
+    "stt": 21,
     "canonicalCode": "LK-3386A",
     "name": "Bộ nồi 3 Inox 5 đáy Lock&king (18.20.24) (1t/4c)",
     "brand": "Lock&King",
@@ -388,7 +407,7 @@
     "oldNppOnlinePrice": 530000
   },
   {
-    "stt": 21,
+    "stt": 22,
     "canonicalCode": "LK-3568A",
     "name": "Bộ nồi 5 Inox 5 đáy Lock&king (Q16.18.20.24.C24) (1t/2c)",
     "brand": "Lock&King",
@@ -407,7 +426,7 @@
     "oldNppOnlinePrice": 940000
   },
   {
-    "stt": 22,
+    "stt": 23,
     "canonicalCode": "LK-3122",
     "name": "22*13.5CM Nồi áp suất kèm xửng hấp đa năng (1.8mm) LK-3122",
     "brand": "Lock&King",
@@ -426,7 +445,7 @@
     "oldNppOnlinePrice": 460000
   },
   {
-    "stt": 23,
+    "stt": 24,
     "canonicalCode": "LK-3126",
     "name": "26*14CM Nồi áp suất kèm xửng hấp đa năng (1.8mm) LK-3126",
     "brand": "Lock&King",
@@ -445,7 +464,7 @@
     "oldNppOnlinePrice": 525000
   },
   {
-    "stt": 24,
+    "stt": 25,
     "canonicalCode": "LK-1038",
     "name": "Ấm đun nước LK-1038",
     "brand": "Lock&King",
@@ -464,7 +483,7 @@
     "oldNppOnlinePrice": 300000
   },
   {
-    "stt": 25,
+    "stt": 26,
     "canonicalCode": "LK-92",
     "name": "Nồi chiên không dầu Lock&king",
     "brand": "Lock&King",
@@ -483,7 +502,7 @@
     "oldNppOnlinePrice": 835000
   },
   {
-    "stt": 26,
+    "stt": 27,
     "canonicalCode": "LK-586",
     "name": "Sưởi gốm thấp",
     "brand": "Lock&King",
@@ -502,7 +521,7 @@
     "oldNppOnlinePrice": 430000
   },
   {
-    "stt": 27,
+    "stt": 28,
     "canonicalCode": "LK-588",
     "name": "Sưởi gốm thân cao",
     "brand": "Lock&King",
@@ -521,7 +540,7 @@
     "oldNppOnlinePrice": 585000
   },
   {
-    "stt": 28,
+    "stt": 29,
     "canonicalCode": "LK-668",
     "name": "Tủ sấy quần áo cao cấp Lock&king 1500W",
     "brand": "Lock&King",
@@ -540,7 +559,7 @@
     "oldNppOnlinePrice": 460000
   },
   {
-    "stt": 29,
+    "stt": 30,
     "canonicalCode": "LK-688",
     "name": "Tủ sấy quần áo cao cấp Lock&king 2400W",
     "brand": "Lock&King",
@@ -559,7 +578,7 @@
     "oldNppOnlinePrice": 850000
   },
   {
-    "stt": 30,
+    "stt": 31,
     "canonicalCode": "LK-1003",
     "name": "Bộ đèn sưởi 3 bóng Lock&King",
     "brand": "Lock&King",
@@ -578,7 +597,7 @@
     "oldNppOnlinePrice": 197000
   },
   {
-    "stt": 31,
+    "stt": 32,
     "canonicalCode": "LK-1030",
     "name": "Bình thủy điện 3L Lock&King (4c/t)",
     "brand": "Lock&King",
@@ -597,7 +616,7 @@
     "oldNppOnlinePrice": 1020000
   },
   {
-    "stt": 32,
+    "stt": 33,
     "canonicalCode": "LK-1033",
     "name": "Bộ đèn sưởi 3 bóng Lock&King",
     "brand": "Lock&King",
@@ -616,7 +635,7 @@
     "oldNppOnlinePrice": 372000
   },
   {
-    "stt": 33,
+    "stt": 34,
     "canonicalCode": "LK-1050",
     "name": "Bình Thủy Điện Lock&King LK-1050",
     "brand": "Lock&King",
@@ -635,7 +654,7 @@
     "oldNppOnlinePrice": 890000
   },
   {
-    "stt": 34,
+    "stt": 35,
     "canonicalCode": "LK-1068",
     "name": "Ấm siêu tốc LK-1068",
     "brand": "Lock&King",
@@ -654,7 +673,7 @@
     "oldNppOnlinePrice": 340000
   },
   {
-    "stt": 35,
+    "stt": 36,
     "canonicalCode": "LK-4160",
     "name": "Nồi áp suất điện Lock&King LK-4160",
     "brand": "Lock&King",
@@ -673,7 +692,7 @@
     "oldNppOnlinePrice": 1080000
   },
   {
-    "stt": 36,
+    "stt": 37,
     "canonicalCode": "LK-4161",
     "name": "Nồi áp suất điện Lock&King LK-4161",
     "brand": "Lock&King",
@@ -692,7 +711,7 @@
     "oldNppOnlinePrice": 850000
   },
   {
-    "stt": 37,
+    "stt": 38,
     "canonicalCode": "LK-4208A",
     "name": "Nồi Nấu Chậm Lock&King LK-4208A",
     "brand": "Lock&King",
@@ -711,7 +730,7 @@
     "oldNppOnlinePrice": 510000
   },
   {
-    "stt": 38,
+    "stt": 39,
     "canonicalCode": "LK-4209",
     "name": "Nồi Nấu Chậm Lock&King LK-4209",
     "brand": "Lock&King",
@@ -730,7 +749,7 @@
     "oldNppOnlinePrice": 510000
   },
   {
-    "stt": 39,
+    "stt": 40,
     "canonicalCode": "LK-5301",
     "name": "Sưởi để bàn",
     "brand": "Lock&King",
@@ -749,7 +768,7 @@
     "oldNppOnlinePrice": 600000
   },
   {
-    "stt": 40,
+    "stt": 41,
     "canonicalCode": "LK-6015",
     "name": "Nồi Nấu Đa Năng Lock&King",
     "brand": "Lock&King",
@@ -768,7 +787,7 @@
     "oldNppOnlinePrice": 260000
   },
   {
-    "stt": 41,
+    "stt": 42,
     "canonicalCode": "LK-6201",
     "name": "Nồi nấu lẩu đi kèm xửng hấp",
     "brand": "Lock&King",
@@ -787,7 +806,7 @@
     "oldNppOnlinePrice": 685000
   },
   {
-    "stt": 42,
+    "stt": 43,
     "canonicalCode": "LK-7812",
     "name": "Máy làm sữa hạt Lock&King",
     "brand": "Lock&King",
@@ -806,7 +825,7 @@
     "oldNppOnlinePrice": 710000
   },
   {
-    "stt": 43,
+    "stt": 44,
     "canonicalCode": "LK-9014",
     "name": "Nồi chiên không dầu Lock&king",
     "brand": "Lock&King",
@@ -825,7 +844,7 @@
     "oldNppOnlinePrice": 1130000
   },
   {
-    "stt": 44,
+    "stt": 45,
     "canonicalCode": "TK-2201",
     "name": "chảo cạn Titan vàng 22*5,5cm (2,2 mm) TK-2201",
     "brand": "Takin",
@@ -844,7 +863,7 @@
     "oldNppOnlinePrice": 260000
   },
   {
-    "stt": 45,
+    "stt": 46,
     "canonicalCode": "TK-2662",
     "name": "26*6.5CM Chảo cạn titan-TK-2662 (2.2mm)",
     "brand": "Takin",
@@ -863,7 +882,7 @@
     "oldNppOnlinePrice": 310000
   },
   {
-    "stt": 46,
+    "stt": 47,
     "canonicalCode": "TK-2882C",
     "name": "Chảo cạn Titan vàng 28*7cm (2,3 mm)",
     "brand": "Takin",
@@ -882,7 +901,7 @@
     "oldNppOnlinePrice": 341000
   },
   {
-    "stt": 47,
+    "stt": 48,
     "canonicalCode": "TK-3030C",
     "name": "Chảo cạn Titan vàng 30*7cm (2,3 mm)",
     "brand": "Takin",
@@ -901,7 +920,7 @@
     "oldNppOnlinePrice": 360000
   },
   {
-    "stt": 48,
+    "stt": 49,
     "canonicalCode": "TK-036A",
     "name": "Bộ nồi Takin 3 món 5 đáy inox cao cấp",
     "brand": "Takin",
@@ -924,7 +943,7 @@
     "nppOnlineProfitRatio": "42.2%"
   },
   {
-    "stt": 49,
+    "stt": 50,
     "canonicalCode": "TK-0324",
     "name": "Nồi táo inox cao cấp size24",
     "brand": "Takin",
@@ -943,7 +962,7 @@
     "oldNppOnlinePrice": 245000
   },
   {
-    "stt": 50,
+    "stt": 51,
     "canonicalCode": "TK-0348A",
     "name": "Bộ nồi Táo Takin 3 món inox cao cấp",
     "brand": "Takin",
@@ -962,7 +981,7 @@
     "oldNppOnlinePrice": 580000
   },
   {
-    "stt": 51,
+    "stt": 52,
     "canonicalCode": "TK-0369",
     "name": "Bộ nồi Takin 3 món 5 đáy inox cao cấp",
     "brand": "Takin",
@@ -981,7 +1000,7 @@
     "oldNppOnlinePrice": 535000
   },
   {
-    "stt": 52,
+    "stt": 53,
     "canonicalCode": "TK-0488",
     "name": "Bộ nồi Takin 4 món 5 đáy inox cao cấp",
     "brand": "Takin",
@@ -1000,7 +1019,7 @@
     "oldNppOnlinePrice": 810000
   },
   {
-    "stt": 53,
+    "stt": 54,
     "canonicalCode": "TK-468",
     "name": "Sưởi gốm thấp",
     "brand": "Takin",
@@ -1019,7 +1038,7 @@
     "oldNppOnlinePrice": 452000
   },
   {
-    "stt": 54,
+    "stt": 55,
     "canonicalCode": "TK-469",
     "name": "Sưởi gốm thân cao",
     "brand": "Takin",
@@ -1038,7 +1057,7 @@
     "oldNppOnlinePrice": 615000
   },
   {
-    "stt": 55,
+    "stt": 56,
     "canonicalCode": "TK-1002",
     "name": "Bộ đèn sưởi 2 bóng Takin",
     "brand": "Takin",
@@ -1057,7 +1076,7 @@
     "oldNppOnlinePrice": 158000
   },
   {
-    "stt": 56,
+    "stt": 57,
     "canonicalCode": "TK-1003",
     "name": "Bộ đèn sưởi 3 bóng Takin",
     "brand": "Takin",
