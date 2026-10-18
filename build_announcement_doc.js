@@ -906,14 +906,7 @@ const fullHtml = `<!DOCTYPE html>
       <div class="sign-col">
         <div class="title">GIÁM ĐỐC ĐIỀU HÀNH</div>
         <div class="sub">(Ký tên và đóng dấu)</div>
-        <div class="stamp-area">
-          <div class="stamp-badge">
-            <span>CÔNG TY TNHH</span>
-            <span style="font-size: 5px; margin: 0.5px 0;">HỢP TÁC</span>
-            <span style="font-size: 6.5px; font-weight: 900; color: #b91c1c;">VŨ GIA</span>
-            <span style="font-size: 4px; margin-top: 0.5px;">★ HÀ NỘI ★</span>
-          </div>
-        </div>
+        <div class="stamp-area"></div>
         <div class="signer-name" style="color: #0369a1;">Lê Quang Tuyến</div>
       </div>
     </div>
