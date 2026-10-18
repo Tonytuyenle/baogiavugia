@@ -779,7 +779,7 @@ const fullHtml = `<!DOCTYPE html>
     <div class="brand-info">
       <span style="font-size: 16px;">🏢</span>
       <div>
-        <strong style="color: #38bdf8;">CÔNG TY TNHH ĐẦU TƯ & THƯƠNG MẠI VŨ GIA</strong>
+        <strong style="color: #38bdf8;">CÔNG TY TNHH HỢP TÁC VŨ GIA</strong>
         <span style="color: #94a3b8; margin-left: 8px;">| Thông Báo Biểu Giá Khách Hàng (18/10/2026)</span>
       </div>
     </div>
@@ -807,7 +807,7 @@ const fullHtml = `<!DOCTYPE html>
       <div class="company-left">
         ${logoBase64 ? `<img src="${logoBase64}" alt="Lock&King Logo" class="company-logo">` : `<img src="images/lock_and_king_logo.png" alt="Lock&King Logo" class="company-logo">`}
         <div class="company-details">
-          <h1>CÔNG TY TNHH ĐẦU TƯ & THƯƠNG MẠI VŨ GIA</h1>
+          <h1>CÔNG TY TNHH HỢP TÁC VŨ GIA</h1>
           <p><strong>Địa chỉ:</strong> 230 Lacasta, Khu đô thị Văn Phú, P. Phú La, Q. Hà Đông, TP. Hà Nội</p>
           <p><strong>Hotline / Zalo:</strong> 098.666.9958 - 098.333.6898 &nbsp;|&nbsp; <strong>Email:</strong> vugiaco.ltd@gmail.com</p>
           <p class="web-links">Hệ thống Website: Locknking.com &bull; Locknking.vn &bull; Locknking.kr</p>
@@ -829,7 +829,7 @@ const fullHtml = `<!DOCTYPE html>
 
     <!-- INTRO STATEMENT -->
     <div class="intro-box">
-      Công ty TNHH Đầu Tư & Thương Mại Vũ Gia xin gửi lời chào trân trọng và lời chúc hợp tác thành công tới Quý Khách hàng. Nhằm mở rộng dải sản phẩm gia dụng cao cấp phục vụ mùa bán lẻ Thu - Đông 2026 và tối ưu biên độ lợi nhuận cho hệ thống phân phối, Công ty Vũ Gia trân trọng thông báo <strong>bổ sung 6 model mới</strong> và <strong>điều chỉnh giá 2 model đèn sưởi Lock&King</strong> với các mức giá ưu đãi đặc biệt như sau:
+      Công ty TNHH Hợp tác Vũ Gia xin gửi lời chào trân trọng và lời chúc hợp tác thành công tới Quý Khách hàng. Nhằm mở rộng dải sản phẩm gia dụng cao cấp phục vụ mùa bán lẻ Thu - Đông 2026 và tối ưu biên độ lợi nhuận cho hệ thống phân phối, Công ty TNHH Hợp tác Vũ Gia trân trọng thông báo <strong>bổ sung 6 model mới</strong> và <strong>điều chỉnh giá 2 model đèn sưởi Lock&King</strong> với các mức giá ưu đãi đặc biệt như sau:
     </div>
 
     <!-- MAIN PRODUCT PRICING TABLE -->
@@ -843,7 +843,7 @@ const fullHtml = `<!DOCTYPE html>
             <th style="width: 72px;">Nhóm Hàng</th>
             <th style="width: 90px;">Loại Biến Động</th>
             <th style="width: 38px;">ĐVT</th>
-            <th class="th-highlight" style="width: 95px;">Giá NPP Online</th>
+            <th class="th-highlight" style="width: 95px;">Giá NPP</th>
             <th style="width: 88px;">Giá Facebook</th>
             <th style="width: 88px;">Giá Sàn TMĐT</th>
             <th style="width: 88px;">Giá Niêm Yết</th>
@@ -909,9 +909,9 @@ const fullHtml = `<!DOCTYPE html>
         <div class="stamp-area">
           <div class="stamp-badge">
             <span>CÔNG TY TNHH</span>
-            <span style="font-size: 4.5px; margin: 0.5px 0;">ĐẦU TƯ & THƯƠNG MẠI</span>
+            <span style="font-size: 5px; margin: 0.5px 0;">HỢP TÁC</span>
             <span style="font-size: 6.5px; font-weight: 900; color: #b91c1c;">VŨ GIA</span>
-            <span style="font-size: 4.5px; margin-top: 0.5px;">★ HÀ NỘI ★</span>
+            <span style="font-size: 4px; margin-top: 0.5px;">★ HÀ NỘI ★</span>
           </div>
         </div>
         <div class="signer-name" style="color: #0369a1;">Lê Quang Tuyến</div>
