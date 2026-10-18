@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bảng Phân Loại Giá NPP Online | Lock&King & Takin (57 Model)</title>
+  <title>Bảng Phân Loại Giá NPP Online | Lock&King & Takin (63 Model)</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -39,7 +39,7 @@
         background: white !important;
       }
 
-      /* In Thống Kê Biến Động Giá NPP 57 Model (A4 Ngang) */
+      /* In Thống Kê Biến Động Giá NPP 63 Model (A4 Ngang) */
       body.printing-price-change #printPriceChangeArea,
       body.printing-price-change #printPriceChangeArea * {
         visibility: visible !important;
@@ -56,7 +56,7 @@
         background: white !important;
       }
 
-      /* In Bảng Phân Loại Giá 57 Model (A4 Ngang) */
+      /* In Bảng Phân Loại Giá 63 Model (A4 Ngang) */
       body.printing-catalog #printCatalogPdfContent,
       body.printing-catalog #printCatalogPdfContent * {
         visibility: visible !important;
@@ -319,7 +319,7 @@
 
         <button onclick="navigateTab('products')" id="nav-products" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
           <i data-lucide="package" class="w-4 h-4 text-emerald-400"></i>
-          <span class="flex-1 text-left">Bảng Giá Sản Phẩm (57 Mã)</span>
+          <span class="flex-1 text-left">Bảng Giá Sản Phẩm (63 Mã)</span>
           <span id="badgeProductCount" class="text-[10px] bg-slate-800 text-sky-300 px-2 py-0.5 rounded-full font-bold">65</span>
         </button>
 
@@ -355,7 +355,7 @@
 
         <button onclick="openCatalogPdfModal()" class="nav-item w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-rose-300 hover:bg-rose-950/60 hover:text-white transition">
           <i data-lucide="file-down" class="w-4 h-4 text-rose-400"></i>
-          <span class="flex-1 text-left">Xuất File PDF (57 Mã)</span>
+          <span class="flex-1 text-left">Xuất File PDF (63 Mã)</span>
           <span class="text-[9px] bg-rose-900/80 text-rose-200 border border-rose-700 px-1.5 py-0.5 rounded font-bold">PDF</span>
         </button>
 
@@ -444,7 +444,7 @@
             <input 
               type="text" 
               id="globalSearchInput"
-              placeholder="Tra cứu nhanh 57 mã: Nhập mã model (LK-..., TK-...), tên sản phẩm..."
+              placeholder="Tra cứu nhanh 63 mã: Nhập mã model (LK-..., TK-...), tên sản phẩm..."
               oninput="handleGlobalSearch(this.value)"
               class="w-full pl-9 pr-24 py-2 bg-slate-100 border border-slate-200 rounded-lg text-xs sm:text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             />
@@ -455,9 +455,9 @@
         </div>
 
         <div class="flex items-center space-x-3 ml-4">
-          <button onclick="openCatalogPdfModal()" class="flex items-center space-x-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 border border-rose-300 hover:bg-rose-100 rounded-lg text-xs font-bold transition shadow-sm" title="Xuất toàn bộ bảng giá 57 mã kèm hình ảnh ra file PDF">
+          <button onclick="openCatalogPdfModal()" class="flex items-center space-x-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 border border-rose-300 hover:bg-rose-100 rounded-lg text-xs font-bold transition shadow-sm" title="Xuất toàn bộ bảng giá 63 mã kèm hình ảnh ra file PDF">
             <i data-lucide="file-down" class="w-3.5 h-3.5 text-rose-600"></i>
-            <span>Xuất File PDF (57 Mã)</span>
+            <span>Xuất File PDF (63 Mã)</span>
           </button>
 
           <button onclick="exportCatalogToExcel()" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100 rounded-lg text-xs font-bold transition shadow-sm" title="Xuất file Excel chuẩn form mẫu phần mềm theo phân quyền">
@@ -479,13 +479,13 @@
           <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-3">
             <div>
               <h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                Bảng Phân Loại Giá – Kênh NPP Online (57 Mã)
+                Bảng Phân Loại Giá – Kênh NPP Online (63 Mã)
               </h2>
-              <p class="text-xs text-slate-500 mt-0.5">Phần I: Lock&King (44 Mã) | Phần II: Takin (13 Mã) - Giá và lợi nhuận tham chiếu từ danh mục gốc</p>
+              <p class="text-xs text-slate-500 mt-0.5">Phần I: Lock&King (50 Mã) | Phần II: Takin (13 Mã) - Giá và lợi nhuận tham chiếu từ danh mục gốc</p>
             </div>
             <div class="flex items-center gap-2">
               <button onclick="navigateTab('inventory')" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
-                <i data-lucide="boxes" class="w-3.5 h-3.5"></i> Quản Lý Tồn Kho (57 Mã)
+                <i data-lucide="boxes" class="w-3.5 h-3.5"></i> Quản Lý Tồn Kho (63 Mã)
               </button>
               <button onclick="navigateTab('campaigns')" class="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
                 <i data-lucide="gift" class="w-3.5 h-3.5"></i> Chương Trình (KM)
@@ -500,7 +500,7 @@
                 <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Xuất PDF Bảng Giá
               </button>
               <button onclick="navigateTab('products')" class="px-3 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
-                <i data-lucide="package" class="w-3.5 h-3.5"></i> Xem Bảng Giá 57 Mã)
+                <i data-lucide="package" class="w-3.5 h-3.5"></i> Xem Bảng Giá 63 Mã)
               </button>
               <button onclick="navigateTab('new-quote')" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5">
                 <i data-lucide="file-plus" class="w-3.5 h-3.5"></i> Lập Báo Giá
@@ -516,7 +516,7 @@
                 <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Tổng Số Model Kênh Online</p>
                 <h3 class="text-2xl font-black text-slate-900 mt-1">56 <span class="text-xs font-semibold text-slate-500">mã</span></h3>
                 <span class="text-[10px] text-sky-600 font-bold flex items-center gap-1 mt-0.5">
-                  <span class="w-2 h-2 rounded-full bg-sky-500"></span> 44 Lock&King | 13 Takin
+                  <span class="w-2 h-2 rounded-full bg-sky-500"></span> 50 Lock&King | 13 Takin
                 </span>
               </div>
               <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-50 to-sky-100 border border-sky-200/80 shadow-xs flex items-center justify-center shrink-0 transition-transform hover:scale-105" title="Tổng 56 model kinh doanh kênh online">
@@ -720,8 +720,8 @@
               </div>
 
               <select id="productFilterBrand" onchange="renderProductTable()" class="border border-slate-200 rounded-lg px-2.5 py-1.5 bg-slate-50 font-bold text-slate-700">
-                <option value="">Tất Cả Thương Hiệu (57 Mã)</option>
-                <option value="Lock&King">Phần I: Lock&King (44 Mã)</option>
+                <option value="">Tất Cả Thương Hiệu (63 Mã)</option>
+                <option value="Lock&King">Phần I: Lock&King (50 Mã)</option>
                 <option value="Takin">Phần II: Takin (13 Mã)</option>
               </select>
 
@@ -744,7 +744,7 @@
 
             <div class="text-slate-500">
               Đang hiển thị: <strong id="productShowingCount" class="text-sky-700 font-bold">56</strong> mã sản phẩm
-    <button onclick="openSystemResetConfirm()" class="ml-2 px-2 py-0.5 bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 rounded text-[10px] font-bold" title="Bấm vào đây để nạp lại đầy đủ 57 mã nếu dữ liệu gặp sự cố">
+    <button onclick="openSystemResetConfirm()" class="ml-2 px-2 py-0.5 bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 rounded text-[10px] font-bold" title="Bấm vào đây để nạp lại đầy đủ 63 mã nếu dữ liệu gặp sự cố">
       Khôi phục gốc
     </button>
             </div>
@@ -799,7 +799,7 @@
             <td colspan="20" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-sky-950 to-slate-900 border-y border-slate-700">
               <div class="section-divider-content flex items-center gap-2">
                 <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
-                PHẦN I – THƯƠNG HIỆU LOCK&KING (44 Model)
+                PHẦN I – THƯƠNG HIỆU LOCK&KING (50 Model)
               </div>
             </td>
           </tr>
@@ -1333,7 +1333,7 @@
                 <div>
                   <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tổng Số Model Áp Dụng</p>
                   <h3 id="kpiDiffTotalCount" class="text-xl font-black text-slate-900 mt-0.5">65 <span class="text-xs font-semibold text-slate-500">mã</span></h3>
-                  <span class="text-[10px] text-sky-600 font-bold">44 Lock&King | 13 Takin</span>
+                  <span class="text-[10px] text-sky-600 font-bold">50 Lock&King | 13 Takin</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-black">
                   <i data-lucide="layers" class="w-5 h-5"></i>
@@ -1423,7 +1423,7 @@
                 <div>
                   <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tổng Số Model Áp Dụng</p>
                   <h3 id="kpiChangeTotalCount" class="text-xl font-black text-slate-900 mt-0.5">56 <span class="text-xs font-semibold text-slate-500">mã</span></h3>
-                  <span class="text-[10px] text-sky-600 font-bold">44 Lock&King | 13 Takin</span>
+                  <span class="text-[10px] text-sky-600 font-bold">50 Lock&King | 13 Takin</span>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-black">
                   <i data-lucide="layers" class="w-5 h-5"></i>
@@ -1537,7 +1537,7 @@
                   <h2 class="text-xl font-black text-slate-900 tracking-tight">Quản Lý Tồn Kho Hàng Hóa</h2>
                 </div>
                 <p class="text-xs text-slate-500 mt-1">
-                  Quản lý tồn kho 57 mã sản phẩm hiện hành (44 Lock&King, 13 Takin). Dữ liệu cập nhật từ DS_SP ngày 11/09/2026. Tự động lọc bỏ các mã ngoài danh mục khi nhập Excel.
+                  Quản lý tồn kho 63 mã sản phẩm hiện hành (50 Lock&King, 13 Takin). Dữ liệu cập nhật từ DS_SP ngày 11/09/2026. Tự động lọc bỏ các mã ngoài danh mục khi nhập Excel.
                 </p>
               </div>
 
@@ -1661,8 +1661,8 @@
               <!-- LỌC NHÓM / THƯƠNG HIỆU -->
               <div class="lg:col-span-3">
                 <select id="invFilterBrand" onchange="renderInventoryTable(1)" class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-emerald-500 transition">
-                  <option value="ALL">Tất cả 57 mã sản phẩm</option>
-                  <option value="LOCK_KING">Chỉ Lock&King (44 Mã)</option>
+                  <option value="ALL">Tất cả 63 mã sản phẩm</option>
+                  <option value="LOCK_KING">Chỉ Lock&King (50 Mã)</option>
                   <option value="TAKIN">Chỉ Takin (13 Mã)</option>
                 </select>
               </div>
@@ -1957,7 +1957,7 @@
               </button>
 
               <button onclick="downloadAllAssetsGuide()" class="px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold shadow flex items-center gap-1.5 transition">
-                <i data-lucide="file-text" class="w-4 h-4"></i> Tải Catalogue PDF 57 Mã
+                <i data-lucide="file-text" class="w-4 h-4"></i> Tải Catalogue PDF 63 Mã
               </button>
             </div>
           </div>
@@ -2454,7 +2454,7 @@
               <!-- LỌC THƯƠNG HIỆU -->
               <div class="lg:col-span-2">
                 <select id="cqFilterBrand" onchange="renderChannelQuote()" class="w-full bg-slate-50 hover:bg-white border border-slate-300 rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-700 focus:outline-none focus:border-sky-500 transition">
-                  <option value="ALL">Tất cả thương hiệu (57 mã)</option>
+                  <option value="ALL">Tất cả thương hiệu (63 mã)</option>
                   <option value="Lock&King">Lock&King (49 mã)</option>
                   <option value="Takin">Takin (16 mã)</option>
                 </select>
@@ -2633,7 +2633,7 @@
           <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-3">
             <div>
               <h2 class="text-xl font-black text-slate-900">Bảng Tra Cứu Từng Tầng Giá & % Tỷ Suất</h2>
-              <p class="text-xs text-slate-500 mt-0.5">Lọc xem chi tiết theo từng loại giá hoặc tỷ lệ lợi nhuận của toàn bộ 57 mã</p>
+              <p class="text-xs text-slate-500 mt-0.5">Lọc xem chi tiết theo từng loại giá hoặc tỷ lệ lợi nhuận của toàn bộ 63 mã</p>
             </div>
           </div>
 
@@ -3274,7 +3274,7 @@
               
               <div class="space-y-3 text-xs">
                 <p class="text-slate-600 leading-relaxed">
-                  Dữ liệu được lưu trữ tự động trong trình duyệt của bạn (LocalStorage). Bạn có thể xuất toàn bộ dữ liệu 57 mã thành tệp JSON an toàn.
+                  Dữ liệu được lưu trữ tự động trong trình duyệt của bạn (LocalStorage). Bạn có thể xuất toàn bộ dữ liệu 63 mã thành tệp JSON an toàn.
                 </p>
 
                 <div class="flex flex-col gap-2 pt-2">
@@ -3282,7 +3282,7 @@
                     <i data-lucide="download" class="w-4 h-4"></i> Xuất File Sao Lưu (.JSON)
                   </button>
                   <button onclick="openSystemResetConfirm()" class="w-full py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5">
-                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Khôi Phục Dữ Liệu Gốc 57 Mã
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Khôi Phục Dữ Liệu Gốc 63 Mã
                   </button>
                 </div>
               </div>
@@ -3429,7 +3429,7 @@
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="font-black text-sm text-white">Xuất File PDF – Bảng Phân Loại Giá NPP Online (57 Model)</h3>
+              <h3 class="font-black text-sm text-white">Xuất File PDF – Bảng Phân Loại Giá NPP Online (63 Model)</h3>
               <span class="text-[10px] bg-rose-950 text-rose-300 border border-rose-800 px-2 py-0.5 rounded font-bold">Khổ A4 Ngang</span>
             </div>
             <p class="text-[11px] text-slate-300">Giữ nguyên chuẩn form mẫu biểu của hãng • Đầy đủ hình ảnh sản phẩm • Tỷ lệ chuẩn A4 Landscape</p>
@@ -3442,7 +3442,7 @@
             <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-400"></i>
             <span class="text-slate-300 font-medium">Thương hiệu:</span>
             <select id="pdfBrandFilter" onchange="renderCatalogPdfArea()" class="bg-slate-900 border border-slate-600 text-amber-300 font-bold text-xs rounded px-2 py-0.5 focus:outline-none focus:border-sky-400 cursor-pointer">
-              <option value="ALL">Cả 2 (Lock&King + Takin - 57 mã)</option>
+              <option value="ALL">Cả 2 (Lock&King + Takin - 63 mã)</option>
               <option value="Lock&King">Chỉ Lock&King (44 Model)</option>
               <option value="Takin">Chỉ Takin (13 Model)</option>
             </select>
@@ -3491,7 +3491,7 @@
           BIỂU GIÁ: BG-ONLINE-2026
         </div>
         <p style="color: #64748b; margin: 3px 0 0 0;">Ngày xuất: <strong style="color: #0f172a;">5/9/2026</strong></p>
-        <p style="color: #64748b; margin: 2px 0 0 0;">Quy mô: <strong>57 Model</strong> (44 Lock&King | 13 Takin)</p>
+        <p style="color: #64748b; margin: 2px 0 0 0;">Quy mô: <strong>63 Model</strong> (50 Lock&King | 13 Takin)</p>
       </div>
     </div>
 
@@ -3539,7 +3539,7 @@
           <td colspan="18" style="padding: 7px 12px; font-weight: 900; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid #1e293b; background-color: #0f172a !important; color: #ffffff !important;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="color: #f59e0b;">★</span>
-              <span>PHẦN I – THƯƠNG HIỆU LOCK&KING (44 MODEL)</span>
+              <span>PHẦN I – THƯƠNG HIỆU LOCK&KING (50 MODEL)</span>
             </div>
           </td>
         </tr>
@@ -6067,7 +6067,7 @@
     const LOCK_KING_LOGO_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCABZAPIDASIAAhEBAxEB/8QAHQABAAIDAQEBAQAAAAAAAAAAAAgJBAYHBQMCAf/EAEQQAAEDBAEDAgQDBAYGCwEAAAECAwQABQYRBwgSIRMxCSJBURQVYSMyQnEWM0NSdrM3OYGRsbIYNjhFU2Jyc3WhtMH/xAAcAQEBAAICAwAAAAAAAAAAAAAAAQQFAgYDBwj/xAAsEQEAAQMCBAUCBwAAAAAAAAAAAQIDEQQFEiExQQYTUXGBFZEiMjNhscHw/9oADAMBAAIRAxEAPwC1OlKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUHkZFlGN4dbvzjK7/AG+zwPVQyJM6Shhv1Fq0hHcsgbJOgK9VKkqAUkgg+QR9ag/8Xw66Xrb/AIut3/K7UzsZ2cbtRPk/gmP8sUGa8+1HaW/IdS22gFSlqOgkD3JNeM7nGGsQotxfyyzoiT1lqK+qc0lt9YOiG1b0s7+1cGvMK49UPJ2QYjJvMqDxphEoQJ7EJwtrvVyHlba3B/ZN+Ngf/wB2IqdaGEyMC5Nh45brSu34nFtjQsTKNlhCSSXtE/xl0qK/r5H6Vm7DpPrermxnhoiJ595mPSP7z2Z2/wCltbBo6Krlc1airhmaIj8NFNUZjiqznimMTiIxGec5zEWhJUlxIWghQI2CPY1+qr66Huou+2vK4nD2XXJ+ZaLqPStC3nO5UOQBsNAn+zUAQB9DrXvXrdfHLXKWbcp4X0TcF31VnvucNfi8gurLikuRLeruHZ3IO0DsbdcXr5iAgDXd58m6bbd2rUTYuc+8T6w0+j1dGst+ZTy9Y9EtZvOXC9uvf9G7jy3iEa6pX6Zhu3qMl4L/ALhSV7B/T3rdm3EPIDrSwpCxtKknYI+4qGll+E30jQcORjl2x683O5rYCH74u6ONy1O68upA/Zp8+QOwj77rqfSJ0+Zx014VeeO8k5RfzOyt3Rb2NmQ0pLsCAUjTKiSfr50n5B51rehrmU7LZ8pxq/yLlCsOQW+4yLPIMS4NRZSHVxH9b9N0JJKF/ofNfe8Xm04/bJF8v10i223wW1PSZUp5LTLKB7qWtRAA/nUAfh3ZBaMX5W6usiyO6x7dbLdmZlTJclwNtstok3EqWon2AArXMgvfJfxR+S3MPw9+44x06YtOb/MrkppTT1/fQd9id+CfA7U+zYIWvaihNBZLb58K7wI1ztsxmVDltIeYkMOBbbrahtK0qHgggggitbyLl7irEby3juVck4zZ7o7rshzrqww8d+3yLUD5rNsuLwcGwSJhuC29uFEsVqRb7RGKiUtIaa7GUbPkgaSPNVQ9K3E/S9ypwxzDyF1bzJTnItiu81zJZlynOMzLegoHpraTv5nC6HRrR2sBGtaBC3xt1p9tLrS0rQsBSVJOwQfYg1iXq9WjHrXJvt/ukW226C0p6TKlPBpllse6lrUQAP51Ez4VUvkGb0j2hzOnZjsRF0mNY6uXv1Ta0FIb9/4A4Hgn/wAoGvGq3L4jB10W8of/ABrH/wCpmpkSFt1wg3iBHudtmMyoctpDzEhhwLbdbUNpWlQ8EEEEEViz8mx203a3WG6X23xLleFOJt8R+SlD0tSE9yw0gna9Dyde1RPxDqb4+6Xeg/i3OM2lfiJj+KW+PaLQy4PxNxk/hxptsfRI/jX7JH6kA6j0ldPHK/MPKUbrY6q3X2r8436mG4yUlCLTGWFdjik7+T5V/K2fOyVr8kAUTdlZTjUK/Q8WmZBbmLzcmnJEK3OSUJlSG2/6xTbRPcsJ+pA8V+bzlmL47Ptdqv2RW63TL0+Y1uYkyUNLmOgbKGkqO1q19BUGudSR8W/gkbP/AFOf/wCF0rWPi927KrzknA1swZ11vIpV7nt2pbLnYtMsmJ6RSr6K7taNBZLXj3LK8Ys93tuP3fILfCud5UtFviSJSEPSygbUGkE7Xoe+q4r0V9STfUlw/Fu96SImaY65+UZXblo9Jxie2NFz0z5ShzXcPse9P8JrhvWmSOu7pV8/95SP81ugnpWoZdy3xbgMpuDm/ImN2GS8AUM3G6sx3CPv2rUDr9a4d8QPqYu3TfwoH8NWFZtl0sWXH0pR6im3CNuPhH1KE6AH99xHvXMuFfhccTPYu1lfUsLrnvId/T+OvMqXcnkojvODZaT2KBWU70VqJ2R4AHigmzYckx7Krci7YvfrfdoTn7kmBKbfaV/JSCRWk8sc54pxI9Bg3WFPuVyuCFutQoPpBSGkglTrinXEIQn5Va2dntVoaSoiNWF/D1yHgDqBx/kjpm5Tk47hL0pH9KMYubrshD8YfvIaPs53DwPU8tnyFH2ruXO3T8nlW8W/IoaYUh1iOqHOt86Q6wzKbDb6WXA62lS23GjKfI+UhXf59hQdNwvMLXnNiav9oRJabW4tl1iS32PMOoOlNrAJGwfqCQRogkEGtgrUONcQn4Vjhg3y7NXO7Sn1zLhKZj+gyt5ehptvZ7UJQlCBs70nZ962+gUpSgUpSgUpSgg58Xz/ALLtt/xbbv8AldqZNkU6jEbethO3BbmSgfr6Q1UNfi/KSjpbty1HSU5bbySfp8j1dtxPrE6V37ZZ7Sz1AYKqY4xHjoZ/OmQouFIAT7++/FRY5TlxboP5esttl5Pxvk9xZiXC6XZV1hrkOdv4l9YDbzez/F+zQQPrs1MrIMZx3KIZt+S2KBdIp92ZkdDqf9ygarK6teGrnxVyhcLpEgLTjuQyXJ9tkoHyIWs9zjO/oUknQ+2q6l0IcvZUnJ71iWU5O+9jMS0ruHq3GVtqAtDjaQQ44flQQsjW9eBXXts3C7prtOhrieKJxEx/v4+z3f438G6XetBX4v2y9HBXRTXVRPtETie0x3pmOsTz7MDqC4MtfCnOmAZVxxHXFg369x1MwUnaY0pt9raW/r2kLBA+nn6arE4qULp8YrlJy9/M/bsUSm2hY/dR+Gtw2n/Y45/vNd1/M4PUzzvjl1xPcvB+MXnJki6FH7Gfc167GmT/ABhHahRP8/uN8Q627NknTP1RYN1z4zj0m5Y4hpFjzRqINrQ0QWg4f/U0oAE+O9lsHWxXft41F27asWtR+pTTOc9ec8on98Y+75/0Nqiiq5Xb/LM8viOePlYbSuJ2brQ6WL1iLebR+d8OZt6mvVW3JurTMls62UKjrIdCh7a7a+nTz1XcX9T7+Uq4sTdpEHFZTEV6fLhlhiWXQsgsknagPTO9hJG0+PNaNsFNefM52rP+bJLiL27xIxyjvPGrOsB8t/jZfod2/pr19b+TvKd+dVdvwC7xA9xDjTnA4twwgw0flYgjSAjXkL383qb3393zb3vzUNvh22Kz5Pyt1dY7kNtj3C2XPMTFmRZDYW280uRcQpCgfcEE1rV0h558LTlw3mzt3HIOnLNbgBJiFZdcsMpf1H2UNeD/AGqE6PzpBoJwdS3POO9NnDt95XyFr8SLehLMKEFdq5sxw9rTIP02fJP0SlR+lVZcu9KnPt3xr/p58nYlYLwq8XOPkORYDEjuRkt2jQKVO9hBJ7QC4PKwFd5JPeBLX4mVtc5v6O7PyfxXMYyOy2K8wcqWqKfUblW8NOtKWkD+4XgSPcAL37V1fDevnpOzTjBnN7ryvjVnaehA3Cy3GWlEyOso+dgxz87n1A7UkL+nvQfK4daHA2A9KNr6h7AhCsYVGZhWyxQfTafTL1r8CEfuoW32q39AlJV5GqwuvC9DJOgrO8iEGRBF0sEKb+GkAB1n1HmF+mvX8Q3o/qKrMxwca2rn63c4TeOsnZ6Wjnq/wDcpKzAZmekNPFnWi2Fp326/q0+nslJFWe/EGuEG7dD3I91tkpqTCmWeM/HfZUFIdbXJZKVJI9wQQamcivHpJNig9RPGznWkiS5Aexa3q4zenqbNmQ36aPw/cNdu/p59nf3/ADo1dQnt7R2a7deNe1Q6xTplwLql6CeL8EzFj8PMYxOBIs12aQC/bZf4cAOIP8SD4C0+yh9iARpnSN1O59xFyAOi/q4lCHlNtU3GxXIJL37G7xidMtF0/vqIADaz5V/VnSx5o+fOv+tw4K/wc/8A8LpWX8Rn/T70rf41X/nQ6xOdf9bhwV/g5/8A4XSsv4jP+n3pW/xqv/Oh0GJ1FW25dEvU1bOrfD40g8d8gSG7NyNAZaKm4zqyPTnAD2JPzb/vhY/tdV+er2626+dbXSXerPOYmQJ8x6TGkMrCkPNLcaKVJI9wQQamxyRx/i/KuC3zjrM4Il2a/wANcOW37HsV7KSfopKtKB+hANVA4vB5V4262+EOm3k9xU1ri/JlxsduTjZSqZaZKwtgj7pHYdfbyj+Ggk18QRLNw6zelK03gJVaVZEhRQ5/VqcM+ICD/PSBVg0j1gw4Y4SXuw+mFexVrxv9N1D34mXAuT8o8R2fknjiLIezXi64fndvTFQVuux/lLyUJHkrBaacAH/hkfWts6fevrp75j4+t99vfJOO4rkLUVAvFpvVwahOx5AT+07PVIDjZIJBRvx76PigjVzV1Q/E66e7A7yFydxzxxDxhm4txPVYUh8r9RR7EBLckueQPfXj61Y9jt0XfMftl5ca9Jc+GxKLf9wuICtf7N1XL1a834/1xcj4P0j9PUoZJblXxm8ZRfY4P4OPFY8K7F/xJSlayVexX6aRvdWSxIrUGIxCYGm47aWkD7JA0KDIpSlApSlApSlApSlBpvKXEnHXNWLLwnlHFo1/sqn25JivqWkB1H7qwpBBBGz7H61yCL8OzoxgyWZsbgq0pejrS62TNlqAUk7HgvaPn71JGlB4mS4njeYWhyw5RZYdzt7o0tiS0Fp/Qj7H9RWhR+mHgeNj8rGWOOoCbdNkNyn2vUdJccb32bX39+hs/Lvt8+1dYpUppii5F6nlXHSe8e09WRGs1EaerRxcq8qrrRmeGfenpPzDy7BjtjxW0sWPHLTFttvjJ7WY0ZoIbQP0Ar63i0Wu/wBsk2a+W2NcIE1osyIsloOtPNn3SpKvBH86z6VymZqnMzmWNEREYhGid8OPovuV4Ve5PBdsQ+tfqKbZmy2mCf8A2kOhA/kBqu6YNx/hPGlgZxXAMXt2P2iOSW4kBgNN7Puoge5P3PmtjpUVo3H/AAxxnxZesov+BYpHtE7NLh+aXx5pxxRlytrPeQokJ8uOHSdDaz4817eZYdjHIGM3HDczssW7We6sKjy4cpHc26g/Q/Y/UEeQRsV71KDUOPuLcD4uwGDxhhOPMwcat7K2GLetxb6fTWSVhRcKlL2VHeyfeuQTPh5dG1wyI5TJ4LswmLX6pbQ/JRGK97/qEuBv/Z26/SpHUoNLybiDjTLeO3uJb9hdsfxB+MmIq0IZ9JhLYO0hAb12EHyCnRB81/L3xBx1kHF6+GLvjLEjDV25u1flZccCExWwAhsKB7xrtTo734963WvNv15t2OWSffrxPZgwbbGclSZL502y2hJJWo/YAbNBg4/ZMT44xe04pZm4tnslpYZt1vjqd7UttoT2ttgrOydD6kk1rXJ3AfEPMtxx+88j4TDvM/F5iLhapS1ONOx3ULCh8zZBUnYB7FbSde1VcZrzXfs3tGd2vIMtu2UyZFslzb8twtT7Um4tPN/lr9pVHSfwwSySFqJT4Ol7NWiYRfbtyFxC4/OxrJcRlSbc7BQ1LWhmcj9l2pfaU0pXaTvuSd7Bosxh98p4s4jlcj2TnHK7FbUZXjUVy22y9SZKmjGae7wW/Kgg79VwDYJHqHXvX3zzh3jPlG9Ytk+cYvHu9xw2d+Z2KQt1xP4WQdfOAhQC/wB1J0rY2BVTmU5/yTmuLW6Zk2bXW/SHMQvEC8NXKM0lBQw5tguKlSS3IeBVsOttNvp8aCz5Fr3GVtvLXBuJ2eJcUwLo3itvjtyltCQGXxEbAUU7HqaPnW/P3oTGG6yp8OClDk6YzHS4sNpU64EBSj7Ab+v6VpWXcG8WZ5n+L8o5ViDE7KMMWpdmuKnHEOR978EIUA4ASVALBAJ2KqdyC9cm5jbuS15Tn4mMzbZdL49Z0odmOWuRDmBI9eNIWr8qcUXCW1NLJG/T9jVrWFcjSmuKv6dcl4rOwhq2R1LlR7hIbkLRHbA08SwVD5h517/ShMYb7OnQbcwZNwlsxmdhJcecCE7J0Bs/euEZ70G9JPJ18dybKuGbQ9cZSy69IhvPQ/VUfJUoMLQlRP31USOas85suEDlyPceP5LmEci2q4Xm0RslmvPosrUKI44p5tsJcMSW52+shlwtoGka0Qan1xkw9ceEsWjJlyY70nF4bYkMq082pUVI70k7+Yb2CfrRGLxpwjwh0+2mS1xvhNjxOK6E/in2x2rcG/HqPOErI2fqquiNuIcQl1tYWhQ2FJOwR96pWy/PeUeTY8ZHI2UXTK5dkvK7Y3Gu1xMeMx2Ou+s3JSUNtglDTeyPUPy+SD4FsfTZHkROnrjOPK2Xm8RtAcJVs934Rvfn60WYdKpSlEKUpQKUpQKUpQKUpQKUpQKUpQKUpQKUpQKUpQK+a0IcQULSFJUNFJGwRX0pQRXyzo9yVi78gReJc0xfG8T5J/Du3ewzsaXMabfbb7VLZKH2wjvUfUI1+9+gqRuH2y/WbFrVasovMe7XWHEbZlzmIojNyHQNFaWgT2A/bZr26UHF+WemDi/O8EzCzWHjzELdkWSQJbTV1XaGfUalOoIDxWlPf3bO9jzXVcctKMfx612Ftfem2w2IgVrWw22E7/8AqvTpQRXzXo/y6TlnJFz43z/HLRZOUSw9e7XdscM79ugfMttxL7fhSyXCCD5NSNxK35BbMXttryy8sXi7x4yGps5mKI7ch0DysNAkIB+269ulBG3kDpVyi6Zdn1/405Bs2N27k62tQMntc3HUzkSVIbdbW4hQdb7C4h5Xf4Oz5rtfHOO3vEMGsmL5FfGbzcLXERFdnMwxFQ8EeEkNAkI0nQ1v6Vs9KDlPInTrxbmdgytMfjjE28hyG3zGE3R60sqdTJdZUhLyl9ndsKIVsefG/etw43xVeC8e4xhTslEheP2aHa1OoT2hwsMobKgPse3dbNSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSgUpSg/9k=";
 
     /* DATABASE STORAGE KEY (v12) */
-    const STORAGE_KEY = 'LOCK_KING_PMS_DATA_v39_ADD_LK3348_UPDATE_INVENTORY';
+    const STORAGE_KEY = 'LOCK_KING_PMS_DATA_v40_ADD_6_MODELS_UPDATE_2_MODELS';
     // Clean old storage keys
     try {
       for (let i = localStorage.length - 1; i >= 0; i--) {
@@ -6978,36 +6978,65 @@
                 "oldNppOnlinePrice": 850000
         },
         {
-                "stt": 31,
+                "canonicalCode": "LK-6886",
+                "image": "images/LK-6886.png",
+                "name": "Tủ sấy quần áo Model: LK 6886",
+                "brand": "Lock&King",
+                "categoryName": "ĐỒ ĐIỆN",
+                "unit": "Chiếc",
+                "nppOnlinePrice": 770000,
+                "facebookPrice": 1490000,
+                "tmdtPrice": 1564500,
+                "retailPrice": 1878000,
+                "profitNPP": 720000,
+                "profitPct": "48.3%",
+                "nppOnlineProfitRatio": "48.3%",
+                "nppOfflinePrice": 770000,
+                "diffOnlineOffline": 0,
+                "diffOnlineOfflinePct": "0.0%",
+                "dealerOfflinePrice": 924000,
+                "dealerProfitRatio": "38.0%",
+                "oldImportPrice": 620000,
+                "newImportPrice": 620000,
+                "importPriceDiff": 0,
+                "importPriceDiffPct": "0.00",
+                "specs": "Tủ sấy quần áo công suất lớn Lock&King LK-6886; khung inox chắc chắn chịu tải cao, công nghệ sấy nhiệt đối lưu 3D diệt khuẩn khử mùi ẩm mốc.",
+                "status": "ACTIVE",
+                "updatedAt": "2026-10-18T12:00:00Z",
+                "oldNppOnlinePrice": 770000,
+                "stt": 31
+        },
+        {
+                "stt": 32,
                 "canonicalCode": "LK-1003",
                 "image": "images/LK-1003.png",
                 "name": "Bộ đèn sưởi 3 bóng Lock&King",
                 "brand": "Lock&King",
                 "categoryName": "ĐỒ ĐIỆN",
                 "unit": "Bộ",
-                "nppOnlinePrice": 197000,
-                "facebookPrice": 354000,
-                "tmdtPrice": 372000,
-                "retailPrice": 447000,
-                "profitNPP": 157000,
-                "profitPct": "44.4%",
-                "nppOnlineProfitRatio": "44.4%",
-                "nppOfflinePrice": 197000,
+                "nppOnlinePrice": 210000,
+                "facebookPrice": 399000,
+                "tmdtPrice": 418950,
+                "retailPrice": 503000,
+                "profitNPP": 189000,
+                "profitPct": "47.4%",
+                "nppOnlineProfitRatio": "47.4%",
+                "nppOfflinePrice": 210000,
                 "diffOnlineOffline": 0,
                 "diffOnlineOfflinePct": "0.0%",
-                "dealerOfflinePrice": 236400,
-                "dealerProfitRatio": "33.2%",
+                "dealerOfflinePrice": 252000,
+                "dealerProfitRatio": "36.8%",
                 "oldImportPrice": 167990,
-                "newImportPrice": 167990,
-                "importPriceDiff": 0,
-                "importPriceDiffPct": "0.00",
+                "newImportPrice": 160000,
+                "importPriceDiff": -7990,
+                "importPriceDiffPct": "-4.76",
                 "specs": "-Tên sản phẩm: Đèn sưới nhà tắm 3 bóng cao cấp Lock&King -Model: LK-1003 -Điện áp: 230/50Hz -Công suất: 825w -Kích thước sản phẩm: 25x24x48 cm -Kích thước bao bì: 25.5x25.5x51 cm -Loại Bóng: Bóng vàng -Năm sản xuất: Ghi trên tem bảo hành -Sản xuất tại: Việt Nam",
                 "status": "ACTIVE",
                 "updatedAt": "2026-09-05T12:15:00Z",
                 "oldNppOnlinePrice": 197000
         },
         {
-                "stt": 32,
+                "stt": 33,
                 "canonicalCode": "LK-1030",
                 "image": "images/LK-1030.png",
                 "name": "Bình thủy điện 3L Lock&King (4c/t)",
@@ -7036,36 +7065,36 @@
                 "oldNppOnlinePrice": 1020000
         },
         {
-                "stt": 33,
+                "stt": 34,
                 "canonicalCode": "LK-1033",
                 "image": "images/LK-1033.png",
                 "name": "Bộ đèn sưởi 3 bóng Lock&King",
                 "brand": "Lock&King",
                 "categoryName": "ĐỒ ĐIỆN",
                 "unit": "Bộ",
-                "nppOnlinePrice": 372000,
-                "facebookPrice": 670000,
-                "tmdtPrice": 704000,
-                "retailPrice": 845000,
-                "profitNPP": 298000,
-                "profitPct": "44.5%",
-                "nppOnlineProfitRatio": "44.5%",
-                "nppOfflinePrice": 372000,
+                "nppOnlinePrice": 320000,
+                "facebookPrice": 620000,
+                "tmdtPrice": 651000,
+                "retailPrice": 782000,
+                "profitNPP": 300000,
+                "profitPct": "48.4%",
+                "nppOnlineProfitRatio": "48.4%",
+                "nppOfflinePrice": 320000,
                 "diffOnlineOffline": 0,
                 "diffOnlineOfflinePct": "0.0%",
-                "dealerOfflinePrice": 446400,
-                "dealerProfitRatio": "33.4%",
+                "dealerOfflinePrice": 384000,
+                "dealerProfitRatio": "38.1%",
                 "oldImportPrice": 306020,
-                "newImportPrice": 306020,
-                "importPriceDiff": 0,
-                "importPriceDiffPct": "0.00",
+                "newImportPrice": 250000,
+                "importPriceDiff": -56020,
+                "importPriceDiffPct": "-18.31",
                 "specs": "-Tên sản phẩm: Đèn sưới nhà tắm 3 bóng cao cấp Lock&King -Model: LK-1033 -Điện áp: 230/50Hz -Công suất: 825w -Kích thước sản phẩm: 51.8x23.5x21.4 cm -Kích thước bao bì: 57x26x26 cm -Loại Bóng: Bóng mờ -Năm sản xuất: Ghi trên tem bảo hành -Sản xuất tại: Việt Nam",
                 "status": "ACTIVE",
                 "updatedAt": "2026-09-05T12:15:00Z",
                 "oldNppOnlinePrice": 372000
         },
         {
-                "stt": 34,
+                "stt": 35,
                 "canonicalCode": "LK-1050",
                 "image": "images/LK-1050.png",
                 "name": "Bình Thủy Điện Lock&King LK-1050",
@@ -7094,7 +7123,7 @@
                 "oldNppOnlinePrice": 890000
         },
         {
-                "stt": 35,
+                "stt": 36,
                 "canonicalCode": "LK-1068",
                 "image": "images/LK-1068.png",
                 "name": "Ấm siêu tốc LK-1068",
@@ -7123,7 +7152,7 @@
                 "oldNppOnlinePrice": 340000
         },
         {
-                "stt": 36,
+                "stt": 37,
                 "canonicalCode": "LK-4160",
                 "image": "images/LK-4160.png",
                 "name": "Nồi áp suất điện Lock&King LK-4160",
@@ -7152,7 +7181,7 @@
                 "oldNppOnlinePrice": 1080000
         },
         {
-                "stt": 37,
+                "stt": 38,
                 "canonicalCode": "LK-4161",
                 "image": "images/LK-4161.png",
                 "name": "Nồi áp suất điện Lock&King LK-4161",
@@ -7181,7 +7210,7 @@
                 "oldNppOnlinePrice": 850000
         },
         {
-                "stt": 38,
+                "stt": 39,
                 "canonicalCode": "LK-4208A",
                 "image": "images/LK-4208A.png",
                 "name": "Nồi Nấu Chậm Lock&King LK-4208A",
@@ -7210,7 +7239,7 @@
                 "oldNppOnlinePrice": 510000
         },
         {
-                "stt": 39,
+                "stt": 40,
                 "canonicalCode": "LK-4209",
                 "image": "images/LK-4209.png",
                 "name": "Nồi Nấu Chậm Lock&King LK-4209",
@@ -7239,7 +7268,7 @@
                 "oldNppOnlinePrice": 510000
         },
         {
-                "stt": 40,
+                "stt": 41,
                 "canonicalCode": "LK-5301",
                 "image": "images/LK-5301.png",
                 "name": "Sưởi để bàn",
@@ -7268,7 +7297,7 @@
                 "oldNppOnlinePrice": 600000
         },
         {
-                "stt": 41,
+                "stt": 42,
                 "canonicalCode": "LK-6015",
                 "image": "images/LK-6015.png",
                 "name": "Nồi Nấu Đa Năng Lock&King",
@@ -7297,7 +7326,7 @@
                 "oldNppOnlinePrice": 260000
         },
         {
-                "stt": 42,
+                "stt": 43,
                 "canonicalCode": "LK-6201",
                 "image": "images/LK-6201.png",
                 "name": "Nồi nấu lẩu đi kèm xửng hấp",
@@ -7326,7 +7355,7 @@
                 "oldNppOnlinePrice": 685000
         },
         {
-                "stt": 43,
+                "stt": 44,
                 "canonicalCode": "LK-7812",
                 "image": "images/LK-7812.png",
                 "name": "Máy làm sữa hạt Lock&King",
@@ -7355,7 +7384,7 @@
                 "oldNppOnlinePrice": 710000
         },
         {
-                "stt": 44,
+                "stt": 45,
                 "canonicalCode": "LK-9014",
                 "image": "images/LK-9014.png",
                 "name": "Nồi chiên không dầu Lock&king",
@@ -7384,7 +7413,152 @@
                 "oldNppOnlinePrice": 1130000
         },
         {
-                "stt": 45,
+                "canonicalCode": "LK-8989",
+                "image": "images/LK-8989.png",
+                "name": "Bếp từ đơn -2200W LK-8989",
+                "brand": "Lock&King",
+                "categoryName": "ĐỒ ĐIỆN",
+                "unit": "Chiếc",
+                "nppOnlinePrice": 790000,
+                "facebookPrice": 1490000,
+                "tmdtPrice": 1564500,
+                "retailPrice": 1878000,
+                "profitNPP": 700000,
+                "profitPct": "47.0%",
+                "nppOnlineProfitRatio": "47.0%",
+                "nppOfflinePrice": 790000,
+                "diffOnlineOffline": 0,
+                "diffOnlineOfflinePct": "0.0%",
+                "dealerOfflinePrice": 948000,
+                "dealerProfitRatio": "36.4%",
+                "oldImportPrice": 650000,
+                "newImportPrice": 650000,
+                "importPriceDiff": 0,
+                "importPriceDiffPct": "0.00",
+                "specs": "Bếp từ đơn cao cấp công suất 2200W Lock&King LK-8989; gia nhiệt nhanh, đa chế độ nấu, bảng điều khiển cảm ứng chống tràn an toàn.",
+                "status": "ACTIVE",
+                "updatedAt": "2026-10-18T12:00:00Z",
+                "oldNppOnlinePrice": 790000,
+                "stt": 46
+        },
+        {
+                "canonicalCode": "LK-8924",
+                "image": "images/LK-8924.png",
+                "name": "Bếp từ đơn -2400W LK-8924",
+                "brand": "Lock&King",
+                "categoryName": "ĐỒ ĐIỆN",
+                "unit": "Chiếc",
+                "nppOnlinePrice": 850000,
+                "facebookPrice": 1590000,
+                "tmdtPrice": 1669500,
+                "retailPrice": 2004000,
+                "profitNPP": 740000,
+                "profitPct": "46.5%",
+                "nppOnlineProfitRatio": "46.5%",
+                "nppOfflinePrice": 850000,
+                "diffOnlineOffline": 0,
+                "diffOnlineOfflinePct": "0.0%",
+                "dealerOfflinePrice": 1020000,
+                "dealerProfitRatio": "35.8%",
+                "oldImportPrice": 715000,
+                "newImportPrice": 715000,
+                "importPriceDiff": 0,
+                "importPriceDiffPct": "0.00",
+                "specs": "Bếp từ đơn công suất lớn 2400W Lock&King LK-8924; công nghệ Inverter tiết kiệm điện, mâm từ đồng nguyên chất, tản nhiệt kép siêu bền.",
+                "status": "ACTIVE",
+                "updatedAt": "2026-10-18T12:00:00Z",
+                "oldNppOnlinePrice": 850000,
+                "stt": 47
+        },
+        {
+                "canonicalCode": "LK-8920",
+                "image": "images/LK-8920.png",
+                "name": "Bếp từ đơn- 2000W LK-8920",
+                "brand": "Lock&King",
+                "categoryName": "ĐỒ ĐIỆN",
+                "unit": "Chiếc",
+                "nppOnlinePrice": 690000,
+                "facebookPrice": 1290000,
+                "tmdtPrice": 1354500,
+                "retailPrice": 1626000,
+                "profitNPP": 600000,
+                "profitPct": "46.5%",
+                "nppOnlineProfitRatio": "46.5%",
+                "nppOfflinePrice": 690000,
+                "diffOnlineOffline": 0,
+                "diffOnlineOfflinePct": "0.0%",
+                "dealerOfflinePrice": 828000,
+                "dealerProfitRatio": "35.8%",
+                "oldImportPrice": 556000,
+                "newImportPrice": 556000,
+                "importPriceDiff": 0,
+                "importPriceDiffPct": "0.00",
+                "specs": "Bếp từ đơn công suất 2000W Lock&King LK-8920; mặt kính cường lực chịu nhiệt cao, phím bấm cảm ứng thông minh, hẹn giờ nấu đa năng.",
+                "status": "ACTIVE",
+                "updatedAt": "2026-10-18T12:00:00Z",
+                "oldNppOnlinePrice": 690000,
+                "stt": 48
+        },
+        {
+                "canonicalCode": "LK-8818",
+                "image": "images/LK-8818.png",
+                "name": "Nồi cơm cao tần LK-8818",
+                "brand": "Lock&King",
+                "categoryName": "ĐỒ ĐIỆN",
+                "unit": "Chiếc",
+                "nppOnlinePrice": 1790000,
+                "facebookPrice": 3400000,
+                "tmdtPrice": 3570000,
+                "retailPrice": 4284000,
+                "profitNPP": 1610000,
+                "profitPct": "47.4%",
+                "nppOnlineProfitRatio": "47.4%",
+                "nppOfflinePrice": 1790000,
+                "diffOnlineOffline": 0,
+                "diffOnlineOfflinePct": "0.0%",
+                "dealerOfflinePrice": 2148000,
+                "dealerProfitRatio": "36.8%",
+                "oldImportPrice": 1400000,
+                "newImportPrice": 1400000,
+                "importPriceDiff": 0,
+                "importPriceDiffPct": "0.00",
+                "specs": "Nồi cơm điện cao tần IH Lock&King LK-8818; công nghệ nấu cao tần cảm ứng nhiệt 360 độ, lòng nồi niêu dày dặn chống dính cao cấp, hạt cơm chín đều thơm ngon.",
+                "status": "ACTIVE",
+                "updatedAt": "2026-10-18T12:00:00Z",
+                "oldNppOnlinePrice": 1790000,
+                "stt": 49
+        },
+        {
+                "canonicalCode": "LK-8618",
+                "image": "images/LK-8618.png",
+                "name": "Nồi cơm tách đường LK-8618",
+                "brand": "Lock&King",
+                "categoryName": "ĐỒ ĐIỆN",
+                "unit": "Chiếc",
+                "nppOnlinePrice": 1300000,
+                "facebookPrice": 2490000,
+                "tmdtPrice": 2614500,
+                "retailPrice": 3138000,
+                "profitNPP": 1190000,
+                "profitPct": "47.8%",
+                "nppOnlineProfitRatio": "47.8%",
+                "nppOfflinePrice": 1300000,
+                "diffOnlineOffline": 0,
+                "diffOnlineOfflinePct": "0.0%",
+                "dealerOfflinePrice": 1560000,
+                "dealerProfitRatio": "37.3%",
+                "oldImportPrice": 1043000,
+                "newImportPrice": 1043000,
+                "importPriceDiff": 0,
+                "importPriceDiffPct": "0.00",
+                "specs": "Nồi cơm điện tách đường Lock&King LK-8618; công nghệ phân tách tinh bột xấu, khay hấp tách đường inox 304, tốt cho người ăn kiêng và tiểu đường.",
+                "status": "ACTIVE",
+                "updatedAt": "2026-10-18T12:00:00Z",
+                "oldNppOnlinePrice": 1300000,
+                "stt": 50
+        },
+        {
+                "stt": 51,
                 "canonicalCode": "TK-2201",
                 "image": "images/TK-2201.png",
                 "name": "chảo cạn Titan vàng 22*5,5cm (2,2 mm) TK-2201",
@@ -7413,7 +7587,7 @@
                 "oldNppOnlinePrice": 260000
         },
         {
-                "stt": 46,
+                "stt": 52,
                 "canonicalCode": "TK-2662",
                 "image": "images/TK-2662.png",
                 "name": "26*6.5CM Chảo cạn titan-TK-2662 (2.2mm)",
@@ -7442,7 +7616,7 @@
                 "oldNppOnlinePrice": 310000
         },
         {
-                "stt": 47,
+                "stt": 53,
                 "canonicalCode": "TK-2882C",
                 "image": "images/TK-2882C.png",
                 "name": "Chảo cạn Titan vàng 28*7cm (2,3 mm)",
@@ -7471,7 +7645,7 @@
                 "oldNppOnlinePrice": 341000
         },
         {
-                "stt": 48,
+                "stt": 54,
                 "canonicalCode": "TK-3030C",
                 "image": "images/TK-3030C.png",
                 "name": "Chảo cạn Titan vàng 30*7cm (2,3 mm)",
@@ -7500,7 +7674,7 @@
                 "oldNppOnlinePrice": 360000
         },
         {
-                "stt": 49,
+                "stt": 55,
                 "canonicalCode": "TK-036A",
                 "image": "",
                 "name": "Bộ nồi Takin 3 món 5 đáy inox cao cấp",
@@ -7532,7 +7706,7 @@
                 "dealerPrice": 891000
         },
         {
-                "stt": 50,
+                "stt": 56,
                 "canonicalCode": "TK-0324",
                 "image": "images/TK-0324.png",
                 "name": "Nồi táo inox cao cấp size24",
@@ -7561,7 +7735,7 @@
                 "oldNppOnlinePrice": 245000
         },
         {
-                "stt": 51,
+                "stt": 57,
                 "canonicalCode": "TK-0348A",
                 "image": "images/TK-0348A.png",
                 "name": "Bộ nồi Táo Takin 3 món inox cao cấp",
@@ -7590,7 +7764,7 @@
                 "oldNppOnlinePrice": 580000
         },
         {
-                "stt": 52,
+                "stt": 58,
                 "canonicalCode": "TK-0369",
                 "image": "",
                 "name": "Bộ nồi Takin 3 món 5 đáy inox cao cấp",
@@ -7619,7 +7793,7 @@
                 "oldNppOnlinePrice": 535000
         },
         {
-                "stt": 53,
+                "stt": 59,
                 "canonicalCode": "TK-0488",
                 "image": "images/TK-0488.png",
                 "name": "Bộ nồi Takin 4 món 5 đáy inox cao cấp",
@@ -7648,7 +7822,7 @@
                 "oldNppOnlinePrice": 810000
         },
         {
-                "stt": 54,
+                "stt": 60,
                 "canonicalCode": "TK-468",
                 "image": "images/TK-468.png",
                 "name": "Sưởi gốm thấp",
@@ -7677,7 +7851,7 @@
                 "oldNppOnlinePrice": 452000
         },
         {
-                "stt": 55,
+                "stt": 61,
                 "canonicalCode": "TK-469",
                 "image": "images/TK-469.png",
                 "name": "Sưởi gốm thân cao",
@@ -7706,7 +7880,7 @@
                 "oldNppOnlinePrice": 615000
         },
         {
-                "stt": 56,
+                "stt": 62,
                 "canonicalCode": "TK-1002",
                 "image": "images/TK-1002.png",
                 "name": "Bộ đèn sưởi 2 bóng Takin",
@@ -7735,7 +7909,7 @@
                 "oldNppOnlinePrice": 158000
         },
         {
-                "stt": 57,
+                "stt": 63,
                 "canonicalCode": "TK-1003",
                 "image": "images/TK-1003.png",
                 "name": "Bộ đèn sưởi 3 bóng Takin",
@@ -7961,9 +8135,9 @@
             userName: 'Admin',
             action: 'UPDATE_CATALOG_ONLINE_65',
             entityType: 'CATALOG',
-            details: 'Cập nhật lại toàn bộ bảng phân loại giá kênh Online: Lock&King (44 mã) phía trên, Takin (13 mã) phía dưới, có dòng phân cách nhóm riêng',
+            details: 'Cập nhật lại toàn bộ bảng phân loại giá kênh Online: Lock&King (50 mã) phía trên, Takin (13 mã) phía dưới, có dòng phân cách nhóm riêng',
             oldVal: 'Bản 69 mã cũ',
-            newVal: 'Bản chuẩn hóa 57 mã kênh NPP Online'
+            newVal: 'Bản chuẩn hóa 63 mã kênh NPP Online'
           }
         ]
       };
@@ -8000,7 +8174,7 @@
         const parsed = JSON.parse(stored);
         const REMOVED_CODES_PURGE = ['LK-2404S', 'LK-2808SA', 'LK-2808S(VK)', 'LK-1035', 'TK-0318A', 'TK-0320', 'TK-0126', 'LK-4026A', 'LK-2466S'];
         const hasRemovedCodes = parsed && Array.isArray(parsed.products) && parsed.products.some(p => REMOVED_CODES_PURGE.includes(p.canonicalCode));
-        if (!parsed || !Array.isArray(parsed.products) || parsed.products.length !== 57 || hasRemovedCodes) {
+        if (!parsed || !Array.isArray(parsed.products) || parsed.products.length !== 63 || hasRemovedCodes) {
           console.warn('DB integrity mismatch, resetting to initial 65 products.');
           const init = getInitialData();
           saveDB(init);
@@ -8108,7 +8282,7 @@
 
       // Nhóm B: Bảng Giá & Sản Phẩm
       { code: 'EDIT_PRODUCT_PRICE', name: 'Chỉnh Sửa Giá & Thông Tin Sản Phẩm', group: 'Bảng Giá & Sản Phẩm', desc: 'Cho phép mở modal sửa thông tin và giá sản phẩm', icon: 'edit-3' },
-      { code: 'ADD_DELETE_PRODUCT', name: 'Thêm Mới / Xóa Mã Sản Phẩm', group: 'Bảng Giá & Sản Phẩm', desc: 'Cho phép xóa hoặc thêm mã hàng mới vào danh mục 57 mã', icon: 'plus-circle' },
+      { code: 'ADD_DELETE_PRODUCT', name: 'Thêm Mới / Xóa Mã Sản Phẩm', group: 'Bảng Giá & Sản Phẩm', desc: 'Cho phép xóa hoặc thêm mã hàng mới vào danh mục 63 mã', icon: 'plus-circle' },
       { code: 'IMPORT_PRICE_EXCEL', name: 'Import File Excel Cập Nhật Giá', group: 'Bảng Giá & Sản Phẩm', desc: 'Upload file Excel bảng giá mới để đối soát và ghi đè', icon: 'file-spreadsheet' },
 
       // Nhóm C: Quản Lý Tồn Kho
@@ -9135,7 +9309,7 @@
                 <td colspan="${currentColSpan}" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-sky-950 to-slate-900 border-y border-slate-700">
                   <div class="section-divider-content flex items-center gap-2">
                     <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
-                    ${p.brand === 'Lock&King' ? 'PHẦN I – THƯƠNG HIỆU LOCK&KING (44 Model)' : 'PHẦN II – THƯƠNG HIỆU TAKIN (13 Model)'}
+                    ${p.brand === 'Lock&King' ? 'PHẦN I – THƯƠNG HIỆU LOCK&KING (50 Model)' : 'PHẦN II – THƯƠNG HIỆU TAKIN (13 Model)'}
                   </div>
                 </td>
               </tr>
@@ -9483,7 +9657,7 @@
 
         if (!existing) {
           status = 'ERROR';
-          issues.push('Mã sản phẩm chưa có trong danh mục 57 mã');
+          issues.push('Mã sản phẩm chưa có trong danh mục 63 mã');
           errCount++;
         } else {
           if (!pName) pName = existing.name;
@@ -10521,7 +10695,7 @@
         if (p.brand !== lastBrand) {
           lastBrand = p.brand;
           lastCat = '';
-          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (44 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (50 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
           rowsHtml += `
             <tr class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider select-none">
               <td colspan="11" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-purple-950 to-slate-900 border-y border-slate-700">
@@ -10712,7 +10886,7 @@
           lastBrand = p.brand;
           lastCat = '';
           const brandRowIdx = rows.length;
-          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (44 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (50 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
           rows.push([brandTitle]);
           merges.push({ s: { r: brandRowIdx, c: 0 }, e: { r: brandRowIdx, c: colCount - 1 } });
         }
@@ -10846,7 +11020,7 @@
       const db = getDB();
       const allProducts = db.products || [];
 
-      // Cập nhật 4 thẻ KPI tổng quan (tính trên toàn bộ 57 mã)
+      // Cập nhật 4 thẻ KPI tổng quan (tính trên toàn bộ 63 mã)
       let countInc = 0;
       let countDec = 0;
       let countSame = 0;
@@ -10902,7 +11076,7 @@
         if (p.brand !== lastBrand) {
           lastBrand = p.brand;
           lastCat = '';
-          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (44 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (50 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
           rowsHtml += `
             <tr class="bg-slate-900 text-white font-black text-xs uppercase tracking-wider select-none">
               <td colspan="9" class="py-2.5 px-4 bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-900 border-y border-slate-700">
@@ -11033,7 +11207,7 @@
           lastBrand = p.brand;
           lastCat = '';
           const brandRowIdx = rows.length;
-          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (44 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (50 MODEL)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL)';
           rows.push([brandTitle]);
           merges.push({ s: { r: brandRowIdx, c: 0 }, e: { r: brandRowIdx, c: colCount - 1 } });
         }
@@ -11127,7 +11301,7 @@
               'BIỂU GIÁ: BG-BIEN-DONG-NPP' +
             '</div>' +
             '<p style="color: #64748b; margin: 2px 0 0 0;">Ngày xuất: <strong style="color: #0f172a;">' + todayStr + '</strong></p>' +
-            '<p style="color: #64748b; margin: 1px 0 0 0;">Quy mô: <strong>57 Model</strong> (44 Lock&King | 13 Takin)</p>' +
+            '<p style="color: #64748b; margin: 1px 0 0 0;">Quy mô: <strong>63 Model</strong> (50 Lock&King | 13 Takin)</p>' +
           '</div>' +
         '</div>' +
 
@@ -11185,7 +11359,7 @@
         if (p.brand !== lastBrand) {
           lastBrand = p.brand;
           lastCat = '';
-          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (44 MODEL CHÍNH HÃNG)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL CHÍNH HÃNG)';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (50 MODEL CHÍNH HÃNG)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL CHÍNH HÃNG)';
           content += '<tr style="background: #1e1b4b; color: #f8fafc; font-weight: 800; font-size: 8.5px; text-transform: uppercase;">' +
               '<td colspan="9" style="padding: 4px 6px; border: 1px solid #cbd5e1; background: #312e81; color: white;">' +
                 brandTitle +
@@ -11331,17 +11505,17 @@
       const canViewImport = (role === 'ADMIN' || role === 'ACCOUNTANT');
       const todayStr = new Date().toLocaleDateString('vi-VN');
 
-      let titleStr = "BẢNG GIÁ SẢN PHẨM (57 MODEL)";
+      let titleStr = "BẢNG GIÁ SẢN PHẨM (63 MODEL)";
       let headers = [];
       if (isSaleOnline) {
-        titleStr = "BẢNG GIÁ SẢN PHẨM – KÊNH ONLINE (57 MODEL)";
+        titleStr = "BẢNG GIÁ SẢN PHẨM – KÊNH ONLINE (63 MODEL)";
         headers = [
           "STT", "Mã Model", "Hình Ảnh", "Tên Sản Phẩm", 
           "Giá NPP Online", "Giá Facebook", "Giá Sàn TMĐT", "Giá Niêm Yết", 
           "Lợi Nhuận NPP", "% LN NPP / FB", "Thông Số Kỹ Thuật"
         ];
       } else if (isSaleOffline) {
-        titleStr = "BẢNG GIÁ SẢN PHẨM – KÊNH OFFLINE (57 MODEL)";
+        titleStr = "BẢNG GIÁ SẢN PHẨM – KÊNH OFFLINE (63 MODEL)";
         headers = [
           "STT", "Mã Model", "Hình Ảnh", "Tên Sản Phẩm", 
           "Giá NPP Offline", "Giá Đại Lý Offline (NPP Offline x 120%)", "% Lợi Nhuận Đại Lý", "Thông Số Kỹ Thuật"
@@ -11357,7 +11531,7 @@
           "Thông Số Kỹ Thuật"
         ];
       } else {
-        titleStr = "BẢNG GIÁ SẢN PHẨM (57 MODEL)";
+        titleStr = "BẢNG GIÁ SẢN PHẨM (63 MODEL)";
         headers = [
           "STT", "Mã Model", "Hình Ảnh", "Tên Sản Phẩm", 
           "Giá NPP Online", "Giá Facebook", "Giá Sàn TMĐT", "Giá Niêm Yết", 
@@ -11384,7 +11558,7 @@
       merges.push({ s: { r: 2, c: 0 }, e: { r: 2, c: colCount - 1 } });
 
       // Dòng 4: Ngày xuất & Hiệu lực
-      rows.push(["Ngày xuất: " + todayStr + " | Áp dụng: Toàn quốc | Quy mô: 57 Model chính hãng | Đơn vị tiền tệ: VNĐ"]);
+      rows.push(["Ngày xuất: " + todayStr + " | Áp dụng: Toàn quốc | Quy mô: 63 Model chính hãng | Đơn vị tiền tệ: VNĐ"]);
       merges.push({ s: { r: 3, c: 0 }, e: { r: 3, c: colCount - 1 } });
 
       // Dòng 5: Dòng trống
@@ -11402,7 +11576,7 @@
           lastBrand = p.brand;
           lastCat = '';
           const brandRowIdx = rows.length;
-          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (44 MODEL CHÍNH HÃNG)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL CHÍNH HÃNG)';
+          const brandTitle = p.brand === 'Lock&King' ? '★ PHẦN I – THƯƠNG HIỆU LOCK&KING (50 MODEL CHÍNH HÃNG)' : '★ PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL CHÍNH HÃNG)';
           rows.push([brandTitle]);
           merges.push({ s: { r: brandRowIdx, c: 0 }, e: { r: brandRowIdx, c: colCount - 1 } });
         }
@@ -11621,12 +11795,12 @@
 
       // Lọc danh sách sản phẩm theo thương hiệu
       let productsToRender = db.products;
-      let brandQuyMoText = '57 Model (44 Lock&King | 13 Takin)';
+      let brandQuyMoText = '63 Model (50 Lock&King | 13 Takin)';
       let docTitleBrand = '';
 
       if (brandFilter === 'Lock&King') {
         productsToRender = db.products.filter(p => p.brand === 'Lock&King');
-        brandQuyMoText = '44 Model Thương Hiệu Lock&King';
+        brandQuyMoText = '50 Model Thương Hiệu Lock&King';
         docTitleBrand = ' – THƯƠNG HIỆU LOCK&KING';
       } else if (brandFilter === 'Takin') {
         productsToRender = db.products.filter(p => p.brand === 'Takin');
@@ -11726,19 +11900,21 @@
         pageProductBatches.push(productsToRender.slice(0, 7));
         pageProductBatches.push(productsToRender.slice(7));
       } else if (brandFilter === 'Lock&King') {
-        // 44 models -> 4 trang: 11, 11, 11, 11
-        pageProductBatches.push(productsToRender.slice(0, 11));
-        pageProductBatches.push(productsToRender.slice(11, 22));
-        pageProductBatches.push(productsToRender.slice(22, 33));
-        pageProductBatches.push(productsToRender.slice(33));
+        // 50 models -> 5 trang: 10, 10, 10, 10, 10
+        pageProductBatches.push(productsToRender.slice(0, 10));
+        pageProductBatches.push(productsToRender.slice(10, 20));
+        pageProductBatches.push(productsToRender.slice(20, 30));
+        pageProductBatches.push(productsToRender.slice(30, 40));
+        pageProductBatches.push(productsToRender.slice(40));
       } else {
-        // 57 models -> 6 trang: 11, 11, 11, 11 (Lock&King: 44 mã), 7, 6 (Takin: 13 mã)
-        pageProductBatches.push(productsToRender.slice(0, 11));
-        pageProductBatches.push(productsToRender.slice(11, 22));
-        pageProductBatches.push(productsToRender.slice(22, 33));
-        pageProductBatches.push(productsToRender.slice(33, 44));
-        pageProductBatches.push(productsToRender.slice(44, 51));
-        pageProductBatches.push(productsToRender.slice(51));
+        // 63 models -> 7 trang: 10, 10, 10, 10, 10 (Lock&King: 50 mã), 7, 6 (Takin: 13 mã)
+        pageProductBatches.push(productsToRender.slice(0, 10));
+        pageProductBatches.push(productsToRender.slice(10, 20));
+        pageProductBatches.push(productsToRender.slice(20, 30));
+        pageProductBatches.push(productsToRender.slice(30, 40));
+        pageProductBatches.push(productsToRender.slice(40, 50));
+        pageProductBatches.push(productsToRender.slice(50, 57));
+        pageProductBatches.push(productsToRender.slice(57));
       }
 
       const totalPages = pageProductBatches.length;
@@ -11802,7 +11978,7 @@
               '<td colspan="' + colCount + '" style="padding: 5px 8px; font-weight: 900; font-size: 10px; text-transform: uppercase; border: 1px solid #334155; background-color: #0f172a !important; color: #ffffff !important;">' +
                 '<div style="display: flex; align-items: center; gap: 6px;">' +
                   '<span style="color: #f59e0b;">★</span>' +
-                  '<span>' + (p.brand === 'Lock&King' ? 'PHẦN I – THƯƠNG HIỆU LOCK&KING (44 MODEL CHÍNH HÃNG)' : 'PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL CHÍNH HÃNG)') + '</span>' +
+                  '<span>' + (p.brand === 'Lock&King' ? 'PHẦN I – THƯƠNG HIỆU LOCK&KING (50 MODEL CHÍNH HÃNG)' : 'PHẦN II – THƯƠNG HIỆU TAKIN (13 MODEL CHÍNH HÃNG)') + '</span>' +
                 '</div>' +
               '</td>' +
             '</tr>';
@@ -12041,7 +12217,7 @@
     }
 
     function openSystemResetConfirm() {
-      if (confirm("Khôi phục toàn bộ bảng phân loại giá kênh online 57 mã gốc?")) {
+      if (confirm("Khôi phục toàn bộ bảng phân loại giá kênh online 63 mã gốc?")) {
         const init = getInitialData();
         saveDB(init);
         showToast("Đã khôi phục dữ liệu gốc!");
@@ -12403,12 +12579,12 @@ window.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // PHÂN HỆ QUẢN LÝ TỒN KHO HÀNG HÓA (CHUẨN 56 MÃ BẢNG GIÁ)
     // Tự động phân loại 3 màu: Còn hàng (>=200), Còn ít (<200), Hết hàng (<=0)
-    // Tự động loại bỏ các mã không thuộc danh mục 57 mã khi nhập file Excel
+    // Tự động loại bỏ các mã không thuộc danh mục 63 mã khi nhập file Excel
     // ==========================================
-    const STORAGE_KEY_INVENTORY = 'LOCK_KING_INVENTORY_57_20261003';
+    const STORAGE_KEY_INVENTORY = 'LOCK_KING_INVENTORY_63_20261018';
     let currentInventoryPage = 1;
 
-    // Dữ liệu hạt giống chuẩn 57 mã sản phẩm (Lock&King 43 mã, Takin 13 mã)
+    // Dữ liệu hạt giống chuẩn 63 mã sản phẩm (Lock&King 43 mã, Takin 13 mã)
     const seedInventory = [
   {
     "anh": "images/LK-2202A.png",
@@ -12711,6 +12887,16 @@ window.addEventListener('DOMContentLoaded', () => {
     "ton_cuoi": 67
   },
   {
+    "anh": "images/LK-6886.png",
+    "id": "LK-6886",
+    "ten_sp": "Tủ sấy quần áo Model: LK 6886",
+    "brand": "Lock&King",
+    "ton_dau": 0,
+    "nhap": 0,
+    "xuat": 0,
+    "ton_cuoi": 0
+  },
+  {
     "anh": "images/LK-1003.png",
     "id": "LK-1003",
     "ten_sp": "Bộ đèn sưởi 3 bóng Lock&King",
@@ -12844,6 +13030,56 @@ window.addEventListener('DOMContentLoaded', () => {
     "anh": "images/LK-9014.png",
     "id": "LK-9014",
     "ten_sp": "Nồi chiên không dầu Lock&king",
+    "brand": "Lock&King",
+    "ton_dau": 0,
+    "nhap": 0,
+    "xuat": 0,
+    "ton_cuoi": 0
+  },
+  {
+    "anh": "images/LK-8989.png",
+    "id": "LK-8989",
+    "ten_sp": "Bếp từ đơn -2200W LK-8989",
+    "brand": "Lock&King",
+    "ton_dau": 0,
+    "nhap": 0,
+    "xuat": 0,
+    "ton_cuoi": 0
+  },
+  {
+    "anh": "images/LK-8924.png",
+    "id": "LK-8924",
+    "ten_sp": "Bếp từ đơn -2400W LK-8924",
+    "brand": "Lock&King",
+    "ton_dau": 0,
+    "nhap": 0,
+    "xuat": 0,
+    "ton_cuoi": 0
+  },
+  {
+    "anh": "images/LK-8920.png",
+    "id": "LK-8920",
+    "ten_sp": "Bếp từ đơn- 2000W LK-8920",
+    "brand": "Lock&King",
+    "ton_dau": 0,
+    "nhap": 0,
+    "xuat": 0,
+    "ton_cuoi": 0
+  },
+  {
+    "anh": "images/LK-8818.png",
+    "id": "LK-8818",
+    "ten_sp": "Nồi cơm cao tần LK-8818",
+    "brand": "Lock&King",
+    "ton_dau": 0,
+    "nhap": 0,
+    "xuat": 0,
+    "ton_cuoi": 0
+  },
+  {
+    "anh": "images/LK-8618.png",
+    "id": "LK-8618",
+    "ten_sp": "Nồi cơm tách đường LK-8618",
     "brand": "Lock&King",
     "ton_dau": 0,
     "nhap": 0,
@@ -12990,7 +13226,7 @@ window.addEventListener('DOMContentLoaded', () => {
           return JSON.parse(JSON.stringify(seedInventory));
         }
         const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length === 57) {
+        if (Array.isArray(parsed) && parsed.length === 63) {
           return parsed;
         }
         // If stored data has old format or mismatched count, re-seed
@@ -13011,11 +13247,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function resetInventoryToDefault() {
-      if (confirm('Bạn có chắc chắn muốn khôi phục dữ liệu tồn kho 57 mã về mặc định?')) {
+      if (confirm('Bạn có chắc chắn muốn khôi phục dữ liệu tồn kho 63 mã về mặc định?')) {
         localStorage.setItem(STORAGE_KEY_INVENTORY, JSON.stringify(seedInventory));
         currentInventoryPage = 1;
         renderInventoryTable(1);
-        showToast('Đã khôi phục dữ liệu tồn kho 57 mã về mặc định!');
+        showToast('Đã khôi phục dữ liệu tồn kho 63 mã về mặc định!');
       }
     }
 
@@ -13029,7 +13265,7 @@ window.addEventListener('DOMContentLoaded', () => {
       return 'images/' + cleanId + '.png';
     }
 
-    // Quy tắc ánh xạ mã kho ERP về 57 mã danh mục chuẩn
+    // Quy tắc ánh xạ mã kho ERP về 63 mã danh mục chuẩn
     const invAliasMap = new Map([
       ["LK-2808SA", "LK-2808SA KHÔNG NẮP"],
       ["LK-1068A", "LK-1068"],
@@ -13360,7 +13596,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     // Xử lý upload file Excel tồn kho hàng ngày:
-    // Tự động đối soát và chỉ cập nhật 57 mã trong bảng giá, loại bỏ mọi mã thừa khác
+    // Tự động đối soát và chỉ cập nhật 63 mã trong bảng giá, loại bỏ mọi mã thừa khác
     function handleInventoryExcelUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -13397,7 +13633,7 @@ window.addEventListener('DOMContentLoaded', () => {
           if (colXuat === -1 && rawRows[0].length >= 6) colXuat = 5;
           if (colTonCuoi === -1 && rawRows[0].length >= 7) colTonCuoi = 6;
 
-          // Chuẩn bị map cho 57 mã sản phẩm
+          // Chuẩn bị map cho 63 mã sản phẩm
           const currentDb = getInventoryDB();
           const targetMap = new Map();
           currentDb.forEach(item => {
@@ -13421,7 +13657,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const name = colName >= 0 ? String(row[colName] || '').trim() : '';
             if (!id && !name) continue;
 
-            // Tìm xem dòng này có khớp với mã nào trong 57 mã không
+            // Tìm xem dòng này có khớp với mã nào trong 63 mã không
             const matchedCanonicalId = matchInventoryRowToCatalog(id, name);
             if (matchedCanonicalId && targetMap.has(matchedCanonicalId)) {
               matchedRowsCount++;
@@ -13436,7 +13672,7 @@ window.addEventListener('DOMContentLoaded', () => {
               item.xuat += xuat;
               item.ton_cuoi += tonCuoi;
             } else {
-              // Bỏ qua mã ngoài danh mục 57 mã
+              // Bỏ qua mã ngoài danh mục 63 mã
               ignoredRowsCount++;
             }
           }
@@ -13445,7 +13681,7 @@ window.addEventListener('DOMContentLoaded', () => {
           saveInventoryDB(updatedList);
           currentInventoryPage = 1;
           renderInventoryTable(1);
-          showToast(`Đã cập nhật tồn kho 57 mã thành công (Khớp ${matchedRowsCount} dòng, đã tự động loại bỏ ${ignoredRowsCount} dòng ngoài danh mục)!`);
+          showToast(`Đã cập nhật tồn kho 63 mã thành công (Khớp ${matchedRowsCount} dòng, đã tự động loại bỏ ${ignoredRowsCount} dòng ngoài danh mục)!`);
         } catch (err) {
           console.error('Lỗi khi đọc file Excel:', err);
           alert('Có lỗi xảy ra khi đọc file Excel: ' + err.message);
@@ -13543,7 +13779,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       if (matchedRowsCount === 0) {
-        alert('Không có mã nào khớp với 57 mã sản phẩm trong bảng giá! Vui lòng kiểm tra lại dữ liệu.');
+        alert('Không có mã nào khớp với 63 mã sản phẩm trong bảng giá! Vui lòng kiểm tra lại dữ liệu.');
         return;
       }
 
@@ -13552,10 +13788,10 @@ window.addEventListener('DOMContentLoaded', () => {
       closePasteInventoryModal();
       currentInventoryPage = 1;
       renderInventoryTable(1);
-      showToast(`Đã cập nhật thành công 57 mã từ Clipboard (Khớp ${matchedRowsCount} dòng, tự động bỏ ${ignoredRowsCount} dòng ngoài danh mục)!`);
+      showToast(`Đã cập nhật thành công 63 mã từ Clipboard (Khớp ${matchedRowsCount} dòng, tự động bỏ ${ignoredRowsCount} dòng ngoài danh mục)!`);
     }
 
-    // Tải file mẫu Excel chuẩn 7 cột cho 57 mã sản phẩm
+    // Tải file mẫu Excel chuẩn 7 cột cho 63 mã sản phẩm
     function downloadInventoryExcelTemplate() {
       const allItems = getInventoryDB();
       const templateData = [
@@ -13588,10 +13824,10 @@ window.addEventListener('DOMContentLoaded', () => {
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Mau_Ton_Kho_56_Ma");
       XLSX.writeFile(wb, "Form_Mau_Cap_Nhat_Ton_Kho_56_Ma.xlsx");
-      showToast('Đã tạo và tải file Excel mẫu 57 mã thành công!');
+      showToast('Đã tạo và tải file Excel mẫu 63 mã thành công!');
     }
 
-    // Xuất báo cáo tồn kho 57 mã ra file Excel
+    // Xuất báo cáo tồn kho 63 mã ra file Excel
     function exportInventoryToExcel() {
       const allItems = getInventoryDB();
       const exportRows = [
@@ -13635,7 +13871,7 @@ window.addEventListener('DOMContentLoaded', () => {
       XLSX.utils.book_append_sheet(wb, ws, "Ton_Kho_56_Ma");
       const dateStr = new Date().toISOString().slice(0, 10);
       XLSX.writeFile(wb, `Bao_Cao_Ton_Kho_56_Ma_${dateStr}.xlsx`);
-      showToast('Đã xuất báo cáo tồn kho 57 mã ra file Excel thành công!');
+      showToast('Đã xuất báo cáo tồn kho 63 mã ra file Excel thành công!');
     }
 
 
@@ -13777,7 +14013,7 @@ window.addEventListener('DOMContentLoaded', () => {
         target: 'Đại lý Cấp 1 & Nhà phân phối chính thức',
         startDate: '2026-07-01',
         endDate: '2026-09-30',
-        products: 'Toàn bộ 57 mã sản phẩm Lock&King & Takin',
+        products: 'Toàn bộ 63 mã sản phẩm Lock&King & Takin',
         rule: 'Tích lũy doanh số trong Quý 3/2026:\n- Mốc 1 (Từ 50 triệu): Thưởng chiết khấu thêm 2% tổng doanh số quý.\n- Mốc 2 (Từ 100 triệu): Thưởng 01 Chỉ Vàng 9999 PNJ hoặc quy đổi 8 triệu tiền mặt.\n- Mốc 3 (Từ 250 triệu): Thưởng Chuyến du lịch Thái Lan 5N4Đ dành cho 2 người.',
         statusOverride: 'PAUSED',
         note: 'Đã tạm tắt'
@@ -13791,7 +14027,7 @@ window.addEventListener('DOMContentLoaded', () => {
         target: 'Khách hàng ký hợp đồng mở Đại lý mới trong năm 2026',
         startDate: '2026-01-01',
         endDate: '2026-12-31',
-        products: 'Bộ danh mục 57 mã trưng bày',
+        products: 'Bộ danh mục 63 mã trưng bày',
         rule: 'Đại lý mở mới nhập đơn đầu tiên từ 30 triệu đồng:\n1. Tặng 01 Biển hiệu bạt Hiflex / Decal nhận diện thương hiệu Lock&King & Takin.\n2. Tặng 01 Kệ trưng bày sắt sơn tĩnh điện 4 tầng chuẩn hãng.\n3. Tặng 05 Chảo cạn Titanium Lock&King 26cm (LK-2606A) làm hàng mẫu trải nghiệm.',
         statusOverride: 'PAUSED',
         note: 'Đã tạm tắt'
@@ -13819,7 +14055,7 @@ window.addEventListener('DOMContentLoaded', () => {
         target: 'Toàn bộ hệ thống khách sỉ và Đại lý',
         startDate: '2026-12-01',
         endDate: '2027-01-25',
-        products: 'Toàn bộ 57 mã hàng Lock&King & Takin',
+        products: 'Toàn bộ 63 mã hàng Lock&King & Takin',
         rule: 'Đại lý đặt cọc giữ hàng Tết trước ngày 30/11:\n- Tặng 01 Giỏ quà Tết cao cấp trị giá 1.500.000đ cho đơn cọc từ 50 triệu.\n- Cam kết giữ giá nhập tốt nhất không tăng giá trong dịp cận Tết.\n- Ưu tiên xe giao hàng tận nơi trước ngày 23 tháng Chạp.',
         statusOverride: 'PAUSED',
         note: 'Đã tạm tắt'
@@ -14676,13 +14912,13 @@ ${camp.rule}
     let currentMediaAssetViewMode = 'kits'; // 'kits' | 'gallery'
     let currentLightboxItem = null;
 
-    // Kho tư liệu hạt giống chuẩn cho 57 mã hàng Vũ Gia
+    // Kho tư liệu hạt giống chuẩn cho 63 mã hàng Vũ Gia
     function getSeedMediaAssets() {
       const db = getDB();
       const products = db.products || [];
       const assets = [];
 
-      // Sinh tự động tư liệu cho từng sản phẩm từ 57 mã chuẩn
+      // Sinh tự động tư liệu cho từng sản phẩm từ 63 mã chuẩn
       products.forEach((p, idx) => {
         const code = p.canonicalCode;
         const brand = p.brand || 'Lock&King';
@@ -15327,7 +15563,7 @@ ${camp.rule}
       if (!modal) return;
       form.reset();
 
-      // Nạp 57 mã sản phẩm vào dropdown
+      // Nạp 63 mã sản phẩm vào dropdown
       const db = getDB();
       const prods = db.products || [];
       selCode.innerHTML = prods.map(p => `<option value="${p.canonicalCode}">${p.canonicalCode} - ${p.name}</option>`).join('');
@@ -15504,7 +15740,7 @@ ${camp.rule}
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      showToast('Đang tải file Catalogue & Bảng giá chuẩn 57 mã...', true);
+      showToast('Đang tải file Catalogue & Bảng giá chuẩn 63 mã...', true);
     }
 
     
