@@ -39,6 +39,24 @@
         background: white !important;
       }
 
+      /* In Thông Báo Bảng Báo Giá Khách Hàng 8 Mã Đợt 18/10/2026 (A4 Ngang) */
+      body.printing-notice #printNoticeArea,
+      body.printing-notice #printNoticeArea * {
+        visibility: visible !important;
+      }
+      body.printing-notice #printNoticeArea {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 5mm 8mm 4mm 8mm !important;
+        background: white !important;
+        display: block !important;
+      }
+
       /* In Thống Kê Biến Động Giá NPP 63 Model (A4 Ngang) */
       body.printing-price-change #printPriceChangeArea,
       body.printing-price-change #printPriceChangeArea * {
@@ -455,6 +473,11 @@
         </div>
 
         <div class="flex items-center space-x-3 ml-4">
+          <button onclick="openPriceChangeNoticeModal()" class="flex items-center space-x-1.5 px-3 py-1.5 bg-sky-50 text-sky-800 border border-sky-300 hover:bg-sky-100 rounded-lg text-xs font-bold transition shadow-sm" title="Xem & In Thông Báo Bảng Báo Giá 8 Mã Mới & Điều Chỉnh (18/10/2026)">
+            <i data-lucide="award" class="w-3.5 h-3.5 text-sky-600"></i>
+            <span>Thông Báo Báo Giá (18/10)</span>
+          </button>
+
           <button onclick="openCatalogPdfModal()" class="flex items-center space-x-1.5 px-3 py-1.5 bg-rose-50 text-rose-700 border border-rose-300 hover:bg-rose-100 rounded-lg text-xs font-bold transition shadow-sm" title="Xuất toàn bộ bảng giá 63 mã kèm hình ảnh ra file PDF">
             <i data-lucide="file-down" class="w-3.5 h-3.5 text-rose-600"></i>
             <span>Xuất File PDF (63 Mã)</span>
@@ -1485,6 +1508,10 @@
                 </div>
 
                 <div class="flex items-center gap-2">
+                  <button type="button" onclick="openPriceChangeNoticeModal()" class="px-3 py-1 bg-gradient-to-r from-sky-600 to-indigo-700 hover:from-sky-700 hover:to-indigo-800 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Xem & In Mẫu Thông Báo Báo Giá Gửi Khách Hàng / NPP (A4 Ngang / PDF)">
+                    <i data-lucide="award" class="w-3.5 h-3.5 text-amber-300"></i>
+                    <span>Mẫu Thông Báo Báo Giá (PDF)</span>
+                  </button>
                   <button type="button" onclick="exportLatestBatchExcel()" class="px-3 py-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Tải file Excel riêng Sheet Biến Động Đợt Mới Nhất (8 mã)">
                     <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
                     <span>Xuất Đợt Mới Nhất</span>
@@ -5803,6 +5830,53 @@
     </div>
   </div>
 
+
+  <!-- ================= MODAL THÔNG BÁO BẢNG BÁO GIÁ KHÁCH HÀNG (A4 NGANG) ================= -->
+  <div id="noticePreviewModal" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 overflow-y-auto p-2 sm:p-4 flex items-start justify-center">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-[98vw] w-[1320px] overflow-hidden my-3 border border-slate-300 flex flex-col">
+      <!-- MODAL TOP BAR -->
+      <div class="p-3.5 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 no-print">
+        <div class="flex items-center space-x-2.5">
+          <div class="p-1.5 bg-sky-600/30 text-sky-400 rounded-lg border border-sky-500/40">
+            <i data-lucide="award" class="w-5 h-5 text-amber-400"></i>
+          </div>
+          <div>
+            <h3 class="font-black text-sm text-white tracking-wide">MẪU THÔNG BÁO BÁO GIÁ SẢN PHẨM KHÁCH HÀNG (ĐỢT 18/10/2026)</h3>
+            <p class="text-[11px] text-slate-400">Áp dụng cho 8 sản phẩm (6 mã mới bổ sung & 2 mã điều chỉnh giá) &bull; Chuẩn A4 Landscape sẵn sàng in và xuất PDF</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="printPriceChangeNotice()" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg font-bold text-xs flex items-center space-x-1.5 shadow-sm transition">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>In Bản Cứng / Lưu PDF (A4 Ngang)</span>
+          </button>
+          <a href="thong_bao_bang_gia_18_10_2026.pdf" target="_blank" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg font-bold text-xs flex items-center space-x-1.5 shadow-sm transition">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>Mở File PDF Đã Xuất</span>
+          </a>
+          <a href="bang_gia_thay_doi_ngay_18_10_2026.xlsx" download class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-xs flex items-center space-x-1.5 shadow-sm transition">
+            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+            <span>Tải Bảng Excel</span>
+          </a>
+          <a href="thong_bao_bang_gia_18_10_2026.html" target="_blank" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-bold text-xs flex items-center space-x-1.5 transition">
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+            <span>Mở Trang Riêng</span>
+          </a>
+          <button type="button" onclick="closePriceChangeNoticeModal()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-bold text-xs transition">✕ Đóng</button>
+        </div>
+      </div>
+
+      <!-- MODAL CONTENT PREVIEW -->
+      <div id="noticePreviewContent" class="p-4 sm:p-6 bg-slate-200/80 overflow-x-auto max-h-[80vh]">
+      </div>
+
+      <!-- MODAL FOOTER -->
+      <div class="p-3 bg-slate-100 border-t border-slate-200 flex items-center justify-between no-print text-xs text-slate-500 px-6">
+        <span>Ghi chú: Khổ in chuẩn tối ưu là <strong>A4 Khổ Ngang (Landscape)</strong>, lề 5mm. Bấm "In Bản Cứng / Lưu PDF" để trình duyệt tự động định dạng chuẩn 1 trang.</span>
+        <button type="button" onclick="closePriceChangeNoticeModal()" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded font-bold text-xs">Đóng Cửa Sổ</button>
+      </div>
+    </div>
+  </div>
 
   <!-- TOAST NOTIFICATION -->
   <div id="toastNotification" class="hidden fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl z-50 flex items-center space-x-3 text-xs border border-slate-700">
@@ -11366,6 +11440,342 @@
       XLSX.utils.book_append_sheet(wb, ws, "BienDong_CapNhat_MoiNhat");
       XLSX.writeFile(wb, 'Nhat_Ky_Bien_Dong_Gia_Moi_Nhat_2026-10-18.xlsx');
       showToast('Đã xuất file Excel Sheet Biến Động Đợt Mới Nhất (8 mã) thành công!');
+    }
+
+    // ================= MẪU THÔNG BÁO BÁO GIÁ KHÁCH HÀNG (ĐỢT 18/10/2026) =================
+    const NOTICE_8_ITEMS = [
+      {
+        stt: 1,
+        code: 'LK-8920',
+        name: 'Bếp từ đơn cảm ứng Lock&King 2000W',
+        spec: 'Công suất 2000W, phím cảm ứng đa năng, mặt kính chịu nhiệt chống trầy',
+        group: 'Bếp từ',
+        unit: 'Chiếc',
+        type: 'MÃ MỚI BỔ SUNG',
+        typeClass: 'badge-new',
+        nppPrice: 690000,
+        fbPrice: 1290000,
+        tmdtPrice: 1354500,
+        retailPrice: 1626000,
+        profit: 600000,
+        profitPct: '46.5%'
+      },
+      {
+        stt: 2,
+        code: 'LK-8989',
+        name: 'Bếp từ đơn cao cấp Lock&King 2200W',
+        spec: 'Công suất 2200W, gia nhiệt siêu tốc, phím điều khiển Slider thông minh',
+        group: 'Bếp từ',
+        unit: 'Chiếc',
+        type: 'MÃ MỚI BỔ SUNG',
+        typeClass: 'badge-new',
+        nppPrice: 790000,
+        fbPrice: 1490000,
+        tmdtPrice: 1564500,
+        retailPrice: 1878000,
+        profit: 700000,
+        profitPct: '47.0%'
+      },
+      {
+        stt: 3,
+        code: 'LK-8924',
+        name: 'Bếp từ đơn siêu công suất Lock&King 2400W',
+        spec: 'Công suất 2400W đun sôi cực nhanh, mâm nhiệt kép, bo mạch chịu tải cao',
+        group: 'Bếp từ',
+        unit: 'Chiếc',
+        type: 'MÃ MỚI BỔ SUNG',
+        typeClass: 'badge-new',
+        nppPrice: 850000,
+        fbPrice: 1590000,
+        tmdtPrice: 1669500,
+        retailPrice: 2004000,
+        profit: 740000,
+        profitPct: '46.5%'
+      },
+      {
+        stt: 4,
+        code: 'LK-8818',
+        name: 'Nồi cơm điện cao tần Lock&King (IH)',
+        spec: 'Đốt nóng cảm ứng từ IH 360 độ hạt cơm dẻo ngọt, lòng nồi hợp kim 7 lớp',
+        group: 'Nồi cơm điện',
+        unit: 'Chiếc',
+        type: 'MÃ MỚI BỔ SUNG',
+        typeClass: 'badge-new',
+        nppPrice: 1790000,
+        fbPrice: 3400000,
+        tmdtPrice: 3570000,
+        retailPrice: 4284000,
+        profit: 1610000,
+        profitPct: '47.4%'
+      },
+      {
+        stt: 5,
+        code: 'LK-8618',
+        name: 'Nồi cơm điện tách đường Lock&King',
+        spec: 'Công nghệ phân giải & lọc tách tinh bột nhanh, bảo vệ sức khỏe, dung tích 1.8L',
+        group: 'Nồi cơm điện',
+        unit: 'Chiếc',
+        type: 'MÃ MỚI BỔ SUNG',
+        typeClass: 'badge-new',
+        nppPrice: 1300000,
+        fbPrice: 2490000,
+        tmdtPrice: 2614500,
+        retailPrice: 3138000,
+        profit: 1190000,
+        profitPct: '47.8%'
+      },
+      {
+        stt: 6,
+        code: 'LK-6886',
+        name: 'Tủ sấy quần áo đa năng Lock&King LK-6886',
+        spec: 'Sấy nhiệt đối lưu diệt khuẩn ion âm 99.9%, khung inox kép chịu lực 15-20kg',
+        group: 'Tủ sấy',
+        unit: 'Bộ',
+        type: 'MÃ MỚI BỔ SUNG',
+        typeClass: 'badge-new',
+        nppPrice: 770000,
+        fbPrice: 1490000,
+        tmdtPrice: 1564500,
+        retailPrice: 1878000,
+        profit: 720000,
+        profitPct: '48.3%'
+      },
+      {
+        stt: 7,
+        code: 'LK-1003',
+        name: 'Bộ đèn sưởi nhà tắm 3 bóng Lock&King',
+        spec: 'Bóng hồng ngoại mạ vàng chống chói, chống nước IPX4, sưởi ấm tức thì sau 3s',
+        group: 'Đèn sưởi',
+        unit: 'Bộ',
+        type: 'ĐIỀU CHỈNH GIÁ',
+        typeClass: 'badge-up',
+        nppPrice: 210000,
+        fbPrice: 399000,
+        tmdtPrice: 418950,
+        retailPrice: 503000,
+        profit: 189000,
+        profitPct: '47.4%'
+      },
+      {
+        stt: 8,
+        code: 'LK-1033',
+        name: 'Bộ đèn sưởi nhà tắm cao cấp Lock&King',
+        spec: '3 bóng hồng ngoại công suất 825W, công tắc đảo chiều thông minh, tỏa nhiệt đều',
+        group: 'Đèn sưởi',
+        unit: 'Bộ',
+        type: 'GIẢM GIÁ ĐẶC BIỆT',
+        typeClass: 'badge-down',
+        nppPrice: 320000,
+        fbPrice: 620000,
+        tmdtPrice: 651000,
+        retailPrice: 782000,
+        profit: 300000,
+        profitPct: '48.4%'
+      }
+    ];
+
+    function generateNoticePrintHtml() {
+      let rowsHtml = '';
+      NOTICE_8_ITEMS.forEach(p => {
+        const badgeStyle = p.type === 'MÃ MỚI BỔ SUNG'
+          ? 'font-size: 8px; font-weight: 800; color: #065f46; background: #d1fae5; padding: 1.5px 5px; border-radius: 3px; border: 1px solid #a7f3d0; display: inline-block;'
+          : (p.type === 'ĐIỀU CHỈNH GIÁ'
+            ? 'font-size: 8px; font-weight: 800; color: #92400e; background: #fef3c7; padding: 1.5px 5px; border-radius: 3px; border: 1px solid #fde68a; display: inline-block;'
+            : 'font-size: 8px; font-weight: 800; color: #9f1239; background: #ffe4e6; padding: 1.5px 5px; border-radius: 3px; border: 1px solid #fecdd3; display: inline-block;');
+
+        rowsHtml += `
+          <tr style="border-bottom: 1px solid #cbd5e1;">
+            <td style="padding: 4px 3px; text-align: center; font-weight: 700; color: #64748b; border: 1px solid #cbd5e1;">${p.stt}</td>
+            <td style="padding: 4px 4px; border: 1px solid #cbd5e1; white-space: nowrap;">
+              <span style="font-family: monospace; font-weight: 800; color: #0369a1; background: #f0f9ff; padding: 1px 4px; border-radius: 3px; border: 1px solid #bae6fd; font-size: 10px;">${p.code}</span>
+            </td>
+            <td style="padding: 4px 6px; border: 1px solid #cbd5e1;">
+              <div style="font-weight: 800; color: #0f172a; font-size: 10px;">${p.name}</div>
+              <div style="font-size: 8.5px; color: #64748b; margin-top: 1px;">${p.spec}</div>
+            </td>
+            <td style="padding: 4px 4px; text-align: center; border: 1px solid #cbd5e1; white-space: nowrap;">
+              <span style="font-size: 8.5px; font-weight: 700; color: #475569; background: #f1f5f9; padding: 1px 5px; border-radius: 8px; border: 1px solid #e2e8f0;">${p.group}</span>
+            </td>
+            <td style="padding: 4px 4px; text-align: center; border: 1px solid #cbd5e1; white-space: nowrap;">
+              <span style="${badgeStyle}">${p.type}</span>
+            </td>
+            <td style="padding: 4px 4px; text-align: center; font-weight: 600; color: #64748b; border: 1px solid #cbd5e1; white-space: nowrap;">${p.unit}</td>
+            <td style="padding: 4px 5px; text-align: right; font-weight: 900; color: #0369a1; background: #f0f9ff; border: 1px solid #cbd5e1; white-space: nowrap; font-size: 10.5px;">${formatVND(p.nppPrice)}</td>
+            <td style="padding: 4px 5px; text-align: right; font-weight: 700; color: #1e40af; border: 1px solid #cbd5e1; white-space: nowrap;">${formatVND(p.fbPrice)}</td>
+            <td style="padding: 4px 5px; text-align: right; font-weight: 700; color: #d97706; border: 1px solid #cbd5e1; white-space: nowrap;">${formatVND(p.tmdtPrice)}</td>
+            <td style="padding: 4px 5px; text-align: right; font-weight: 600; color: #475569; border: 1px solid #cbd5e1; white-space: nowrap;">${formatVND(p.retailPrice)}</td>
+            <td style="padding: 4px 5px; text-align: right; font-weight: 900; color: #059669; border: 1px solid #cbd5e1; white-space: nowrap;">+${formatVND(p.profit)}</td>
+            <td style="padding: 4px 4px; text-align: center; border: 1px solid #cbd5e1; white-space: nowrap;">
+              <span style="color: #047857; font-weight: 900; background: #ecfdf5; border-radius: 3px; padding: 1.5px 4px; border: 1px solid #a7f3d0; font-size: 9px;">${p.profitPct}</span>
+            </td>
+          </tr>
+        `;
+      });
+
+      return `
+        <div style="background: white; padding: 18px 24px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; color: #0f172a; line-height: 1.35; font-size: 11px;">
+          <!-- LETTERHEAD -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0b2239; padding-bottom: 7px; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <img src="images/lock_and_king_logo.png" alt="Lock&King Logo" style="height: 40px; max-width: 120px; object-fit: contain;" onerror="this.style.display='none'" />
+              <div>
+                <h1 style="font-size: 13px; font-weight: 900; color: #0b2239; text-transform: uppercase; margin: 0; letter-spacing: -0.2px;">CÔNG TY TNHH ĐẦU TƯ & THƯƠNG MẠI VŨ GIA</h1>
+                <p style="font-size: 9.5px; color: #64748b; margin: 1px 0 0 0;"><strong>Địa chỉ:</strong> 230 Lacasta, Khu đô thị Văn Phú, P. Phú La, Q. Hà Đông, TP. Hà Nội</p>
+                <p style="font-size: 9px; color: #64748b; margin: 1px 0 0 0;"><strong>Hotline / Zalo:</strong> 098.666.9958 - 098.333.6898 &nbsp;|&nbsp; <strong>Email:</strong> vugiaco.ltd@gmail.com</p>
+                <p style="font-size: 8.5px; color: #0284c7; font-weight: 600; margin: 1px 0 0 0;">Website: Locknking.com &bull; Locknking.vn &bull; Locknking.kr</p>
+              </div>
+            </div>
+            <div style="text-align: right; font-size: 9.5px;">
+              <div style="display: inline-block; padding: 3px 8px; background: #e0f2fe; color: #0369a1; font-family: monospace; font-weight: 800; border-radius: 4px; border: 1px solid #bae6fd; font-size: 10.5px; margin-bottom: 2px;">
+                Số: 1810/2026/TB-VG
+              </div>
+              <div style="color: #64748b; font-size: 9.5px;">Hà Nội, ngày 18 tháng 10 năm 2026</div>
+              <div style="color: #0369a1; font-weight: 700; margin-top: 1px;">Hiệu lực: Từ 18/10/2026</div>
+            </div>
+          </div>
+
+          <!-- TITLE -->
+          <div style="text-align: center; margin: 5px 0 7px 0;">
+            <h2 style="font-size: 15px; font-weight: 900; color: #0b2239; text-transform: uppercase; margin: 0; letter-spacing: 0.5px;">THÔNG BÁO BẢNG BÁO GIÁ SẢN PHẨM</h2>
+            <div style="font-size: 10.5px; color: #0284c7; font-weight: 700; margin-top: 2px;">V/v: Ra Mắt 6 Sản Phẩm Mới & Điều Chỉnh Biểu Giá Phân Phối Kênh NPP - Kênh Bán Lẻ Năm 2026</div>
+            <div style="font-size: 10.5px; font-style: italic; color: #334155; font-weight: 600; margin-top: 2px;">Kính gửi: Quý Khách Hàng, Quý Đối Tác, Quý Nhà Phân Phối & Quý Đại Lý trên toàn quốc</div>
+          </div>
+
+          <!-- INTRO -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3.5px solid #0284c7; padding: 5px 8px; border-radius: 4px; font-size: 9.5px; color: #334155; line-height: 1.35; margin-bottom: 7px;">
+            Công ty TNHH Đầu Tư & Thương Mại Vũ Gia xin gửi lời chào trân trọng và lời chúc hợp tác thành công tới Quý Khách hàng. Nhằm mở rộng dải sản phẩm gia dụng cao cấp phục vụ mùa bán lẻ Thu - Đông 2026 và tối ưu biên độ lợi nhuận cho hệ thống phân phối, Công ty Vũ Gia trân trọng thông báo <strong>bổ sung 6 model mới</strong> và <strong>điều chỉnh giá 2 model đèn sưởi Lock&King</strong> với các mức giá ưu đãi đặc biệt như sau:
+          </div>
+
+          <!-- TABLE -->
+          <table style="width: 100%; border-collapse: collapse; font-size: 9px; line-height: 1.25; margin-bottom: 6px;">
+            <thead>
+              <tr style="background: #0b2239; color: white; text-transform: uppercase; font-size: 8.5px;">
+                <th style="padding: 5px 3px; border: 1px solid #1e3a5f; text-align: center; width: 28px;">STT</th>
+                <th style="padding: 5px 4px; border: 1px solid #1e3a5f; text-align: left; width: 75px;">Mã Model</th>
+                <th style="padding: 5px 6px; border: 1px solid #1e3a5f; text-align: left;">Tên Sản Phẩm & Quy Cách Kỹ Thuật</th>
+                <th style="padding: 5px 4px; border: 1px solid #1e3a5f; text-align: center; width: 72px;">Nhóm Hàng</th>
+                <th style="padding: 5px 4px; border: 1px solid #1e3a5f; text-align: center; width: 88px;">Loại Biến Động</th>
+                <th style="padding: 5px 4px; border: 1px solid #1e3a5f; text-align: center; width: 36px;">ĐVT</th>
+                <th style="padding: 5px 5px; border: 1px solid #1e3a5f; text-align: right; width: 92px; background: #0284c7; color: white;">Giá NPP Online</th>
+                <th style="padding: 5px 5px; border: 1px solid #1e3a5f; text-align: right; width: 85px;">Giá Facebook</th>
+                <th style="padding: 5px 5px; border: 1px solid #1e3a5f; text-align: right; width: 85px;">Giá Sàn TMĐT</th>
+                <th style="padding: 5px 5px; border: 1px solid #1e3a5f; text-align: right; width: 85px;">Giá Niêm Yết</th>
+                <th style="padding: 5px 5px; border: 1px solid #1e3a5f; text-align: right; width: 88px;">Mức Lời NPP</th>
+                <th style="padding: 5px 4px; border: 1px solid #1e3a5f; text-align: center; width: 62px;">% LN / FB</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+
+          <!-- 4 STRATEGIC BENEFITS -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 6px;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px 6px; font-size: 8.5px;">
+              <div style="font-weight: 800; color: #0b2239; font-size: 9px; margin-bottom: 1px;">💎 Biên Độ Lợi Nhuận Cao</div>
+              <div style="color: #64748b; line-height: 1.25;">Chiết khấu đạt <strong>46.5% - 48.4%</strong>, đảm bảo NPP lời từ <strong>189k - 1.610k/sp</strong>.</div>
+            </div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px 6px; font-size: 8.5px;">
+              <div style="font-weight: 800; color: #0b2239; font-size: 9px; margin-bottom: 1px;">🛡️ Bảo Hành Chính Hãng</div>
+              <div style="color: #64748b; line-height: 1.25;">Bảo hành 12 - 24 tháng chính hãng Lock&King. Đổi mới 1:1 trong 7 ngày lỗi SX.</div>
+            </div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px 6px; font-size: 8.5px;">
+              <div style="font-weight: 800; color: #0b2239; font-size: 9px; margin-bottom: 1px;">🚚 Giao Hàng Siêu Tốc</div>
+              <div style="color: #64748b; line-height: 1.25;">Xuất kho 24h - 48h tại HN & TP.HCM. Hỗ trợ giao chành xe tải an toàn toàn quốc.</div>
+            </div>
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px 6px; font-size: 8.5px;">
+              <div style="font-weight: 800; color: #0b2239; font-size: 9px; margin-bottom: 1px;">📈 Hỗ Trợ Truyền Thông</div>
+              <div style="color: #64748b; line-height: 1.25;">Cung cấp trọn gói ảnh studio, video review, mẫu bài đăng bán hàng FB/TikTok/Sàn.</div>
+            </div>
+          </div>
+
+          <!-- TERMS -->
+          <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 5px 8px; font-size: 8.5px; margin-bottom: 6px; line-height: 1.3;">
+            <div style="font-weight: 800; color: #0b2239; text-transform: uppercase; font-size: 8.5px; margin-bottom: 1px;">ĐIỀU KHOẢN VÀ CHÍNH SÁCH BÁN HÀNG CHUNG</div>
+            <ul style="margin: 0 0 0 14px; color: #334155;">
+              <li><strong>Thời gian hiệu lực:</strong> Chính thức áp dụng từ ngày <strong>18/10/2026</strong> cho đến khi có thông báo bằng văn bản mới nhất.</li>
+              <li><strong>Quy định bán lẻ:</strong> Quý đối tác và Đại lý cam kết tuân thủ chính sách giá sàn niêm yết trên các kênh mạng xã hội và sàn TMĐT để bảo vệ quyền lợi chung.</li>
+              <li><strong>Phương thức thanh toán:</strong> Thanh toán chuyển khoản trước khi xuất kho hoặc theo điều khoản bảo lãnh công nợ trong hợp đồng phân phối.</li>
+            </ul>
+          </div>
+
+          <!-- SIGNATURES -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; margin-top: 5px; padding-top: 2px;">
+            <div>
+              <div style="font-weight: 800; color: #0b2239; font-size: 9.5px; text-transform: uppercase;">NGƯỜI LẬP THÔNG BÁO</div>
+              <div style="font-size: 8px; color: #64748b; font-style: italic;">(Ký và ghi rõ họ tên)</div>
+              <div style="height: 38px;"></div>
+              <div style="font-weight: 800; color: #0b2239; font-size: 9.5px;">Phòng Kinh Doanh Vũ Gia</div>
+            </div>
+            <div>
+              <div style="font-weight: 800; color: #0b2239; font-size: 9.5px; text-transform: uppercase;">KẾ TOÁN TRƯỞNG</div>
+              <div style="font-size: 8px; color: #64748b; font-style: italic;">(Ký và ghi rõ họ tên)</div>
+              <div style="height: 38px;"></div>
+              <div style="font-weight: 800; color: #0b2239; font-size: 9.5px;">Nguyễn Thị Nguyệt</div>
+            </div>
+            <div>
+              <div style="font-weight: 800; color: #0b2239; font-size: 9.5px; text-transform: uppercase;">GIÁM ĐỐC ĐIỀU HÀNH</div>
+              <div style="font-size: 8px; color: #64748b; font-style: italic;">(Ký tên và đóng dấu)</div>
+              <div style="height: 38px; display: flex; justify-content: center; align-items: center;">
+                <div style="width: 42px; height: 42px; border: 1.5px dashed #dc2626; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #dc2626; font-weight: 900; font-size: 4.5px; text-transform: uppercase; text-align: center; line-height: 1.1; transform: rotate(-10deg); background: rgba(254, 226, 226, 0.25);">
+                  <span>CÔNG TY TNHH</span>
+                  <span style="font-size: 4px;">ĐẦU TƯ & TM</span>
+                  <span style="font-size: 5.5px; font-weight: 900; color: #b91c1c;">VŨ GIA</span>
+                  <span style="font-size: 3.5px;">★ HÀ NỘI ★</span>
+                </div>
+              </div>
+              <div style="font-weight: 800; color: #0369a1; font-size: 9.5px;">Lê Quang Tuyến</div>
+            </div>
+          </div>
+
+          <!-- FOOTER -->
+          <div style="border-top: 1px solid #e2e8f0; padding-top: 3px; margin-top: 5px; display: flex; justify-content: space-between; color: #94a3b8; font-size: 7.5px;">
+            <span>Lock&King Vietnam - Giải pháp gia dụng thông minh & chất lượng cao cho gia đình Việt</span>
+            <span>Mã tài liệu: TB-BG-20261018-01 &bull; Áp dụng từ 18/10/2026</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function openPriceChangeNoticeModal() {
+      const modal = document.getElementById('noticePreviewModal');
+      const content = document.getElementById('noticePreviewContent');
+      if (content) {
+        content.innerHTML = generateNoticePrintHtml();
+      }
+      if (modal) {
+        modal.classList.remove('hidden');
+        safeLucideIcons();
+      }
+    }
+
+    function closePriceChangeNoticeModal() {
+      const modal = document.getElementById('noticePreviewModal');
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function printPriceChangeNotice() {
+      let area = document.getElementById('printNoticeArea');
+      if (!area) {
+        area = document.createElement('div');
+        area.id = 'printNoticeArea';
+        area.className = 'hidden';
+        document.body.appendChild(area);
+      }
+
+      area.innerHTML = generateNoticePrintHtml();
+      setPrintOrientation('landscape', '5mm');
+      document.body.classList.add('printing-notice');
+      document.body.classList.remove('printing-price-change', 'printing-catalog', 'printing-quotation');
+
+      setTimeout(() => {
+        window.print();
+        setTimeout(() => {
+          document.body.classList.remove('printing-notice');
+        }, 1500);
+      }, 150);
     }
 
     // ================= XUẤT PDF VÀ IN ẤN MODULE BIẾN ĐỘNG GIÁ NPP =================
@@ -16953,6 +17363,9 @@ ${item.url}
       <span>Menu</span>
     </button>
   </nav>
+  <!-- KHU VỰC IN ẤN & XUẤT PDF CHO THÔNG BÁO BÁO GIÁ KHÁCH HÀNG 8 MÃ ĐỢT 18/10/2026 -->
+  <div id="printNoticeArea" class="hidden" style="width: 1100px; max-width: 1100px; min-width: 1100px; margin: 0 auto; background: white; font-family: system-ui, -apple-system, sans-serif;"></div>
+
   <!-- KHU VỰC IN ẤN & XUẤT PDF CHO MODULE BIẾN ĐỘNG GIÁ NPP -->
   <div id="printPriceChangeArea" class="hidden" style="width: 1040px; max-width: 1040px; min-width: 1040px; margin: 0 auto; background: white; font-family: system-ui, -apple-system, sans-serif;"></div>
 
