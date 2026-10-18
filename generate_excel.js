@@ -234,6 +234,82 @@ ws3['!cols'] = [
 
 XLSX.utils.book_append_sheet(wb, ws3, 'BienDong_Gia_NPP');
 
+// SHEET 4: BẢNG THEO DÕI BIẾN ĐỘNG & NHẬT KÝ CẬP NHẬT GIÁ GẦN NHẤT (ĐỢT 18/10/2026)
+const latestBatchCodes = [
+  { code: 'LK-8920', type: 'MÃ MỚI BỔ SUNG', note: 'Bếp từ đơn 2000W mới bổ sung danh mục' },
+  { code: 'LK-8989', type: 'MÃ MỚI BỔ SUNG', note: 'Bếp từ đơn 2200W mới bổ sung danh mục' },
+  { code: 'LK-8924', type: 'MÃ MỚI BỔ SUNG', note: 'Bếp từ đơn 2400W mới bổ sung danh mục' },
+  { code: 'LK-8818', type: 'MÃ MỚI BỔ SUNG', note: 'Nồi cơm điện cao tần IH mới bổ sung danh mục' },
+  { code: 'LK-8618', type: 'MÃ MỚI BỔ SUNG', note: 'Nồi cơm điện tách đường mới bổ sung danh mục' },
+  { code: 'LK-6886', type: 'MÃ MỚI BỔ SUNG', note: 'Tủ sấy quần áo công suất lớn mới bổ sung danh mục' },
+  { code: 'LK-1003', type: 'ĐIỀU CHỈNH TĂNG GIÁ', note: 'Đèn sưởi 3 bóng: Giá NPP tăng +13.000đ (+6.6%), vốn tăng +26.505đ' },
+  { code: 'LK-1033', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Đèn sưởi 3 bóng: Giá NPP giảm -52.000đ (-14.0%), vốn tăng +50.000đ' }
+];
+
+const rowsSheet4 = [
+  ['STT', 'Ngày Cập Nhật', 'Loại Biến Động', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Phân Loại', 'Thương Hiệu', 'Giá Vốn Cũ (VNĐ)', 'Giá Vốn Mới (VNĐ)', 'Giá NPP Online Cũ (VNĐ)', 'Giá NPP Online Mới (VNĐ)', 'Chênh Lệch NPP (VNĐ)', '% Biến Động NPP', 'Giá Facebook (VNĐ)', 'Giá Sàn TMĐT (VNĐ)', 'Giá Niêm Yết (VNĐ)', 'Lợi Nhuận NPP (VNĐ)', '% LN NPP / FB', 'Ghi Chú Nghiệp Vụ']
+];
+
+latestBatchCodes.forEach((item, idx) => {
+  const p = products.find(x => x.canonicalCode === item.code);
+  if (!p) return;
+
+  const oldNpp = (item.code === 'LK-1003' ? 197000 : (item.code === 'LK-1033' ? 372000 : 0));
+  const newNpp = p.nppOnlinePrice || 0;
+  const diffNpp = (item.type === 'MÃ MỚI BỔ SUNG') ? newNpp : (newNpp - oldNpp);
+  const diffNppPct = (item.type === 'MÃ MỚI BỔ SUNG') ? 'Mới' : (oldNpp > 0 ? ((diffNpp / oldNpp) * 100).toFixed(1) + '%' : '0.0%');
+  
+  const oldImport = (item.code === 'LK-1003' ? 133495 : (item.code === 'LK-1033' ? 200000 : 0));
+  const newImport = p.newImportPrice || p.costPrice || 0;
+
+  rowsSheet4.push([
+    idx + 1,
+    '18/10/2026',
+    item.type,
+    p.canonicalCode,
+    p.name,
+    p.categoryName,
+    p.brand,
+    oldImport,
+    newImport,
+    oldNpp,
+    newNpp,
+    diffNpp,
+    diffNppPct,
+    p.facebookPrice || 0,
+    p.tmdtPrice || 0,
+    p.retailPrice || 0,
+    p.profitNPP || 0,
+    p.profitPct || '0%',
+    item.note
+  ]);
+});
+
+const ws4 = XLSX.utils.aoa_to_sheet(rowsSheet4);
+ws4['!cols'] = [
+  { wch: 6 },  // STT
+  { wch: 14 }, // Ngày Cập Nhật
+  { wch: 24 }, // Loại Biến Động
+  { wch: 20 }, // Model
+  { wch: 42 }, // Tên Sản Phẩm
+  { wch: 16 }, // Phân Loại
+  { wch: 14 }, // Thương Hiệu
+  { wch: 18 }, // Giá Vốn Cũ
+  { wch: 18 }, // Giá Vốn Mới
+  { wch: 24 }, // Giá NPP Online Cũ
+  { wch: 24 }, // Giá NPP Online Mới
+  { wch: 22 }, // Chênh Lệch NPP
+  { wch: 16 }, // % Biến Động NPP
+  { wch: 20 }, // Giá FB
+  { wch: 20 }, // Giá TMĐT
+  { wch: 20 }, // Giá Niêm Yết
+  { wch: 20 }, // Lợi Nhuận NPP
+  { wch: 16 }, // % LN NPP / FB
+  { wch: 65 }  // Ghi Chú Nghiệp Vụ
+];
+
+XLSX.utils.book_append_sheet(wb, ws4, 'BienDong_CapNhat_MoiNhat');
+
 const outPath = path.join(__dirname, 'bang_gia_chuan_lock_and_king_takin.xlsx');
 XLSX.writeFile(wb, outPath);
-console.log('Created bang_gia_chuan_lock_and_king_takin.xlsx with 3 sheets successfully!');
+console.log('Created bang_gia_chuan_lock_and_king_takin.xlsx with 4 sheets successfully!');
