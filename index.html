@@ -1512,6 +1512,10 @@
                     <i data-lucide="award" class="w-3.5 h-3.5 text-amber-300"></i>
                     <span>Mẫu Thông Báo Báo Giá (PDF)</span>
                   </button>
+                  <a href="mau_cap_nhat_gia_theo_kenh.xlsx" download class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Tải file Excel mẫu chuẩn để chỉnh sửa cập nhật giá mới">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    <span>Tải Mẫu Excel Cập Nhật</span>
+                  </a>
                   <button type="button" onclick="exportLatestBatchExcel()" class="px-3 py-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white rounded-lg text-xs font-bold shadow-xs flex items-center gap-1.5 transition" title="Tải file Excel riêng Sheet Biến Động Đợt Mới Nhất (8 mã)">
                     <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
                     <span>Xuất Đợt Mới Nhất</span>
@@ -2722,9 +2726,14 @@
               <h2 class="text-xl font-black text-slate-900">Nhập Bảng Giá Từ Excel / CSV</h2>
               <p class="text-xs text-slate-500 mt-0.5">Tải lên file cập nhật giá nhập hoặc giá bán để đối chiếu</p>
             </div>
-            <a href="bang_gia_so_sanh_gia_nhap_cu_moi.xlsx" download class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-lg text-xs font-bold flex items-center gap-1.5">
-              <i data-lucide="download" class="w-3.5 h-3.5"></i> Tải File Excel Mẫu
-            </a>
+            <div class="flex items-center gap-2">
+              <a href="mau_cap_nhat_gia_theo_kenh.xlsx" download class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition active:scale-95" title="Tải file Excel mẫu chuẩn 63 mã để chỉnh sửa và cập nhật theo từng kênh">
+                <i data-lucide="download" class="w-4 h-4"></i> Tải File Excel Mẫu Cập Nhật Giá (Theo Kênh)
+              </a>
+              <a href="mau_cap_nhat_gia_theo_kenh.xlsx" download class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-xl text-xs font-bold flex items-center gap-1.5 transition">
+                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Mẫu Rút Gọn
+              </a>
+            </div>
           </div>
 
           <div class="bg-white rounded-xl border border-dashed border-sky-300 p-8 text-center shadow-sm mb-6 hover:border-sky-500 transition cursor-pointer" onclick="document.getElementById('excelFileInput').click()">
@@ -6146,7 +6155,7 @@
     const LOCK_KING_LOGO_SRC = "data:image/jpeg;base64,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";
 
     /* DATABASE STORAGE KEY (v12) */
-    const STORAGE_KEY = 'LOCK_KING_PMS_DATA_v40_ADD_6_MODELS_UPDATE_2_MODELS';
+    const STORAGE_KEY = 'LOCK_KING_PMS_DATA_v41_EXCEL_UPDATE_20261109101220';
     // Clean old storage keys
     try {
       for (let i = localStorage.length - 1; i >= 0; i--) {
@@ -6200,8 +6209,8 @@
                 "importPriceDiffPct": "5.85",
                 "specs": "CHẢO CẠN TITANIUM Chất liệu inox cao cấp Chất liệu inox 316 Kích thước 22*5.5cm, dày 2.2mm Chống dính bằng titanium (tạo kháng khuẩn tự nhiên) Đúc liền khối 5 lớp Tay cầm đinh tán chắc chắn",
                 "status": "ACTIVE",
-                "updatedAt": "2026-09-05T12:15:00Z",
-                "oldNppOnlinePrice": 260000
+                "updatedAt": "2026-11-09T10:12:20.630Z",
+                "oldNppOnlinePrice": 270000
         },
         {
                 "stt": 2,
@@ -9664,7 +9673,7 @@
       }).join('');
     }
 
-    /* EXCEL IMPORT */
+    /* EXCEL IMPORT - NÂNG CẤP ĐA KÊNH */
     function handleExcelUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -9675,8 +9684,23 @@
       reader.onload = function(evt) {
         const data = new Uint8Array(evt.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
-        const firstSheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[firstSheetName];
+        
+        // Chọn sheet phù hợp
+        let targetSheet = workbook.SheetNames[0];
+        if (workbook.SheetNames.includes('Mau_Dien_Nhanh_Vai_Ma')) {
+          const wsQuick = workbook.Sheets['Mau_Dien_Nhanh_Vai_Ma'];
+          const qRows = XLSX.utils.sheet_to_json(wsQuick, { header: 1 });
+          let hasQuickData = false;
+          for (let i = 5; i < qRows.length; i++) {
+            if (qRows[i] && String(qRows[i][1] || '').trim()) { hasQuickData = true; break; }
+          }
+          if (hasQuickData) targetSheet = 'Mau_Dien_Nhanh_Vai_Ma';
+          else if (workbook.SheetNames.includes('CapNhat_Gia_63_Model')) targetSheet = 'CapNhat_Gia_63_Model';
+        } else if (workbook.SheetNames.includes('CapNhat_Gia_63_Model')) {
+          targetSheet = 'CapNhat_Gia_63_Model';
+        }
+
+        const worksheet = workbook.Sheets[targetSheet];
         const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
         processStagingData(json);
@@ -9693,13 +9717,42 @@
         return;
       }
 
-      const headers = rows[0].map(h => String(h || '').trim().toUpperCase());
-      let colModel = headers.findIndex(h => h.includes('MODEL') || h.includes('MÃ'));
-      let colPrice = headers.findIndex(h => h.includes('MỚI') || h.includes('GIÁ') || h.includes('PRICE'));
-      let colName = headers.findIndex(h => h.includes('TÊN') || h.includes('NAME'));
+      // Tìm dòng header
+      let headerRowIdx = -1;
+      for (let i = 0; i < Math.min(15, rows.length); i++) {
+        const row = rows[i] || [];
+        const cells = row.map(c => String(c || '').trim().toLowerCase());
+        const filled = cells.filter(c => c.length > 0);
+        if (filled.length >= 2) {
+          const hasModel = cells.some(c => c.includes('model') || c.includes('mã model') || c.includes('mã sp') || c === 'mã' || c.includes('sku'));
+          const hasPrice = cells.some(c => c.includes('giá') || c.includes('price') || c.includes('npp'));
+          if (hasModel || (hasPrice && filled.length >= 4)) {
+            headerRowIdx = i;
+            break;
+          }
+        }
+      }
 
-      if (colModel === -1) colModel = 1;
-      if (colPrice === -1) colPrice = headers.length - 1;
+      if (headerRowIdx === -1) headerRowIdx = 0;
+
+      const headerRow = (rows[headerRowIdx] || []).map(h => String(h || '').trim());
+      function findC(keywords) {
+        return headerRow.findIndex(h => {
+          const s = h.toLowerCase();
+          return keywords.some(k => s.includes(k.toLowerCase()));
+        });
+      }
+
+      const colModel = findC(['mã model', 'model', 'sku', 'mã sp', 'mã hàng', 'mã']);
+      const colName = findC(['tên sản phẩm', 'tên hàng', 'tên sp', 'tên']);
+      const colNppOnline = findC(['[online] giá npp', 'giá npp online', 'npp online', 'giá npp (vnđ)', 'giá npp']);
+      const colFacebook = findC(['[online] giá facebook', 'giá facebook', 'facebook', 'fb']);
+      const colTmdt = findC(['[online] giá sàn', 'giá sàn tmđt', 'sàn tmđt', 'tmđt', 'shopee', 'tmdt']);
+      const colRetail = findC(['[online] giá niêm yết', 'giá niêm yết', 'niêm yết', 'bán lẻ']);
+      const colNppOffline = findC(['[offline] giá npp', 'giá npp offline', 'npp offline', 'npp gt']);
+      const colDealerOffline = findC(['[offline] giá đại lý', 'giá đại lý offline', 'đại lý offline', 'đại lý gt']);
+      const colCost = findC(['giá vốn', 'giá nhập', 'vốn', 'nhập', 'cost', 'import']);
+      const colNote = findC(['ghi chú', 'lý do', 'note']);
 
       const db = getDB();
       stagingRecords = [];
@@ -9708,24 +9761,29 @@
       let errCount = 0;
       let mappedCount = 0;
 
-      for (let i = 1; i < rows.length; i++) {
+      function parseP(val) {
+        if (val === undefined || val === null || val === '') return null;
+        const num = parseFloat(String(val).replace(/[^\d.]/g, ''));
+        return isNaN(num) || num <= 0 ? null : Math.round(num);
+      }
+
+      for (let i = headerRowIdx + 1; i < rows.length; i++) {
         const row = rows[i];
         if (!row || row.length === 0) continue;
 
-        const rawCode = String(row[colModel] || '').trim();
+        const rawCode = colModel !== -1 ? String(row[colModel] || '').trim() : '';
         if (!rawCode) continue;
 
         let cleanCode = rawCode.toUpperCase().replace(/\s+/g, '');
-        let newPrice = parseFloat(String(row[colPrice] || '').replace(/[^\d.]/g, '')) || 0;
         let pName = colName !== -1 && row[colName] ? String(row[colName]).trim() : '';
 
         // Check alias mapping
         let canonicalCode = cleanCode;
         let aliasNotes = '';
-        const alias = db.aliases.find(a => a.aliasCode.toUpperCase() === cleanCode);
+        const alias = db.aliases ? db.aliases.find(a => a.aliasCode.toUpperCase() === cleanCode) : null;
         if (alias) {
           canonicalCode = alias.targetCode;
-          aliasNotes = 'Chuyển đổi từ mã: ' + alias.aliasCode;
+          aliasNotes = 'Từ mã: ' + alias.aliasCode;
           mappedCount++;
         }
 
@@ -9736,39 +9794,89 @@
 
         if (!existing) {
           status = 'ERROR';
-          issues.push('Mã sản phẩm chưa có trong danh mục 63 mã');
+          issues.push('Mã không có trong danh mục 63 mã');
           errCount++;
         } else {
           if (!pName) pName = existing.name;
-          const oldP = existing.nppOnlinePrice || 0;
+        }
 
-          if (newPrice <= 0) {
-            status = 'ERROR';
-            issues.push('Mức giá <= 0 VNĐ');
-            errCount++;
+        // Đọc giá các kênh
+        const pNppOn = colNppOnline !== -1 ? parseP(row[colNppOnline]) : null;
+        const pFb = colFacebook !== -1 ? parseP(row[colFacebook]) : null;
+        const pTmdt = colTmdt !== -1 ? parseP(row[colTmdt]) : null;
+        const pRetail = colRetail !== -1 ? parseP(row[colRetail]) : null;
+        const pNppOff = colNppOffline !== -1 ? parseP(row[colNppOffline]) : null;
+        const pDlOff = colDealerOffline !== -1 ? parseP(row[colDealerOffline]) : null;
+        const pCost = colCost !== -1 ? parseP(row[colCost]) : null;
+        const rowNote = colNote !== -1 && row[colNote] ? String(row[colNote]).trim() : '';
+
+        const changesList = [];
+        let primaryOldPrice = existing ? (existing.nppOnlinePrice || 0) : 0;
+        let primaryNewPrice = pNppOn !== null ? pNppOn : primaryOldPrice;
+
+        if (existing) {
+          if (pNppOn !== null && pNppOn !== existing.nppOnlinePrice) {
+            changesList.push('NPP Online: ' + formatVND(existing.nppOnlinePrice) + ' ➔ ' + formatVND(pNppOn));
+          }
+          if (pFb !== null && pFb !== existing.facebookPrice) {
+            changesList.push('Facebook: ' + formatVND(existing.facebookPrice) + ' ➔ ' + formatVND(pFb));
+          }
+          if (pTmdt !== null && pTmdt !== existing.tmdtPrice) {
+            changesList.push('TMĐT: ' + formatVND(existing.tmdtPrice) + ' ➔ ' + formatVND(pTmdt));
+          }
+          if (pRetail !== null && pRetail !== existing.retailPrice) {
+            changesList.push('Niêm yết: ' + formatVND(existing.retailPrice) + ' ➔ ' + formatVND(pRetail));
+          }
+          if (pNppOff !== null && pNppOff !== existing.nppOfflinePrice) {
+            changesList.push('NPP Offline: ' + formatVND(existing.nppOfflinePrice || 0) + ' ➔ ' + formatVND(pNppOff));
+          }
+          if (pDlOff !== null && pDlOff !== existing.dealerOfflinePrice) {
+            changesList.push('Đại lý Offline: ' + formatVND(existing.dealerOfflinePrice || 0) + ' ➔ ' + formatVND(pDlOff));
+          }
+          if (pCost !== null && pCost !== (existing.newImportPrice || existing.costPrice)) {
+            changesList.push('Giá vốn: ' + formatVND(existing.newImportPrice || existing.costPrice || 0) + ' ➔ ' + formatVND(pCost));
+          }
+
+          if (changesList.length === 0) {
+            issues.push('Giá các kênh trùng khớp hệ thống (Không đổi)');
           } else {
-            const drift = oldP > 0 ? Math.abs((newPrice - oldP) / oldP) * 100 : 0;
-            if (drift > systemSettings.priceAlertThreshold) {
+            issues.push('Đổi ' + changesList.length + ' kênh');
+          }
+
+          // Cảnh báo nếu lệch giá bất thường (> threshold)
+          if (pNppOn !== null && primaryOldPrice > 0) {
+            const drift = Math.abs((pNppOn - primaryOldPrice) / primaryOldPrice) * 100;
+            if (drift > (systemSettings.priceAlertThreshold || 30)) {
               status = 'WARNING';
-              issues.push('Lệch giá bất thường ' + drift.toFixed(1) + '% (ngưỡng ' + systemSettings.priceAlertThreshold + '%)');
+              issues.push('Lệch giá NPP ' + drift.toFixed(1) + '%');
               warnCount++;
-            } else {
-              validCount++;
             }
           }
         }
+
+        if (status === 'VALID') validCount++;
 
         stagingRecords.push({
           rowIdx: i + 1,
           rawCode,
           canonicalCode,
           name: pName,
-          oldPrice: existing ? existing.nppOnlinePrice : 0,
-          newPrice,
-          driftPct: existing && existing.nppOnlinePrice > 0 ? (((newPrice - existing.nppOnlinePrice) / existing.nppOnlinePrice) * 100).toFixed(1) : '0',
+          oldPrice: primaryOldPrice,
+          newPrice: primaryNewPrice,
+          changesList,
+          newPrices: {
+            nppOnlinePrice: pNppOn,
+            facebookPrice: pFb,
+            tmdtPrice: pTmdt,
+            retailPrice: pRetail,
+            nppOfflinePrice: pNppOff,
+            dealerOfflinePrice: pDlOff,
+            costPrice: pCost
+          },
           status,
           issues: issues.join('; '),
-          aliasNotes
+          aliasNotes,
+          rowNote
         });
       }
 
@@ -9795,8 +9903,10 @@
           <td class="py-2.5 px-3 font-mono font-bold text-sky-800">${r.canonicalCode} ${r.aliasNotes ? '<span class="text-[10px] text-amber-600 font-normal">(' + r.aliasNotes + ')</span>' : ''}</td>
           <td class="py-2.5 px-3 font-medium text-slate-800 truncate max-w-xs">${escapeHtml(r.name)}</td>
           <td class="py-2.5 px-3 text-right font-mono text-slate-400">${formatVND(r.oldPrice)}</td>
-          <td class="py-2.5 px-3 text-right font-mono font-bold text-sky-700">${formatVND(r.newPrice)}</td>
-          <td class="py-2.5 px-3 text-center font-mono font-bold ${parseFloat(r.driftPct) > 0 ? 'text-rose-600' : 'text-emerald-600'}">${r.driftPct}%</td>
+          <td class="py-2.5 px-3 text-right font-mono font-bold text-sky-700">
+            ${r.changesList.length > 0 ? '<span class="text-xs text-sky-900 font-bold">' + r.changesList.join('<br>') + '</span>' : '<span class="text-slate-400">Giữ nguyên</span>'}
+          </td>
+          <td class="py-2.5 px-3 text-center font-mono font-bold text-slate-600">${r.changesList.length} kênh</td>
           <td class="py-2.5 px-3 text-center">
             ${r.status === 'VALID' ? '<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">Hợp Lệ</span>' : 
               r.status === 'WARNING' ? '<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-bold">Cảnh Báo</span>' : 
@@ -9819,13 +9929,36 @@
       let updatedCount = 0;
 
       stagingRecords.forEach(r => {
-        if (r.status !== 'ERROR') {
+        if (r.status !== 'ERROR' && r.changesList.length > 0) {
           const p = db.products.find(prod => prod.canonicalCode.toUpperCase() === r.canonicalCode.toUpperCase());
           if (p) {
-            p.nppOnlinePrice = r.newPrice;
-            p.profitNPP = p.facebookPrice - p.nppOnlinePrice;
-            p.profitPct = p.facebookPrice > 0 ? (((p.facebookPrice - p.nppOnlinePrice) / p.facebookPrice) * 100).toFixed(1) + '%' : '0%';
+            const np = r.newPrices;
+            if (np.nppOnlinePrice !== null && np.nppOnlinePrice !== p.nppOnlinePrice) {
+              p.oldNppOnlinePrice = p.nppOnlinePrice;
+              p.nppOnlinePrice = np.nppOnlinePrice;
+            }
+            if (np.facebookPrice !== null) p.facebookPrice = np.facebookPrice;
+            if (np.tmdtPrice !== null) p.tmdtPrice = np.tmdtPrice;
+            if (np.retailPrice !== null) p.retailPrice = np.retailPrice;
+            if (np.nppOfflinePrice !== null) {
+              p.nppOfflinePrice = np.nppOfflinePrice;
+              if (np.dealerOfflinePrice === null) p.dealerOfflinePrice = Math.round(np.nppOfflinePrice * 1.2);
+            }
+            if (np.dealerOfflinePrice !== null) p.dealerOfflinePrice = np.dealerOfflinePrice;
+            if (np.costPrice !== null) {
+              p.costPrice = np.costPrice;
+              p.newImportPrice = np.costPrice;
+            }
+
+            // Tự động tính toán lại lợi nhuận
+            p.profitNPP = (p.facebookPrice || 0) - (p.nppOnlinePrice || 0);
+            p.profitPct = (p.facebookPrice > 0 ? (((p.facebookPrice - p.nppOnlinePrice) / p.facebookPrice) * 100).toFixed(1) + '%' : '0%');
             p.nppOnlineProfitRatio = p.profitPct;
+
+            if (p.dealerOfflinePrice && p.facebookPrice > 0) {
+              p.dealerProfitRatio = (((p.facebookPrice - p.dealerOfflinePrice) / p.facebookPrice) * 100).toFixed(1) + '%';
+            }
+
             p.updatedAt = new Date().toISOString();
             updatedCount++;
           }
@@ -9833,7 +9966,7 @@
       });
 
       saveDB(db);
-      recordAuditLog('IMPORT_EXCEL', 'CATALOG', `Phê duyệt cập nhật ${updatedCount} mức giá sản phẩm từ file Excel`);
+      recordAuditLog('IMPORT_EXCEL', 'CATALOG', `Phê duyệt cập nhật ${updatedCount} sản phẩm đa kênh từ file Excel`);
       showToast(`Đã phê duyệt và cập nhật thành công ${updatedCount} sản phẩm!`);
       cancelImport();
       navigateTab('products');
@@ -11638,7 +11771,7 @@
           <div style="text-align: center; margin: 5px 0 7px 0;">
             <h2 style="font-size: 15px; font-weight: 900; color: #0b2239; text-transform: uppercase; margin: 0; letter-spacing: 0.5px;">THÔNG BÁO BẢNG BÁO GIÁ SẢN PHẨM</h2>
             <div style="font-size: 10.5px; color: #0284c7; font-weight: 700; margin-top: 2px;">V/v: Ra Mắt 6 Sản Phẩm Mới & Điều Chỉnh Biểu Giá Phân Phối Kênh NPP - Kênh Bán Lẻ Năm 2026</div>
-            <div style="font-size: 10.5px; font-style: italic; color: #334155; font-weight: 600; margin-top: 2px;">Kính gửi: Quý Khách Hàng, Quý Đối Tác, Quý Nhà Phân Phối & Quý Đại Lý trên toàn quốc</div>
+            <div style="font-size: 10.5px; font-style: italic; color: #334155; font-weight: 600; margin-top: 2px;">Kính gửi: Quý Khách Hàng, Quý Đối Tác, Quý Nhà Phân Phối trên toàn quốc</div>
           </div>
 
           <!-- INTRO -->

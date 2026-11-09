@@ -824,7 +824,7 @@ const fullHtml = `<!DOCTYPE html>
     <div class="doc-header-block">
       <h2 class="main-title">THÔNG BÁO BẢNG BÁO GIÁ SẢN PHẨM</h2>
       <div class="sub-title">V/v: Ra Mắt 6 Sản Phẩm Mới & Điều Chỉnh Biểu Giá Phân Phối Kênh NPP - Kênh Bán Lẻ Năm 2026</div>
-      <div class="doc-recipient">Kính gửi: Quý Khách Hàng, Quý Đối Tác, Quý Nhà Phân Phối & Quý Đại Lý trên toàn quốc</div>
+      <div class="doc-recipient">Kính gửi: Quý Khách Hàng, Quý Đối Tác, Quý Nhà Phân Phối trên toàn quốc</div>
     </div>
 
     <!-- INTRO STATEMENT -->
