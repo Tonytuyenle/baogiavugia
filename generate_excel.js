@@ -124,9 +124,9 @@ XLSX.utils.book_append_sheet(wb, ws2, 'ChenhLech_Gia_FB_TMDT_NY');
 // SHEET 3: BẢNG THỐNG KÊ BIẾN ĐỘNG GIÁ NPP ONLINE
 const oldNppMap = {
   "LK-2202A": 260000,
-  "LK-2433": 410000,
+  "LK-2433": 395000,
   "LK-2606A": 310000,
-  "LK-2633": 470000,
+  "LK-2633": 450000,
   "LK-2808": 341000,
   "LK-2808SA KHÔNG NẮP": 412000,
   "LK-3003": 360000,
@@ -161,17 +161,17 @@ const oldNppMap = {
   "LK-688": 850000,
   "LK-1003": 197000,
   "LK-1030": 1020000,
-  "LK-1033": 372000,
+  "LK-1033": 320000,
   "LK-1050": 890000,
-  "LK-1068": 340000,
-  "LK-4160": 1080000,
+  "LK-1068": 310000,
+  "LK-4160": 1000000,
   "LK-4161": 850000,
   "LK-4208A": 510000,
   "LK-4209": 510000,
   "LK-5301": 600000,
   "LK-6015": 260000,
   "LK-6201": 685000,
-  "LK-7812": 710000,
+  "LK-7812": 660000,
   "LK-9014": 1130000,
   "TK-2201": 260000,
   "TK-2662": 310000,
@@ -234,16 +234,19 @@ ws3['!cols'] = [
 
 XLSX.utils.book_append_sheet(wb, ws3, 'BienDong_Gia_NPP');
 
-// SHEET 4: BẢNG THEO DÕI BIẾN ĐỘNG & NHẬT KÝ CẬP NHẬT GIÁ GẦN NHẤT (ĐỢT 18/10/2026)
+// SHEET 4: BẢNG THEO DÕI BIẾN ĐỘNG & NHẬT KÝ CẬP NHẬT GIÁ GẦN NHẤT (ĐỢT 10/11/2026)
 const latestBatchCodes = [
-  { code: 'LK-8920', type: 'MÃ MỚI BỔ SUNG', note: 'Bếp từ đơn 2000W mới bổ sung danh mục' },
-  { code: 'LK-8989', type: 'MÃ MỚI BỔ SUNG', note: 'Bếp từ đơn 2200W mới bổ sung danh mục' },
-  { code: 'LK-8924', type: 'MÃ MỚI BỔ SUNG', note: 'Bếp từ đơn 2400W mới bổ sung danh mục' },
-  { code: 'LK-8818', type: 'MÃ MỚI BỔ SUNG', note: 'Nồi cơm điện cao tần IH mới bổ sung danh mục' },
-  { code: 'LK-8618', type: 'MÃ MỚI BỔ SUNG', note: 'Nồi cơm điện tách đường mới bổ sung danh mục' },
-  { code: 'LK-6886', type: 'MÃ MỚI BỔ SUNG', note: 'Tủ sấy quần áo công suất lớn mới bổ sung danh mục' },
-  { code: 'LK-1003', type: 'ĐIỀU CHỈNH TĂNG GIÁ', note: 'Đèn sưởi 3 bóng: Giá NPP tăng +13.000đ (+6.6%), vốn tăng +26.505đ' },
-  { code: 'LK-1033', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Đèn sưởi 3 bóng: Giá NPP giảm -52.000đ (-14.0%), vốn tăng +50.000đ' }
+  { code: 'LK-2433', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Chảo Belly: Giảm -15.000đ (-3.8%), LN NPP 44.93%' },
+  { code: 'LK-2633', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Chảo Belly 26cm: Giảm -20.000đ (-4.4%), LN NPP 45.57%' },
+  { code: 'LK-3212', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Chảo xào lớn: Giảm -45.000đ (-7.0%), LN NPP 44.95%' },
+  { code: 'LK-1068', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Ấm siêu tốc: Giảm -30.000đ (-9.7%), LN NPP 42.86%' },
+  { code: 'LK-4160', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Nồi áp suất điện: Giảm -20.000đ (-2.0%), LN NPP 45.25%' },
+  { code: 'LK-4209', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Nồi nấu chậm: Giảm -25.000đ (-4.9%), LN NPP 44.25%' },
+  { code: 'LK-6201', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Nồi lẩu xửng hấp: Giảm -25.000đ (-3.6%), LN NPP 44.54%' },
+  { code: 'LK-7812', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Máy làm sữa hạt: Giảm -85.000đ (-12.9%), LN NPP 42.44%' },
+  { code: 'LK-1030', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Bình thủy điện 3L: Giảm -60.000đ (-5.9%), LN NPP 43.20%' },
+  { code: 'LK-1033', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Bộ đèn sưởi 3 bóng: Giảm -10.000đ (-3.1%), LN NPP 47.90%' },
+  { code: 'LK-5301', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Sưởi để bàn: Giảm -50.000đ (-8.3%), LN NPP 44.72%' }
 ];
 
 const rowsSheet4 = [
@@ -254,17 +257,17 @@ latestBatchCodes.forEach((item, idx) => {
   const p = products.find(x => x.canonicalCode === item.code);
   if (!p) return;
 
-  const oldNpp = (item.code === 'LK-1003' ? 197000 : (item.code === 'LK-1033' ? 372000 : 0));
+  const oldNpp = oldNppMap[item.code] !== undefined ? oldNppMap[item.code] : (p.oldNppOnlinePrice || p.nppOnlinePrice || 0);
   const newNpp = p.nppOnlinePrice || 0;
   const diffNpp = (item.type === 'MÃ MỚI BỔ SUNG') ? newNpp : (newNpp - oldNpp);
   const diffNppPct = (item.type === 'MÃ MỚI BỔ SUNG') ? 'Mới' : (oldNpp > 0 ? ((diffNpp / oldNpp) * 100).toFixed(1) + '%' : '0.0%');
   
-  const oldImport = (item.code === 'LK-1003' ? 133495 : (item.code === 'LK-1033' ? 200000 : 0));
+  const oldImport = p.oldImportPrice || p.newImportPrice || p.costPrice || 0;
   const newImport = p.newImportPrice || p.costPrice || 0;
 
   rowsSheet4.push([
     idx + 1,
-    '18/10/2026',
+    '10/11/2026',
     item.type,
     p.canonicalCode,
     p.name,
