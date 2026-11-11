@@ -131,8 +131,8 @@ const oldNppMap = {
   "LK-2808SA KHÔNG NẮP": 412000,
   "LK-3003": 360000,
   "LK-3212": 645000,
-  "LK-30NC1": 399000,
-  "LK-32NC1": 455000,
+  "LK-30NC1": 414000,
+  "LK-32NC1": 470000,
   "LK-336A": 540000,
   "LK-3018A": 170000,
   "LK-3020A": 185000,
@@ -236,6 +236,8 @@ XLSX.utils.book_append_sheet(wb, ws3, 'BienDong_Gia_NPP');
 
 // SHEET 4: BẢNG THEO DÕI BIẾN ĐỘNG & NHẬT KÝ CẬP NHẬT GIÁ GẦN NHẤT (ĐỢT 10/11/2026)
 const latestBatchCodes = [
+  { code: 'LK-30NC1', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Nồi luộc gà size 30: Giảm -24.000đ (-5.8%), LN FB 43.5%, TMĐT 46.2%' },
+  { code: 'LK-32NC1', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Nồi luộc gà size 32: Giảm -20.000đ (-4.3%), LN FB 44.4%, TMĐT 47.1%' },
   { code: 'LK-2433', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Chảo Belly: Giảm -15.000đ (-3.8%), LN NPP 44.93%' },
   { code: 'LK-2633', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Chảo Belly 26cm: Giảm -20.000đ (-4.4%), LN NPP 45.57%' },
   { code: 'LK-3212', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Chảo xào lớn: Giảm -45.000đ (-7.0%), LN NPP 44.95%' },
