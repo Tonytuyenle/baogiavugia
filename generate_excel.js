@@ -11,7 +11,7 @@ const fn = new Function(fnCode + '; return getInitialData();');
 const data = fn();
 const products = data.products;
 
-// SHEET 1: BẢNG GIÁ CHUẨN 63 MÃ LOCK&KING & TAKIN (50 Lock&King + 13 Takin)
+// SHEET 1: BẢNG GIÁ CHUẨN 65 MÃ LOCK&KING & TAKIN (52 Lock&King + 13 Takin)
 const rowsSheet1 = [
   ['STT', 'Thương Hiệu', 'Phân Loại', 'Model (Mã Sản Phẩm)', 'Tên Sản Phẩm', 'Giá NPP Online (VNĐ)', 'Giá Facebook (VNĐ)', 'Giá Sàn TMĐT (VNĐ)', 'Giá Niêm Yết (VNĐ)', 'Lợi Nhuận NPP (VNĐ)', '% LN NPP / Facebook']
 ];
@@ -49,7 +49,7 @@ ws1['!cols'] = [
   { wch: 18 }  // % LN
 ];
 
-XLSX.utils.book_append_sheet(wb, ws1, 'Bang_Gia_Chuan_63_Ma');
+XLSX.utils.book_append_sheet(wb, ws1, 'Bang_Gia_Chuan_65_Ma');
 
 // SHEET 2: BẢNG CHÊNH LỆCH TẦNG GIÁ (VỐN NHẬP - NPP ONLINE - FACEBOOK - SÀN TMĐT - NIÊM YẾT)
 const rowsSheet2 = [
@@ -123,6 +123,10 @@ XLSX.utils.book_append_sheet(wb, ws2, 'ChenhLech_Gia_FB_TMDT_NY');
 
 // SHEET 3: BẢNG THỐNG KÊ BIẾN ĐỘNG GIÁ NPP ONLINE
 const oldNppMap = {
+  "LK-3012": 0,
+  "LK-9001": 0,
+  "TK-468": 430000,
+  "TK-469": 585000,
   "LK-2202A": 260000,
   "LK-2433": 395000,
   "LK-2606A": 310000,
@@ -236,6 +240,8 @@ XLSX.utils.book_append_sheet(wb, ws3, 'BienDong_Gia_NPP');
 
 // SHEET 4: BẢNG THEO DÕI BIẾN ĐỘNG & NHẬT KÝ CẬP NHẬT GIÁ GẦN NHẤT (ĐỢT 10/11/2026)
 const latestBatchCodes = [
+  { code: 'LK-3012', type: 'MÃ MỚI BỔ SUNG', note: 'Chảo xào BIGTITAN 30*10cm: Mới bổ sung (NPP On 530k, FB 990k, TMĐT 1.040k, NY 1.248k, NPP Off 580k, ĐL 696k)' },
+  { code: 'LK-9001', type: 'MÃ MỚI BỔ SUNG', note: 'Lót nồi silicone cao cấp: Mới bổ sung (NPP On 40k, FB 75k, TMĐT 79k, NY 95k, NPP Off 45k, ĐL 54k)' },
   { code: 'TK-468', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Sưởi gốm thấp Takin: Bằng giá LK-586 (NPP 430k, FB 745k, TMĐT 783k, NY 940k, ĐL 516k)' },
   { code: 'TK-469', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Sưởi gốm cao Takin: Bằng giá LK-588 (NPP 585k, FB 1.050k, TMĐT 1.103k, NY 1.324k, ĐL 702k)' },
   { code: 'LK-30NC1', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Nồi luộc gà size 30: Giảm -24.000đ (-5.8%), LN FB 43.5%, TMĐT 46.2%' },

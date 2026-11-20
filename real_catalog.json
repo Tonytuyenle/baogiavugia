@@ -1462,7 +1462,65 @@
     "stt": 50
   },
   {
-    "stt": 51,
+    "canonicalCode": "LK-3012",
+    "image": "images/LK-3012.png",
+    "name": "Chảo xào BIGTITAN 30*10cm (4c/T)",
+    "brand": "Lock&King",
+    "categoryName": "CHẢO",
+    "unit": "Chiếc",
+    "nppOnlinePrice": 530000,
+    "facebookPrice": 990000,
+    "tmdtPrice": 1040000,
+    "retailPrice": 1248000,
+    "profitNPP": 460000,
+    "profitPct": "46.5%",
+    "nppOnlineProfitRatio": "46.5%",
+    "nppOfflinePrice": 580000,
+    "diffOnlineOffline": 50000,
+    "diffOnlineOfflinePct": "9.4%",
+    "dealerOfflinePrice": 696000,
+    "dealerProfitRatio": "29.7%",
+    "oldImportPrice": 438978,
+    "newImportPrice": 438978,
+    "importPriceDiff": 0,
+    "importPriceDiffPct": "0.00",
+    "specs": "Chảo xào BIGTITAN Lock&King kích thước 30*10cm, chống dính Titanium bền bỉ, lòng sâu 10cm xào nấu tiện lợi, đúc liền khối, bắt từ nhanh, quy cách đóng thùng 4 chiếc/thùng.",
+    "status": "ACTIVE",
+    "updatedAt": "2026-11-20T09:38:18.326Z",
+    "oldNppOnlinePrice": 0,
+    "stt": 51
+  },
+  {
+    "canonicalCode": "LK-9001",
+    "image": "images/LK-9001.png",
+    "name": "Lót nồi silicone cao cấp",
+    "brand": "Lock&King",
+    "categoryName": "LÓT NỒI",
+    "unit": "Chiếc",
+    "nppOnlinePrice": 40000,
+    "facebookPrice": 75000,
+    "tmdtPrice": 79000,
+    "retailPrice": 95000,
+    "profitNPP": 35000,
+    "profitPct": "46.7%",
+    "nppOnlineProfitRatio": "46.7%",
+    "nppOfflinePrice": 45000,
+    "diffOnlineOffline": 5000,
+    "diffOnlineOfflinePct": "12.5%",
+    "dealerOfflinePrice": 54000,
+    "dealerProfitRatio": "28.0%",
+    "oldImportPrice": 26961,
+    "newImportPrice": 26961,
+    "importPriceDiff": 0,
+    "importPriceDiffPct": "0.00",
+    "specs": "Miếng lót nồi silicone cao cấp Lock&King Model LK-9001, chất liệu silicone an toàn chịu nhiệt độ cao từ -40°C đến 230°C, bề mặt vân tổ ong chống trơn trượt, cách nhiệt bảo vệ mặt bàn.",
+    "status": "ACTIVE",
+    "updatedAt": "2026-11-20T09:38:18.326Z",
+    "oldNppOnlinePrice": 0,
+    "stt": 52
+  },
+  {
+    "stt": 53,
     "canonicalCode": "TK-2201",
     "image": "images/TK-2201.png",
     "name": "chảo cạn Titan vàng 22*5,5cm (2,2 mm) TK-2201",
@@ -1491,7 +1549,7 @@
     "oldNppOnlinePrice": 260000
   },
   {
-    "stt": 52,
+    "stt": 54,
     "canonicalCode": "TK-2662",
     "image": "images/TK-2662.png",
     "name": "26*6.5CM Chảo cạn titan-TK-2662 (2.2mm)",
@@ -1520,7 +1578,7 @@
     "oldNppOnlinePrice": 310000
   },
   {
-    "stt": 53,
+    "stt": 55,
     "canonicalCode": "TK-2882C",
     "image": "images/TK-2882C.png",
     "name": "Chảo cạn Titan vàng 28*7cm (2,3 mm)",
@@ -1549,7 +1607,7 @@
     "oldNppOnlinePrice": 341000
   },
   {
-    "stt": 54,
+    "stt": 56,
     "canonicalCode": "TK-3030C",
     "image": "images/TK-3030C.png",
     "name": "Chảo cạn Titan vàng 30*7cm (2,3 mm)",
@@ -1578,7 +1636,7 @@
     "oldNppOnlinePrice": 360000
   },
   {
-    "stt": 55,
+    "stt": 57,
     "canonicalCode": "TK-036A",
     "image": "",
     "name": "Bộ nồi Takin 3 món 5 đáy inox cao cấp",
@@ -1610,7 +1668,7 @@
     "dealerPrice": 891000
   },
   {
-    "stt": 56,
+    "stt": 58,
     "canonicalCode": "TK-0324",
     "image": "images/TK-0324.png",
     "name": "Nồi táo inox cao cấp size24",
@@ -1639,7 +1697,7 @@
     "oldNppOnlinePrice": 245000
   },
   {
-    "stt": 57,
+    "stt": 59,
     "canonicalCode": "TK-0348A",
     "image": "images/TK-0348A.png",
     "name": "Bộ nồi Táo Takin 3 món inox cao cấp",
@@ -1668,7 +1726,7 @@
     "oldNppOnlinePrice": 580000
   },
   {
-    "stt": 58,
+    "stt": 60,
     "canonicalCode": "TK-0369",
     "image": "",
     "name": "Bộ nồi Takin 3 món 5 đáy inox cao cấp",
@@ -1697,7 +1755,7 @@
     "oldNppOnlinePrice": 535000
   },
   {
-    "stt": 59,
+    "stt": 61,
     "canonicalCode": "TK-0488",
     "image": "images/TK-0488.png",
     "name": "Bộ nồi Takin 4 món 5 đáy inox cao cấp",
@@ -1726,7 +1784,7 @@
     "oldNppOnlinePrice": 810000
   },
   {
-    "stt": 60,
+    "stt": 62,
     "canonicalCode": "TK-468",
     "image": "images/TK-468.png",
     "name": "Sưởi gốm thấp",
@@ -1755,7 +1813,7 @@
     "oldNppOnlinePrice": 452000
   },
   {
-    "stt": 61,
+    "stt": 63,
     "canonicalCode": "TK-469",
     "image": "images/TK-469.png",
     "name": "Sưởi gốm thân cao",
@@ -1784,7 +1842,7 @@
     "oldNppOnlinePrice": 615000
   },
   {
-    "stt": 62,
+    "stt": 64,
     "canonicalCode": "TK-1002",
     "image": "images/TK-1002.png",
     "name": "Bộ đèn sưởi 2 bóng Takin",
@@ -1813,7 +1871,7 @@
     "oldNppOnlinePrice": 158000
   },
   {
-    "stt": 63,
+    "stt": 65,
     "canonicalCode": "TK-1003",
     "image": "images/TK-1003.png",
     "name": "Bộ đèn sưởi 3 bóng Takin",
