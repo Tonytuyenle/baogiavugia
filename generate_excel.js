@@ -236,6 +236,8 @@ XLSX.utils.book_append_sheet(wb, ws3, 'BienDong_Gia_NPP');
 
 // SHEET 4: BẢNG THEO DÕI BIẾN ĐỘNG & NHẬT KÝ CẬP NHẬT GIÁ GẦN NHẤT (ĐỢT 10/11/2026)
 const latestBatchCodes = [
+  { code: 'TK-468', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Sưởi gốm thấp Takin: Bằng giá LK-586 (NPP 430k, FB 745k, TMĐT 783k, NY 940k, ĐL 516k)' },
+  { code: 'TK-469', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Sưởi gốm cao Takin: Bằng giá LK-588 (NPP 585k, FB 1.050k, TMĐT 1.103k, NY 1.324k, ĐL 702k)' },
   { code: 'LK-30NC1', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Nồi luộc gà size 30: Giảm -24.000đ (-5.8%), LN FB 43.5%, TMĐT 46.2%' },
   { code: 'LK-32NC1', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Nồi luộc gà size 32: Giảm -20.000đ (-4.3%), LN FB 44.4%, TMĐT 47.1%' },
   { code: 'LK-2433', type: 'ĐIỀU CHỈNH GIẢM GIÁ', note: 'Chảo Belly: Giảm -15.000đ (-3.8%), LN NPP 44.93%' },

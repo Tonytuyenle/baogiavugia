@@ -32,3 +32,4 @@ check_*.js
 # OS files
 .DS_Store
 Thumbs.db
+node.exe
